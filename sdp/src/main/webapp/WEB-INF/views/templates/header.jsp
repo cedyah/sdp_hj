@@ -21,10 +21,12 @@
 										<!--<li><a href="sdpa002001u.insert.do">주문서 등록</a></li>-->
 										<li><a href="sdpa002001l.do">주문조회</a></li>
 										<!--<li><a href="sdpa003001l.do">출하정보</a></li>
-										<li><a href="sdpa004001l.do">제조요청</a></li>
-										<li><a href="sdpa005001l.do">견본요청</a></li>
+										<li><a href="sdpa004001l.do">제조요청</a></li>-->
 										<li><a href="sdpa006001l.do">생산진도조회</a></li>
-										<li><a href="sdpa007001l.do">가격조회</a></li>-->
+										<li><a href="sdph005001i.do">샘플의뢰서등록</a></li>
+										<li><a href="sdph005001l.do">샘플진도조회</a></li>
+										<li><a href="sdpa006001u.do">샘플결과등록</a></li>
+										<!--<li><a href="sdpa007001l.do">가격조회</a></li>-->
 									</ul>
 								</div>
 							</li>
