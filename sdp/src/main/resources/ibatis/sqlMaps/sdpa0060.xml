@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpa0060">
+	<typeAlias alias="productionVO" type="com.jebi.sdp.model.ProductionProgressVO"/>
+	
+	<!-- 생산 진도 조회 -->
+	<parameterMap class="map" id="param_selectProductionProgress">
+		<parameter property="arg_cust_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_frdt" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_todt" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_item_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_item_nm" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_jindo_gubun" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProductionProgress" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="productionVO" id="result_selectProductionProgress">
+		<result property="ilja" 			column="ILJA"/>
+		<result property="jeonpyo_no" 		column="JEONPYO_NO"/>
+		<result property="sunbeon" 			column="SUNBEON"/>
+		<result property="jepum_code" 		column="JEPUM_CODE"/>
+		<result property="pummyeong" 		column="PUMMYEONG"/>
+		<result property="pojang_danwi" 	column="POJANG_DANWI"/>
+		<result property="pojang_sulyang" 	column="POJANG_SULYANG"/>
+		<result property="ibgo_sulyang" 	column="IBGO_SULYANG"/>
+		<result property="euiloiil" 		column="EUILOIIL"/>
+		<result property="wanlyo_yejeongil" column="WANLYO_YEJEONGIL"/>
+		<result property="lot_no" 			column="LOT_NO"/>
+		<result property="wanlyo_yn" 		column="WANLYO_YN"/>
+		<result property="jindo_date" 		column="JINDO_DATE"/>
+		<result property="bigo" 			column="BIGO"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectProductionProgress" parameterMap="param_selectProductionProgress">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_RC150_S(?, ?, ?, ?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- 생산 진도 조회 -->
+	
+</sqlMap>

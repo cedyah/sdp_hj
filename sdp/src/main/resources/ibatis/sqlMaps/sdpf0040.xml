@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpf0040">
+	<typeAlias alias="customerVO" type="com.jebi.sdp.model.CustomerVO"/>
+	
+	<!-- 유저정보 불러오기 -->
+	<select id="select_user" parameterClass="customerVO" resultClass="customerVO">
+		SELECT cust_num,
+		       cust_seq,
+		       site_ref,
+		       cust_type,
+		       password,
+		       set_item_group,
+		       set_alarm,
+		       del_YN,
+		       CreateDate,
+		       CreatedBy,
+		       RecordDate,
+		       UpdatedBy
+		  FROM SDP_USERSET_HANJIN
+		 WHERE 1 = 1 
+		   AND cust_num = #cust_num#
+		   <isNotEmpty property="password">
+		   	AND password = #password# 
+		   </isNotEmpty>
+	</select>
+	
+	<!-- 검색조건 업데이트 -->
+	<update id="update_itemGroup" parameterClass="customerVO">
+		UPDATE SDP_USERSET_HANJIN
+		   SET RECORDDATE = SYSDATE
+		      ,SET_ITEM_GROUP = #set_item_group#
+		 WHERE 1=1
+		   AND CUST_NUM = #cust_num#		   
+	</update>
+	
+	<!-- 알림설정 업데이트 -->
+	<update id="update_alarm" parameterClass="customerVO">
+		UPDATE SDP_USERSET_HANJIN
+		   SET RECORDDATE = SYSDATE
+		      ,SET_ALARM = #set_alarm#
+		WHERE 1=1
+		  AND CUST_NUM = #cust_num#
+	</update>
+	
+	<!-- 비밀번호 업데이트 -->
+	<update id="update_password" parameterClass="customerVO">
+		UPDATE SDP_USERSET_HANJIN
+		   SET RECORDDATE = SYSDATE
+		      ,password = #password#
+         WHERE 1=1
+		   AND CUST_NUM = #cust_num#
+	</update>
+</sqlMap>

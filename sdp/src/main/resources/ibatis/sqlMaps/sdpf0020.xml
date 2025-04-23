@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpf0020">
+	<typeAlias alias="itemVO" type="com.jebi.sdp.model.ItemVO"/>
+	<typeAlias alias="baketVO" type="com.jebi.sdp.model.BasketItemVO"/>
+	
+	<!-- 장바구니 조회 -->
+	<select id="select_basketItemList" parameterClass="baketVO" resultClass="baketVO" >
+		SELECT 
+			A.CUST_NUM
+		    ,A.CUST_SEQ
+		    ,A.SITE_REF
+		    ,A.GUBUN
+		    ,A.ITEM
+		    ,A.DESCRIPTION
+		    ,A.CUST_PO
+		    ,A.PRICE
+		    ,A.QTY_BASKET
+		    ,A.QTY_ALLOCJOB
+		    ,A.U_M
+		    ,A.CAPACITY
+		    ,A.DELYN
+		    ,A.CREATEDATE
+		    ,A.CREATEDBY
+		    ,A.RECORDDATE
+		    ,A.UPDATEDBY
+		    ,C.ITEM AS FAV_CHECK
+		FROM SDP_BASKET A
+		      ,(SELECT DISTINCT
+	      			ITEM, QTY_ALLOCJOB, U_M
+	      		FROM SDP_FAVORITE
+	      		WHERE 1=1
+		      ) C
+		  WHERE 1=1
+		  	AND A.ITEM = C.ITEM(+)
+		  	AND A.QTY_ALLOCJOB = C.QTY_ALLOCJOB(+)
+		  	AND A.U_M = C.U_M(+)
+		    AND A.DELYN = 'N'
+		    AND A.CUST_NUM = #cust_num#
+	   ORDER BY A.ITEM ASC, A.QTY_ALLOCJOB ASC, A.U_M ASC
+	</select>
+	
+	<!-- 장바구니 추가(이미 추가된 경우에는 수량+1) -->
+	<insert id="merge_addBasket" parameterClass="itemVO">
+		MERGE INTO SDP_BASKET A
+		USING (
+			SELECT
+				#cust_num# AS CUST_NUM
+				, #cust_seq# AS CUST_SEQ
+				, #site_ref# AS SITE_REF
+				, NULL AS GUBUN
+				, JEPUM_CODE AS ITEM
+				, PUMMYEONG AS DESCRIPTION
+				, NULL AS CUST_PO
+				, NULL AS PRICE
+				, #qty_input# AS QTY_BASKET
+				, PANMAE_DANWI_A AS QTY_ALLOCJOB
+				, PANMAE_DANWI_B AS U_M
+				, NULL AS CAPACITY
+				, 'N' AS DELYN
+				, SYSDATE AS CREATEDATE
+				, #cust_num# AS CREATEDBY
+				, NULL AS RECORDDATE
+				, NULL AS UPDATEDBY
+			FROM SA0050_WEB
+			WHERE 1=1
+				AND JEPUM_CODE = #item#
+				AND PANMAE_DANWI_A = #qty_allocjob#
+				AND PANMAE_DANWI_B = #u_m#
+		) B 
+		ON (
+			A.CUST_NUM = B.CUST_NUM
+			AND A.ITEM = B.ITEM
+			AND A.QTY_ALLOCJOB = B.QTY_ALLOCJOB
+			AND A.U_M = B.U_M
+		)
+		WHEN MATCHED THEN 
+			UPDATE SET
+				A.QTY_BASKET = TO_NUMBER(A.QTY_BASKET) + TO_NUMBER(B.QTY_BASKET) , 
+				A.UPDATEDBY = B.CUST_NUM , 
+				A.RECORDDATE = SYSDATE
+		WHEN NOT MATCHED THEN 
+			INSERT(
+				CUST_NUM , 
+				CUST_SEQ , 
+				SITE_REF , 
+				GUBUN , 
+				ITEM , 
+				DESCRIPTION , 
+				CUST_PO , 
+				PRICE , 
+				QTY_BASKET ,
+				QTY_ALLOCJOB, 
+				U_M , 
+				CAPACITY , 
+				DELYN , 
+				CREATEDATE , 
+				CREATEDBY , 
+				RECORDDATE , 
+				UPDATEDBY 
+			 ) VALUES ( 
+				B.CUST_NUM , 
+				B.CUST_SEQ , 
+				B.SITE_REF , 
+				B.GUBUN , 
+				B.ITEM , 
+				B.DESCRIPTION ,
+				B.CUST_PO , 
+				B.PRICE , 
+				B.QTY_BASKET ,
+				B.QTY_ALLOCJOB, 
+				B.U_M , 
+				B.CAPACITY , 
+				B.DELYN , 
+				B.CREATEDATE , 
+				B.CREATEDBY , 
+				B.RECORDDATE , 
+				B.UPDATEDBY 
+			 )
+	</insert>
+	
+	<delete id="delete_delBasket" parameterClass="baketVO">
+		DELETE SDP_BASKET
+		WHERE 1=1
+			AND CUST_NUM = #cust_num#
+			<isNotNull property="paramList">
+				<isNotEmpty property="paramList">
+					<iterate prepend="AND TRIM(ITEM||QTY_ALLOCJOB||U_M) IN" open="(" close=")"  conjunction="," property="paramList">
+						#paramList[]#
+					</iterate>
+				</isNotEmpty>
+			</isNotNull>
+	</delete>
+	
+	<update id="update_basket" parameterClass="baketVO">
+		UPDATE SDP_BASKET
+		SET QTY_BASKET = #qty_basket#
+		WHERE 1=1
+			AND CUST_NUM = #cust_num#
+			AND ITEM = #item#
+	</update>
+</sqlMap>

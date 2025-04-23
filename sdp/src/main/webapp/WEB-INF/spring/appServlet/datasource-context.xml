@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- dataSource -->
+<!-- 	<bean id="dataSource" -->
+<!-- 		class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
+<!-- 		p:driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" -->
+<!-- 		p:url="jdbc:sqlserver://210.126.180.96:1433;databaseName=SDP_APP" -->
+<!-- 		p:username="SDP_SA" -->
+<!-- 		p:password="ERProqkf*sdp" -->
+<!-- 		/> -->
+
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" /> -->
+<!-- 		<property name="url" value="jdbc:log4jdbc:sqlserver://210.126.180.96:1433;databaseName=SDP_APP" /> -->
+<!-- 		<property name="username" value="SDP_SA" /> -->
+<!-- 		<property name="password" value="ERProqkf*sdp" /> -->
+<!-- 		<property name="maxActive" value="30" /> -->
+<!-- 		<property name="maxIdle" value="3" /> -->
+<!-- 		<property name="maxWait" value="-1" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+<!-- 		<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" /> -->
+<!-- 		<property name="url" value="jdbc:log4jdbc:sqlserver://121.138.159.134:1433;databaseName=intorddb" /> -->
+<!-- 		<property name="username" value="intord_lc" /> -->
+<!-- 		<property name="password" value="speed*380" /> -->
+<!-- 		<property name="maxActive" value="30" /> -->
+<!-- 		<property name="maxIdle" value="3" /> -->
+<!-- 		<property name="maxWait" value="-1" /> -->
+<!-- 	</bean> -->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
+		<property name="driverClassName" value="net.sf.log4jdbc.DriverSpy" /> 
+		<property name="url" value="jdbc:log4jdbc:oracle:thin:@192.168.14.50:1521:orcl" /> 
+		<property name="username" value="hjbizpower" /> 
+		<property name="password" value="hjbizpower" /> 
+		<property name="maxActive" value="30" /> 
+		<property name="maxIdle" value="3" /> 
+		<property name="maxWait" value="-1" /> 
+	</bean> 
+
+	<bean id="sqlMapClient" 
+		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+		p:dataSource-ref="dataSource" 
+		p:configLocations="classpath:ibatis/sqlMapConfig.xml"
+		/>
+
+	<bean id="sqlMapClientTemplate"
+		class="org.springframework.orm.ibatis.SqlMapClientTemplate"
+		p:sqlMapClient-ref="sqlMapClient"
+		/>
+
+	<!-- transaction -->
+	<tx:annotation-driven transaction-manager="txManager" />
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+</beans>

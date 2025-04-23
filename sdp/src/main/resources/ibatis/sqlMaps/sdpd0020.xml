@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpd0020">
+	<typeAlias alias="notePayableVO" type="com.jebi.sdp.model.NotePayableVO"/>
+	
+	<!-- 지급 어음 명세 조회// -->
+	<parameterMap class="map" id="param_notePayabl">
+		<parameter property="arg_cust_cd" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_frdt" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_todt" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_bill_type" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_notePayabl" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="notePayableVO" id="result_notePayabl">
+		<result property="mangiil" column="MANGIIL"/>
+		<result property="eoeum_no" column="EOEUM_NO"/>
+		<result property="geumaeg" column="GEUMAEG"/>
+		<result property="ibgeumil" column="IBGEUMIL"/>
+		<result property="balhaengja" column="BALHAENGJA"/>
+		<result property="semog" column="SEMOG"/>
+		<result property="gyeoljeil" column="GYEOLJEIL"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectNotePayable" parameterMap="param_notePayabl">
+		<![CDATA[
+			{CALL PKG_ORDER_RD.Q_RD020_S(?, ?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //지급 어음 명세 조회 -->
+	
+	
+</sqlMap>

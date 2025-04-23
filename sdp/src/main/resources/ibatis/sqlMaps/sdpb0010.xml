@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpb0010">
+	<typeAlias alias="sLedgerVO" type="com.jebi.sdp.model.ChemicalSalesLedgerVO"/>
+	<typeAlias alias="mLedgerVO" type="com.jebi.sdp.model.ChemicalManagementLedgerVO"/>
+	<typeAlias alias="sdpb003VO" type="com.jebi.sdp.model.Sdpb001003VO"/>
+	<typeAlias alias="sdpb004VO" type="com.jebi.sdp.model.Sdpb001004VO"/>
+	
+	<!-- 화학물질 판매대장 조회 -->
+	<parameterMap class="map" id="param_selectSalesLedger">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GWANLI_GIJUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSalesLedger" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="sLedgerVO" id="result_selectSalesLedger">
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="cas_myeong" column="CAS_MYEONG"/>
+		<result property="baehab_10" column="BAEHAB_10"/>
+		<result property="hwansan_su" column="HWANSAN_SU"/>
+		<result property="yongdo" column="YONGDO"/>
+		<result property="cas_no" column="CAS_NO"/>
+		<result property="jepum_code" column="JEPUM_CODE"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectSalesLedger" parameterMap="param_selectSalesLedger">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_SZB520_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 화학물질 판매대장 조회 -->
+	
+	
+	<!-- 화학물질 관리대장 조회 -->
+	<parameterMap class="map" id="param_selectManageLedger">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_YYYY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GWANLI_GIJUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectManageLedger" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="mLedgerVO" id="result_selectManageLedger">
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="cas_myeong" column="CAS_MYEONG"/>
+		<result property="baehab_10" column="BAEHAB_10"/>
+		<result property="hwansan_su" column="HWANSAN_SU"/>
+		<result property="yongdo" column="YONGDO"/>
+		<result property="cas_no" column="CAS_NO"/>
+		<result property="goche" column="GOCHE"/>
+		<result property="aegche" column="AEGCHE"/>
+		<result property="giche" column="GICHE"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectManageLedger" parameterMap="param_selectManageLedger">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_SZB540_S(
+				?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 화학물질 관리대장 조회 -->
+	
+	<!-- 연간위험물 유통량현황 조회 -->
+	<parameterMap class="map" id="param_sdpb001003l">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_sdpb001003l" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="sdpb003VO" id="result_sdpb001003l">
+		<result property="youbyul" column="YOUBYUL"/>
+		<result property="jepum" column="JEPUM"/>
+		<result property="sangho" column="SANGHO"/>
+		<result property="juso" column="JUSO"/>
+		<result property="saeobja" column="SAEOBJA"/>
+		<result property="panmaerayng" column="PANMAERAYNG"/>
+		<result property="banip" column="BANIP"/>
+		<result property="bigo" column="BIGO"/>
+	</resultMap>
+	
+	<procedure id="procedure_sdpb001003l" parameterMap="param_sdpb001003l">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_SZB550_S(
+				?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 연간위험물 유통량현황 조회 -->
+	
+	<!-- 연간위험물 유통량현황 조회 -->
+	<parameterMap class="map" id="param_sdpb001004l">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_sdpb001004l" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="sdpb004VO" id="result_sdpb001004l">
+		<result property="youbyul" column="YOUBYUL"/>
+		<result property="jepum" column="JEPUM"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="panmaerayng" column="PANMAERAYNG"/>
+	</resultMap>
+	
+	<procedure id="procedure_sdpb001004l" parameterMap="param_sdpb001004l">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_SZB560_S(
+				?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 연간위험물 유통량현황 조회 -->
+	
+</sqlMap>

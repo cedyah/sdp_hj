@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpe0010">
+	<typeAlias alias="testReportVO" type="com.jebi.sdp.model.TestReportVO"/>
+	<typeAlias alias="testReportItemVO" type="com.jebi.sdp.model.TestReportItemVO"/>
+	<typeAlias alias="customerVO" type="com.jebi.sdp.model.CustomerVO"/>
+	
+	<!-- 시험성적서 목록 조회// -->
+	<parameterMap class="map" id="param_selectTestReportList">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SUBMIT_NM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectTestReportList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="testReportVO" id="result_selectTestReportList">
+		<result property="req_dt" column="REQ_DT"/>
+		<result property="req_no" column="REQ_NO"/>
+		<result property="submit_nm_k" column="SUBMIT_NM_K"/>
+		<result property="submit_nm_e" column="SUBMIT_NM_E"/>
+		<result property="submit_dt" column="SUBMIT_DT"/>
+		<result property="lang" column="LANG"/>
+		<result property="rmk" column="RMK"/>
+		<result property="inst_dt" column="INST_DT"/>
+	</resultMap>
+
+	<procedure id="procedure_selectTestReportList" parameterMap="param_selectTestReportList">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC121M_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 목록 조회 -->
+	
+	<!-- 시험성적서 헤더 조회// -->
+	<parameterMap class="map" id="param_selectTestReportHeader">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectTestReportHeader" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="testReportVO" id="result_selectTestReportHeader">
+		<result property="req_dt" column="REQ_DT"/>
+		<result property="req_no" column="REQ_NO"/>
+		<result property="submit_nm_k" column="SUBMIT_NM_K"/>
+		<result property="submit_nm_e" column="SUBMIT_NM_E"/>
+		<result property="submit_dt" column="SUBMIT_DT"/>
+		<result property="lang" column="LANG"/>
+		<result property="rmk" column="RMK"/>
+		<result property="inst_dt" column="INST_DT"/>
+	</resultMap>
+
+	<procedure id="procedure_selectTestReportHeader" parameterMap="param_selectTestReportHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC121F_S(
+				?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 헤더 조회 -->
+	
+	<!-- 시험성적서 서브 조회// -->
+	<parameterMap class="map" id="param_selectTestReportSub">
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectTestReportSub" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="testReportItemVO" id="result_selectTestReportSub">
+		<result property="req_dt" column="REQ_DT"/>
+		<result property="req_no" column="REQ_NO"/>
+		<result property="seq" column="SEQ"/>
+		<result property="item_cd" column="ITEM_CD"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="lot_no" column="LOT_NO"/>
+		<result property="su" column="SU"/>
+		<result property="prog_stat" column="PROG_STAT"/>
+		<result property="prog_dt" column="PROG_DT"/>
+		<result property="emp_no" column="EMP_NO"/>
+		<result property="dept" column="DEPT"/>
+		<result property="print_yn" column="PRINT_YN"/>
+	</resultMap>
+
+	<procedure id="procedure_selectTestReportSub" parameterMap="param_selectTestReportSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC121D_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 서브 조회 -->
+	
+	<!-- 시험성적서 전표번호 가져오기// -->
+	<parameterMap class="map" id="param_selectReqNo">
+		<parameter property="ARG_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectReqNo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="testReportVO" id="result_selectReqNo">
+		<result property="req_no" column="SLIP_NO"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectReqNo" parameterMap="param_selectReqNo">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_SLIP_NO(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 전표번호 가져오기 -->
+	
+	<!-- 시험성적서 헤더 등록, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateTestReportHeader">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SUBMIT_NM_K" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_SUBMIT_NM_E" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SUBMIT_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_LANG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+
+	<procedure id="procedure_updateTestReportHeader" parameterMap="param_updateTestReportHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC121_MM(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 헤더 등록, 수정, 삭제 -->
+	
+	<!-- 시험성적서 서브 등록, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateTestReportSub">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEQ" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_LOT_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SU" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+
+	<procedure id="procedure_updateTestReportSub" parameterMap="param_updateTestReportSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC121_MD(
+				?, ?, ?, ?, ?,
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 서브 등록, 수정, 삭제 -->
+	
+	
+	<!-- 시험성적서 수신메일 조회// -->
+	<parameterMap class="map" id="param_selectRcptTo">
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_LOT_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectRcptTo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="testReportVO" id="result_selectRcptTo">
+		<result property="email" column="MAIL_ADDR"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectRcptTo" parameterMap="param_selectRcptTo">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC121MAIL_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //시험성적서 수신메일 조회 -->
+	
+</sqlMap>

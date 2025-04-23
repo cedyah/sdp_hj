@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="common">
+	<typeAlias alias="fileVO" type="com.jebi.sdp.model.FileVO"/>
+	<typeAlias alias="codeVO" type="com.jebi.sdp.model.CodeVO"/>
+	<typeAlias alias="smplReqVO" type="com.jebi.sdp.model.SmplRequestVO"/>
+	<typeAlias alias="logVO" type="com.jebi.sdp.model.LogVO"/>
+	
+	<!-- //제품군 코드 조회 대분 -->
+	<select id="select_itemType" parameterClass="codeVO" resultClass="codeVO">
+		SELECT CODE AS MINOR_CD,
+			   CODE_NAME AS CD_NM	 
+		  FROM HJBIZPOWER.BCOD011
+		 WHERE GUBUN= '0215'
+		   AND USE_GUBUN = '1'
+		 ORDER BY 1
+	</select>
+	<!-- 제품군 코드 조회 대분// -->
+	
+	<!-- //제품군 코드 조회 중분 -->
+	<select id="select_itemTypeSub" parameterClass="codeVO" resultClass="codeVO">
+		SELECT SUBSTR(A.CODE,1,1) DAEBUN,
+		       SUBSTR(A.CODE,2,2) JUNGBUN,
+		       A.CODE_NAME JUNGBUN_M
+		  FROM HJBIZPOWER.BCOD011 A
+		 WHERE A.GUBUN ='0216'
+		   AND A.USE_GUBUN = '1'
+		ORDER BY 1, 2
+	</select>
+	<!-- 제품군 코드 조회 중분 // -->
+	
+	<!-- //공통코드 조회 -->
+	<parameterMap class="map" id="param_selectCode">
+		<parameter property="ARG_MAJOR_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_COMP_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" 	jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectCode" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="codeVO" id="result_selectCode">
+		<result property="code" column="CODE"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectCode" parameterMap="param_selectCode">
+		<![CDATA[
+			{CALL PKG_ORDER_BASE.Q_BASE_DDDW_S(?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- 공통코드 조회// -->
+
+	<!-- 첨부파일 조회 -->
+	<select id="select_file" parameterClass="fileVO" resultClass="fileVO">
+		SELECT
+			DOC_NUM
+			,FILE_LINE
+			,FILE_NM
+			,FILE_PATH
+			,VIEW_CNT
+			,INTERNET_YN
+			,DEL_YN
+			,CREATEDATE
+			,CREATEDBY
+			,RECORDDATE
+			,UPDATEDBY
+			,ORIGINAL_NM
+			,FILE_SIZE
+		FROM SDP_FILE_HANJIN
+		WHERE 1=1
+			<isNotEmpty property="doc_num">
+				AND DOC_NUM = #doc_num#
+			</isNotEmpty>
+			<isNotEmpty property="file_nm">
+				AND FILE_NM = #file_nm#
+			</isNotEmpty>
+	</select>
+	
+	
+	<!-- 첨부파일 저장 -->
+	<insert id="insert_file" parameterClass="fileVO">
+		<selectKey keyProperty="file_nm" resultClass="String">
+			SELECT REPLACE( 
+				#doc_num#
+				|| TO_CHAR(NVL(MAX(FILE_LINE), 0) + 1, '0000') 
+				|| SUBSTR(#original_nm#, INSTRB(#original_nm#, '.'))
+				, ' ', '') AS FILE_NM
+			  FROM SDP_FILE_HANJIN
+			  WHERE DOC_NUM = #doc_num#
+		</selectKey>
+		INSERT INTO SDP_FILE_HANJIN (
+			DOC_NUM
+			,FILE_LINE
+			,FILE_NM
+			,FILE_PATH
+			,VIEW_CNT
+			,ORIGINAL_NM
+			,FILE_SIZE
+			,INTERNET_YN
+			,DEL_YN
+			,CREATEDATE
+			,CREATEDBY
+			,RECORDDATE
+			,UPDATEDBY
+		) VALUES (
+			#doc_num#
+			,(SELECT NVL(max(FILE_LINE), 0) + 1 FROM SDP_FILE_HANJIN WHERE DOC_NUM = #doc_num#)
+			,#file_nm#
+			,#file_path#
+			,#view_cnt#
+			,#original_nm#
+			,#file_size#
+			,'Y'
+			,'N'
+			,SYSDATE
+			,#cust_num#
+			,NULL
+			,NULL
+		)
+	</insert>
+	
+	<!-- 첨부파일 수정 -->
+	<update id="update_file" parameterClass="fileVO">
+		UPDATE SDP_FILE_HANJIN
+		SET RECORDDATE = SYSDATE
+			,UPDATEDBY = #cust_num#
+			,ORIGINAL_NM = #original_nm#
+			,FILE_PATH = #file_path#
+			,FILE_SIZE = #file_size#
+		WHERE 1=1
+			AND file_nm = #file_nm#
+	</update>
+	
+	<!-- 첨부파일 삭제 -->
+	<delete id="delete_file" parameterClass="fileVO">
+		DELETE SDP_FILE_HANJIN
+		WHERE 1=1
+			<isNotEmpty property="doc_num">
+				AND DOC_NUM = #doc_num#
+			</isNotEmpty>
+			<isNotEmpty property="file_nm">
+				AND FILE_NM = #file_nm#
+			</isNotEmpty>
+	</delete>
+	
+	<!-- 로그입력 -->
+	<insert id="insert_log" parameterClass="logVO">
+		INSERT INTO SDP_SYSTEM_LOG(
+			NO, TYPE, TITLE, CONTENTS, CUST_NUM,
+			CUST_NM, AUTH, CREATEDATE, CREATEDBY, RECORDDATE,
+			UPDATEDBY
+		) VALUES (
+			SDP_CREATE_PK_LOG,
+			#type#,
+			#title#,
+			#contents#,
+			#cust_num#,
+			
+			#cust_nm#,
+			#auth#,
+			SYSDATE,
+			null,
+			null,
+
+			null
+		)
+	</insert>
+</sqlMap>

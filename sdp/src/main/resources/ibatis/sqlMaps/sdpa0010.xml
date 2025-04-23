@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpa0010">
+	<typeAlias alias="itemVO" type="com.jebi.sdp.model.ItemVO"/>
+	<typeAlias alias="coItemVO" type="com.jebi.sdp.model.CoItemVO"/>
+	<typeAlias alias="itemDVO" type="com.jebi.sdp.model.ItemDetailVO"/>
+	<typeAlias alias="searchVO" type="com.jebi.sdp.model.SearchItemVO"/>
+	
+	<!-- 제품목록 조회(팝업용)// -->
+	<parameterMap class="map" id="param_selectItemList">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_OPTION" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_CUST_OPTION" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DAEBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DANWI_FROM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DANWI_TO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CURRENT_PAGE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_COUNTPER_PAGE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TOTAL_CNT" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectItemList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="itemVO" id="result_selectItemList">
+		<result property="item" column="ITEM"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="uf_inventory_flag" column="UF_INVENTORY_FLAG"/>
+		<result property="qty_allocjob" column="QTY_ALLOCJOB"/>
+		<result property="u_m" column="U_M"/>
+		<result property="item_type" column="ITEM_TYPE"/>
+		<result property="fav_check" column="FAV_CHECK"/>
+		<result property="product_code" column="PRODUCT_CODE"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectItemList" parameterMap="param_selectItemList">
+		<![CDATA[
+			{CALL PKG_ORDER_POPUP.Q_POPUP_ITEM_S_2(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //제품목록 조회(팝업용) -->
+	
+	<!-- 제품목록 조회(메뉴용)// -->
+	<parameterMap class="map" id="param_selectItemList_menu">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_OPTION" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_CUST_OPTION" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PGM_OPTION" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DAEBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_JUNGBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DANWI_FROM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_DANWI_TO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CURRENT_PAGE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_COUNTPER_PAGE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TOTAL_CNT" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectItemList_menu" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="itemVO" id="result_selectItemList_menu">
+		<result property="item" column="ITEM"/>
+		<result property="description" column="DESCRIPTION"/>
+		<result property="uf_inventory_flag" column="UF_INVENTORY_FLAG"/>
+		<result property="qty_allocjob" column="QTY_ALLOCJOB"/>
+		<result property="u_m" column="U_M"/>
+		<result property="item_type" column="ITEM_TYPE"/>
+		<result property="fav_check" column="FAV_CHECK"/>
+		<result property="product_code" column="PRODUCT_CODE"/>
+		<result property="pummog_gubun" column="PUMMOG_GUBUN"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectItemList_menu" parameterMap="param_selectItemList_menu">
+		<![CDATA[
+			{CALL PKG_SDP_ORDER_POPUP_HANJIN.Q_POPUP_ITEM_S_4(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //제품목록 조회(메뉴용) -->
+	
+	<!-- 제품목록 조회_시험성적서용// -->
+	<parameterMap class="map" id="param_selectItemList_testReport">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_OPTION" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_OPTION" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CURRENT_PAGE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_COUNTPER_PAGE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TOTAL_CNT" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectItemList_testReport" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="coItemVO" id="result_selectItemList_testReport">
+		<result property="sunbeon" column="SUNBEON"/>
+		<result property="saeobjang" column="SAEOBJANG"/>
+		<result property="jepum_code" column="JEPUM_CODE"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="pojang_danwi_a" column="POJANG_DANWI_A"/>
+		<result property="pojang_danwi_b" column="POJANG_DANWI_B"/>
+		<result property="lot_no" column="LOT_NO"/>
+		<result property="ibgo_ilja" column="IBGO_ILJA"/>
+		
+		<result property="panmae_danwi_a" column="PANMAE_DANWI_A"/>
+		<result property="panmae_danwi_b" column="PANMAE_DANWI_B"/>
+		<result property="restriction" column="RESTRICTION"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectItemList_testReport" parameterMap="param_selectItemList_testReport">
+		<![CDATA[
+			{CALL PKG_ORDER_POPUP.Q_POPUP_ITEM_S_1(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //제품목록 조회_시험성적서용 -->
+	
+	<!-- 제품목록 조회_상세// -->
+<!-- 	<parameterMap class="map" id="param_selectItemList_detail"> -->
+<!-- 		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_ITEM_NM" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_ITEM_OPTION" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+		
+<!-- 		<parameter property="ARG_CUST_OPTION" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_DAEBUN" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_CURRENT_PAGE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_COUNTPER_PAGE" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/> -->
+<!-- 		<parameter property="ARG_TOTAL_CNT" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/> -->
+		
+<!-- 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectItemList_detail" mode="OUT"/> -->
+<!-- 	</parameterMap> -->
+	
+<!-- 	<resultMap class="itemDVO" id="result_selectItemList_detail"> -->
+<!-- 		<result property="jepum_code" column="JEPUM_CODE"/> -->
+<!-- 		<result property="pummyeong" column="PUMMYEONG"/> -->
+<!-- 		<result property="pojang_danwi_a" column="POJANG_DANWI_A"/> -->
+<!-- 		<result property="pojang_danwi_b" column="POJANG_DANWI_B"/> -->
+<!-- 		<result property="sipan_ja" column="SIPAN_JA"/> -->
+<!-- 		<result property="sipan_ta" column="SIPAN_TA"/> -->
+<!-- 		<result property="jumun_busan" column="JUMUN_BUSAN"/> -->
+<!-- 		<result property="jumun_anyang" column="JUMUN_ANYANG"/> -->
+<!-- 		<result property="jumun_honam" column="JUMUN_HONAM"/> -->
+<!-- 		<result property="jumun_jungbu" column="JUMUN_JUNGBU"/> -->
+<!-- 		<result property="jumun_haman" column="JUMUN_HAMAN"/> -->
+<!-- 		<result property="jumun_daegu" column="JUMUN_DAEGU"/> -->
+<!-- 		<result property="bogwan_busan" column="BOGWAN_BUSAN"/> -->
+<!-- 		<result property="bogwan_anyang" column="BOGWAN_ANYANG"/> -->
+<!-- 		<result property="bogwan_honam" column="BOGWAN_HONAM"/> -->
+<!-- 		<result property="bogwan_jungbu" column="BOGWAN_JUNGBU"/> -->
+<!-- 		<result property="bogwan_haman" column="BOGWAN_HAMAN"/> -->
+<!-- 		<result property="bogwan_daegu" column="BOGWAN_DAEGU"/> -->
+<!-- 		<result property="daebun" column="DAEBUN"/> -->
+<!-- 	</resultMap> -->
+	
+<!-- 	<procedure id="procedure_selectItemList_detail" parameterMap="param_selectItemList_detail"> -->
+<!-- 		<![CDATA[ -->
+<!-- 			{CALL PKG_ORDER_POPUP.Q_POPUP_ITEM_S_3( -->
+<!-- 				?, ?, ?, ?, ?, -->
+<!-- 				?, ?, ?, ?, ?, ? -->
+<!-- 			)} -->
+<!-- 		]]> -->
+<!-- 	</procedure> -->
+	<!-- //제품목록 조회_상세 -->
+	
+	<!-- 재고수량 조회// -->
+	<select id="select_qty" parameterClass="searchVO" resultClass="itemVO">
+		SELECT JEPUM_CODE AS ITEM,
+		       PANMAE_DANWI_A AS QTY_ALLOCJOB,
+		       PANMAE_DANWI_B AS U_M,
+			<isEqual property="workplace" compareValue="1"><!-- 부산 -->
+				SUM(S_JAEGO_1) AS QTY_ON_HAND01,
+		    	SUM(S_JAEGO_6) AS QTY_ON_HAND02,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="2"><!-- 서울 -->
+				SUM(S_JAEGO_3) AS QTY_ON_HAND01,
+		    	'0' AS QTY_ON_HAND02,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="3"><!-- 안양 -->
+				SUM(S_JAEGO_3) AS QTY_ON_HAND01,
+		    	'0' AS QTY_ON_HAND02,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="4"><!-- 호남 -->
+				SUM(S_JAEGO_4) AS QTY_ON_HAND01,
+		    	SUM(S_JAEGO_3) AS QTY_ON_HAND02,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="5"><!-- 중부 -->
+				SUM(S_JAEGO_5) AS QTY_ON_HAND01,
+		    	SUM(S_JAEGO_3) AS QTY_ON_HAND02,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="6"><!-- 함안 -->
+				SUM(S_JAEGO_6) AS QTY_ON_HAND01,
+		    	'0' AS QTY_ON_HAND02,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="7"><!-- 대구 -->
+				SUM(S_JAEGO_7) AS QTY_ON_HAND01,
+		    	SUM(S_JAEGO_6) AS QTY_ON_HAND02,
+		    </isEqual>
+		       SUM(JAEGO_B) AS KEEP_ON_HAND
+		  FROM SDP_JAEGO_ILBAN_HANJIN
+		  WHERE 1=1
+		  	AND ((GEOLAECHEO_CODE  > '600000'  AND GYEJEONG_GUBUN   = '4' ) OR GEOLAECHEO_CODE IN('000001', '001100', #cust_num#) OR JEPUM_CODE LIKE '_________K')
+		<isNotEmpty property="paramList">
+			<iterate
+				prepend="AND REPLACE(UPPER(trim(JEPUM_CODE||decode(sign(PANMAE_DANWI_A - 1), -1, replace(to_char(PANMAE_DANWI_A),'.','0.'), TO_CHAR(PANMAE_DANWI_A))||PANMAE_DANWI_B)), ' ', '') IN "
+				open="(" close=")"  conjunction="," property="paramList">
+				UPPER(#paramList[]#)
+			</iterate>
+		</isNotEmpty>
+		GROUP BY JEPUM_CODE, PANMAE_DANWI_A, PANMAE_DANWI_B
+	</select>
+	<!-- //재고수량 조회 -->
+	
+	<!-- 재고수량 조회 상세// -->
+	<select id="select_qtyDetail" parameterClass="searchVO" resultClass="itemDVO">
+		SELECT JEPUM_CODE,
+		       PANMAE_DANWI_A,
+		       PANMAE_DANWI_B,
+		       POJANG_DANWI_A,
+		       POJANG_DANWI_B,
+	       <isEqual property="workplace" compareValue="1"><!-- 부산 -->
+				SUM(S_JAEGO_1) AS S_JAEGO,
+		    	SUM(S_JAEGO_6) AS S_TA_JAEGO,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="2"><!-- 서울 -->
+				SUM(S_JAEGO_3) AS S_JAEGO,
+		    	'0' AS S_TA_JAEGO,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="3"><!-- 안양 -->
+				SUM(S_JAEGO_3) AS S_JAEGO,
+		    	'0' AS S_TA_JAEGO,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="4"><!-- 호남 -->
+				SUM(S_JAEGO_4) AS S_JAEGO,
+		    	SUM(S_JAEGO_3) AS S_TA_JAEGO,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="5"><!-- 중부 -->
+				SUM(S_JAEGO_5) AS S_JAEGO,
+		    	SUM(S_JAEGO_3) AS S_TA_JAEGO,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="6"><!-- 함안 -->
+				SUM(S_JAEGO_6) AS S_JAEGO,
+		    	'0' AS S_TA_JAEGO,
+		    </isEqual>
+			<isEqual property="workplace" compareValue="7"><!-- 대구 -->
+				SUM(S_JAEGO_7) AS S_JAEGO,
+		    	SUM(S_JAEGO_6) AS S_TA_JAEGO,
+		    </isEqual>
+		       SUM(J_JAEGO_1) AS J_JAEGO_1,
+		       SUM(J_JAEGO_3) AS J_JAEGO_3,
+		       SUM(J_JAEGO_4) AS J_JAEGO_4,
+		       SUM(J_JAEGO_5) AS J_JAEGO_5,
+		       SUM(J_JAEGO_6) AS J_JAEGO_6,
+		       SUM(J_JAEGO_7) AS J_JAEGO_7,
+		       SUM(B_JAEGO_1) AS B_JAEGO_1,
+		       SUM(B_JAEGO_3) AS B_JAEGO_3,
+		       SUM(B_JAEGO_4) AS B_JAEGO_4,
+		       SUM(B_JAEGO_5) AS B_JAEGO_5,
+		       SUM(B_JAEGO_6) AS B_JAEGO_6,
+		       SUM(B_JAEGO_7) AS B_JAEGO_7
+		  FROM JAEGO_SANGSE
+		 WHERE 1=1
+		 	AND ((GEOLAECHEO_CODE  > '600000'  AND GYEJEONG_GUBUN   = '4' ) OR GEOLAECHEO_CODE IN('000001', '001100', #cust_num#) OR JEPUM_CODE LIKE '_________K')
+		<isNotEmpty property="paramList">
+			<iterate
+				prepend="AND REPLACE(UPPER(trim(JEPUM_CODE||decode(sign(PANMAE_DANWI_A - 1), -1, replace(to_char(PANMAE_DANWI_A),'.','0.'), TO_CHAR(PANMAE_DANWI_A))||PANMAE_DANWI_B)), ' ', '') IN "
+				open="(" close=")"  conjunction="," property="paramList">
+				UPPER(#paramList[]#)
+			</iterate>
+		</isNotEmpty>
+		GROUP BY JEPUM_CODE, PANMAE_DANWI_A, PANMAE_DANWI_B, POJANG_DANWI_A, POJANG_DANWI_B
+	</select>
+	<!-- //재고수량 조회 상세 -->
+</sqlMap>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpd0010">
+	<typeAlias alias="creditHVO" type="com.jebi.sdp.model.CreditHeaderVO"/>
+	<typeAlias alias="creditSVO" type="com.jebi.sdp.model.CreditSubVO"/>
+	
+	<!-- 외상정보 헤더 조회// -->
+	<parameterMap class="map" id="param_selectCreditHeader">
+		<parameter property="arg_cust_cd" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_yyyy" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectCreditHeader" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="creditHVO" id="result_selectCreditHeader">
+		<result property="month" column="MONTH"/>
+		<result property="amt" column="AMT"/>
+		<result property="vat" column="VAT"/>
+		<result property="amt_vat" column="AMT_VAT"/>
+		<result property="colet_amt" column="COLET_AMT"/>
+		<result property="jango" column="JANGO"/>
+		<result property="month_etc" column="MONTH_ETC"/>
+		<result property="amt_etc" column="AMT_ETC"/>
+		<result property="vat_etc" column="VAT_ETC"/>
+		<result property="colet_amt_etc" column="COLET_AMT_ETC"/>
+		<result property="jango_etc" column="JANGO_ETC"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectCreditHeader" parameterMap="param_selectCreditHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RD.Q_RD010M_S(?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //외상정보 헤더 조회 -->
+	
+	<!-- 외상정보 서브 조회// -->
+	<parameterMap class="map" id="param_selectCreditSub">
+		<parameter property="arg_cust_cd" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_yyyymm" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_type" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectCreditSub" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="creditSVO" id="result_selectCreditSub">
+		<result property="arg_cust_cd" column="ARG_CUST_CD"/>
+		<result property="arg_yyyymm" column="ARG_YYYYMM"/>
+		<result property="arg_type" column="ARG_TYPE"/>
+		<result property="ord_dt" column="ORD_DT"/>
+		<result property="sale_no" column="SALE_NO"/>
+		<result property="seq" column="SEQ"/>
+		<result property="item_cd" column="ITEM_CD"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="sale_inv_unit" column="SALE_INV_UNIT"/>
+		<result property="sale_inv_qty" column="SALE_INV_QTY"/>
+		<result property="price" column="PRICE"/>
+		<result property="amt" column="AMT"/>
+		<result property="vat" column="VAT"/>
+		<result property="tot_amt" column="TOT_AMT"/>
+		<result property="ilja" column="ILJA"/>
+		<result property="jeogyo" column="JEOGYO"/>
+		<result property="geumaeg" column="GEUMAEG"/>
+		<result property="month" column="MONTH"/>
+		<result property="amt_etc" column="AMT_ETC"/>
+		<result property="vat_etc" column="VAT_ETC"/>
+		<result property="colet_amt_etc" column="COLET_AMT_ETC"/>
+		<result property="jango_etc" column="JANGO_ETC"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectCreditSub" parameterMap="param_selectCreditSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RD.Q_RD010D_S(?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //외상정보 서브 조회 -->
+	
+	
+</sqlMap>

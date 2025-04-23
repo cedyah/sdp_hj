@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpd0030">
+	<typeAlias alias="purchaseVO" type="com.jebi.sdp.model.PurchaseVO"/>
+	
+	<!-- 매입 조회// -->
+	<parameterMap class="map" id="param_selectPurchaseInfo">
+		<parameter property="ARG_CUST_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectPurchaseInfo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="purchaseVO" id="result_selectPurchaseInfo">
+		<result property="sale_dt" column="SALE_DT"/>
+		<result property="sale_no" column="SALE_NO"/>
+		<result property="seq" column="SEQ"/>
+		<result property="item_cd" column="ITEM_CD"/>
+		<result property="item_nm" column="ITEM_NM"/>
+		<result property="ut_a" column="UT_A"/>
+		<result property="ut_b" column="UT_B"/>
+		<result property="qty" column="QTY"/>
+		<result property="up" column="UP"/>
+		<result property="amt" column="AMT"/>
+		<result property="dely_place" column="DELY_PLACE"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectPurchaseInfo" parameterMap="param_selectPurchaseInfo">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_RC091_S(
+				?, ?, ?, ?, ?,
+				?	
+			)}
+		]]>
+	</procedure>
+	<!-- //매입 조회 -->
+	
+	
+</sqlMap>

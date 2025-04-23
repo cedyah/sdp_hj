@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpf0060">
+	<typeAlias alias="SmsreceiveVO" type="com.jebi.sdp.model.SmsreceiveVO"/>
+	
+	<!-- 문자수신조회// -->
+	<parameterMap class="map" id="param_Smsreceive">
+		<parameter property="arg_cust_cd" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_frdt" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="arg_todt" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_Smsreceive" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="SmsreceiveVO" id="result_Smsreceive">
+		<result property="receive_time" column="RECEIVE_TIME"/>
+		<result property="receive_contents" column="RECEIVE_CONTENTS"/>
+		<result property="phone" column="PHONE"/>
+		<result property="receiver" column="RECEIVER"/>
+		<result property="reply_phone" column="REPLY_PHONE"/>
+		<result property="reply_man" column="REPLY_MAN"/>
+		<result property="sms_state" column="SMS_STATE"/>
+		<result property="sms_result" column="SMS_RESULT"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectSmsreceive" parameterMap="param_Smsreceive">
+		<![CDATA[
+			{CALL PKG_ORDER_RC.Q_RC140_S(?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //문자수신조회 -->
+	
+	
+</sqlMap>

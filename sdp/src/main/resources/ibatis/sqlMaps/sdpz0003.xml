@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpz0003">
+	<typeAlias alias="shipmentVO" type="com.jebi.sdp.model.ShipmentVO"/>
+
+	<select id="select_shipment" parameterClass="shipmentVO" resultClass="shipmentVO">
+		SELECT
+			SHIP_NUM
+			,CUST_NUM
+			,CUST_SEQ
+			,SITE_REF
+			,CUST_PO
+			,ZIP
+			,ADDR1
+			,ADDR2
+			,PHONE
+			,MAN
+			,MAN_NUM
+			,CREATEDATE
+			,RECORDDATE
+			,CREATEDBY
+			,UPDATEDBY
+		FROM SDP_SHIPMENT
+		WHERE 1=1
+			 AND CUST_NUM = #cust_num#
+			 <isNotEmpty property="ship_num">
+			 	AND SHIP_NUM = #ship_num#
+			 </isNotEmpty>
+			 <isNotEmpty property="searchText">
+			 	<isEqual property="searchDiv" compareValue="man">
+			 		AND MAN like #searchText#
+			 	</isEqual>
+			 	<isEqual property="searchDiv" compareValue="addr">
+			 		AND (ADDR1||' '||ADDR2) LIKE #searchText#
+			 	</isEqual>
+			 </isNotEmpty>
+		ORDER BY NVL(RECORDDATE, CREATEDATE) DESC
+	</select>
+	
+	<!-- 배송지 입력 -->
+	<insert id="insert_shipment" parameterClass="shipmentVO">
+		<selectKey keyProperty="ship_num" resultClass="String">
+			SELECT CREATE_PK('S') AS SHIP_NUM FROM DUAL
+		</selectKey>
+		INSERT INTO SDP_SHIPMENT(
+			SHIP_NUM
+			,CUST_NUM
+			,CUST_SEQ
+			,SITE_REF
+			,ADDR1
+			,ADDR2
+			
+			,MAN
+			,ZIP
+			,PHONE
+			,CREATEDATE
+			,RECORDDATE
+			
+			,CREATEDBY
+			,UPDATEDBY
+		) values (
+			#ship_num#
+			,#cust_num#
+			,#cust_seq#
+			,#site_ref#
+			,#addr1#
+			,#addr2#
+			
+			,#man#
+			,#zip#
+			,#phone#
+			,SYSDATE
+			,null
+			
+			,null
+			,null
+		)
+	</insert>
+	
+	<insert id="update_shipment" parameterClass="shipmentVO">
+		UPDATE SDP_SHIPMENT
+		SET MAN = #man#
+			,ZIP = #zip#
+			,PHONE = #phone#
+			,ADDR1 = #addr1#
+			,ADDR2 = #addr2#
+			,RECORDDATE = SYSDATE
+			,UPDATEDBY = #cust_num#
+		WHERE SHIP_NUM = #ship_num#
+	</insert>
+	
+	<delete id="delete_shipment" parameterClass="shipmentVO">
+		DELETE SDP_SHIPMENT
+		WHERE 1=1
+			AND CUST_NUM = #cust_num#
+			<isNotEmpty property="ship_num">
+				AND SHIP_NUM = #ship_num#
+			</isNotEmpty>
+	</delete>
+</sqlMap>

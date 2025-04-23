@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpa0070">
+	<typeAlias alias="itemPriceVO" type="com.jebi.sdp.model.ItemPriceVO"/>
+	
+	<!-- 가격 조회 -->
+	<parameterMap class="map" id="param_selectItemPrice">
+		<parameter property="ARG_CUST_CD" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BIZ_AREA_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_OPT" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_DAEBUN" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CURRENT_PAGE" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_COUNTPER_PAGE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TOTAL_CNT" 	jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="OUT_PARAM" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectItemPrice" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="itemPriceVO" id="result_selectItemPrice">
+		<result property="rnum" column="RNUM"/>
+		<result property="jepum_code" column="JEPUM_CODE"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="panmae_danwi_a" column="DANWI_A"/>
+		<result property="panmae_danwi_b" column="PANMAE_DANWI_B"/>
+		<result property="panmaega" column="PANMAEGA"/>
+		<result property="endil" column="ENDIL"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectItemPrice" parameterMap="param_selectItemPrice">
+		<![CDATA[
+			{CALL PKG_ORDER_RB.Q_RB010_S(
+				?, ?, ?, ?, ?, 
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 가격  조회 -->
+	
+	
+	<!-- 가격 조회 -->
+	<parameterMap class="map" id="param_selectItemPrice_all">
+		<parameter property="ARG_CUST_CD" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BIZ_AREA_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DAEBUN" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+
+		<parameter property="ARG_JUNGBUN" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>		
+		<parameter property="ARG_CURRENT_PAGE" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_COUNTPER_PAGE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TOTAL_CNT" 	jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+		<parameter property="OUT_PARAM" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectItemPrice_all" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="itemPriceVO" id="result_selectItemPrice_all">
+		<result property="rnum" column="RNUM"/>
+		<result property="jepum_code" column="JEPUM_CODE"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="panmae_danwi_a" column="DANWI_A"/>
+		<result property="panmae_danwi_b" column="PANMAE_DANWI_B"/>
+		<result property="gongjangdoga" column="GONGJANGDOGA"/>
+		<result property="maeibga" column="MAEIBGA"/>
+		<result property="endil" column="ENDIL"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectItemPrice_all" parameterMap="param_selectItemPrice_all">
+		<![CDATA[
+			{CALL PKG_ORDER_RB.Q_RB030_S (
+				?, ?, ?, ?, ?, 
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 가격  조회 -->
+</sqlMap>

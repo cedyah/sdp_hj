@@ -1,0 +1,71 @@
+@CHARSET "UTF-8";
+
+#loadingDiv { 
+	background-color: white; 
+	opacity: 0.5;
+	vertical-align: middle;
+	text-align: center; 
+	position: fixed; 
+	width: 100%; 
+	height: 100%; 
+	left: 0px; 
+	top: 0px; 
+	padding-top: 300px;
+	z-index: 9999999;
+} 
+
+/* table { */
+/* 	border-collapse:collapse; */
+/* } */
+
+/* table th { */
+/* 	max-width: 0px; */
+/* 	word-break: normal; */
+/* 	border-right:1px aqua solid; */
+/* 	border-bottom:1px aqua solid; */
+/* } */
+/* .th_right { */
+/* 	border-right: 0px; */
+/* } */
+/* table td { */
+/*     max-width: 0px; */
+/*     white-space:nowrap; */
+/*     overflow: hidden; */
+/*     text-overflow: ellipsis; */
+/* 	border-right:1px aqua solid; */
+/* 	border-bottom:1px aqua solid; */
+/* } */
+/* .td_right { */
+/* 	border-right:0px; */
+/* } */
+/* table tr td p { */
+/* 	width:100%; */
+/* 	height:100%; */
+/* 	text-align:right; */
+/*     white-space:nowrap; */
+/*     overflow: hidden; */
+/*     text-overflow: ellipsis; */
+/* } */
+/* .center { */
+/* 	text-align: center; */
+/* 	vertical-align: center; */
+/* } */
+/* .right { */
+/* 	text-align: right; */
+/* } */
+/* .search_p { */
+/* 	width:150px; */
+/* 	float:left; */
+	
+/* } */
+
+/* .w10 {width:10px;} */
+/* .w20 {width:20px;} */
+/* .w30 {width:30px;} */
+/* .w40 {width:40px;} */
+/* .w50 {width:50px;} */
+/* .w60 {width:60px;} */
+/* .w70 {width:70px;} */
+/* .w80 {width:80px;} */
+/* .w90 {width:90px;} */
+/* .w100 {width:100px;} */

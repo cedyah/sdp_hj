@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" cacheModelsEnabled="true"
+		lazyLoadingEnabled="true" enhancementEnabled="true" />
+		
+	<!-- <typeAlias type="com.jebi.sdp.common.OracleUsTypeHandler" alias="ORACLEUS7ASCII" /> 
+	<typeHandler callback="ORACLEUS7ASCII" javaType="java.lang.String" />  -->
+	<typeAlias type="com.jebi.sdp.common.OracleUsTypeHandler" alias="ORACLEUTF8" /> 
+	<typeHandler callback="ORACLEUTF8" javaType="java.lang.String" />  
+	
+	<sqlMap resource="ibatis/sqlMaps/common.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0010.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0020.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0030.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0040.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0050.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0060.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpa0070.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpb0010.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpd0010.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpd0020.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpd0030.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpe0010.xml" />	
+	<sqlMap resource="ibatis/sqlMaps/sdpe0020.xml" />	
+	<sqlMap resource="ibatis/sqlMaps/sdpf0010.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpf0020.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpf0030.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpf0040.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpf0060.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpy0010.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpz0003.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpz0009.xml" />
+</sqlMapConfig>

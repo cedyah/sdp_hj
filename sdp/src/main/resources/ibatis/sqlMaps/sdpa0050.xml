@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpa0050">
+	<typeAlias alias="smplRequestVO" type="com.jebi.sdp.model.SmplRequestVO"/>
+	
+	<!-- //전표번호 조회 -->
+	<parameterMap class="map" id="param_selectJeonpyoNo">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SLIP_TYPE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectJeonpyoNo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="smplReqVO" id="result_selectJeonpyoNo">
+		<result property="jeonpyo_no" column="V_SLIP_NO"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
+		<![CDATA[
+			{CALL PKG_ORDER_POPUP.Q_SLIP_NO(?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- 전표번호 조회// -->
+	
+	<!-- 견본 요청서 조회// -->
+	<parameterMap class="map" id="param_selectSampleRequest">
+		<parameter property="ARG_BIZ_AREA_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequest" mode="OUT"/>
+	</parameterMap>
+	
+	<parameterMap class="map" id="param_selectSampleRequestDetail">
+		<parameter property="ARG_BIZ_AREA_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_NO" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequest" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="smplRequestVO" id="result_selectSampleRequest">
+		<result property="ilja" 				column="ILJA"/>
+		<result property="jeonpyo_no" 			column="JEONPYO_NO"/>
+		<result property="pummyeong" 			column="PUMMYEONG"/>
+		<result property="jechulcheo" 			column="JECHULCHEO"/>
+		<result property="himang_wanryoil" 		column="HIMANG_WANRYOIL"/>
+		<result property="cheoliil" 			column="CHEOLIIL"/>			<!-- 목록은 여기까지만 사용. -->
+		<result property="gogaeg_myeong"       	column="GOGAEG_MYEONG"/>
+		<result property="tel_no"              	column="TEL_NO"/>
+		<result property="gyeonbon_gubun"      	column="GYEONBON_GUBUN"/>
+		<result property="jepum_code"          	column="JEPUM_CODE"/>
+		<result property="wanjepum_myeong"     	column="WANJEPUM_MYEONG"/>
+		<result property="dojang_soji"         	column="DOJANG_SOJI"/>
+		<result property="seolchi_jangso"      	column="SEOLCHI_JANGSO"/>
+		<result property="gyesok_yn"           	column="GYESOK_YN"/>
+		<result property="sayong_mm"           	column="SAYONG_MM"/>
+		<result property="pojang_danwi_a"      	column="POJANG_DANWI_A"/>
+		<result property="pojang_danwi_b"      	column="POJANG_DANWI_B"/>
+		<result property="sulyang"             	column="SULYANG"/>
+		<result property="sipyeonmaesu"        	column="SIPYEONMAESU"/>
+		<result property="kyeongjaengsa"       	column="KYEONGJAENGSA"/>
+		<result property="hiseogje"            	column="HISEOGJE"/>
+		<result property="junggeumsok_yn"      	column="JUNGGEUMSOK_YN"/>
+		<result property="teugkisahang_3"      	column="TEUGKISAHANG_3"/>
+		<result property="pyojun_sipyeon"      	column="PYOJUN_SIPYEON"/>
+		<result property="teugkisahang_2"      	column="TEUGKISAHANG_2"/>
+		<result property="kwangtaeg"           	column="KWANGTAEG"/>
+		<result property="gloss_a"             	column="GLOSS_A"/>
+		<result property="gloss_b"             	column="GLOSS_B"/>
+		<result property="doryo_jonglyu"       	column="DORYO_JONGLYU"/>
+		<result property="doryo_jonglyu_m"     	column="DORYO_JONGLYU_M"/>
+		<result property="dojang_bangbeob"     	column="DOJANG_BANGBEOB"/>
+		<result property="jeoncheoli_bangbeob" 	column="JEONCHEOLI_BANGBEOB"/>
+		<result property="geonjo_bangbeob"     	column="GEONJO_BANGBEOB"/>
+		<result property="hado_dolyo"          	column="HADO_DOLYO"/>
+		<result property="teugkisahang_1"      	column="TEUGKISAHANG_1"/>
+		<result property="baedal_gubun"        	column="BAEDAL_GUBUN"/>
+		<result property="insuja"              	column="INSUJA"/>
+		<result property="insu_tel"            	column="INSU_TEL"/>
+		<result property="insu_juso"           	column="INSU_JUSO"/>
+		<result property="zip"              	column="ZIP"/>
+		<result property="addr1"            	column="ADDR1"/>
+		<result property="addr2"	           	column="ADDR2"/>
+		<result property="saeobjang"	           	column="SAEOBJANG"/>
+		<result property="solid"	           	column="SOLID"/>
+		
+		<!-- 코드 한글전환용 필드		 -->
+		<result property="gyeonbon_gubun_nm"        column="GYEONBON_GUBUN_NM"/>
+		<result property="dojang_soji_nm"           column="DOJANG_SOJI_NM"/>
+		<result property="pyojun_sipyeon_nm"        column="PYOJUN_SIPYEON_NM"/>
+		<result property="kwangtaeg_nm"           	column="KWANGTAEG_NM"/>
+		<result property="doryo_jonglyu_nm"         column="DORYO_JONGLYU_NM"/>
+		<result property="dojang_bangbeob_nm"       column="DOJANG_BANGBEOB_NM"/>
+		<result property="geonjo_bangbeob_nm"       column="GEONJO_BANGBEOB_NM"/>
+		<result property="jeoncheoli_bangbeob_nm"   column="JEONCHEOLI_BANGBEOB_NM"/>
+		<result property="pojang_danwi_b_nm"        column="POJANG_DANWI_B_NM"/>
+		<result property="baedal_gubun_nm"          column="BAEDAL_GUBUN_NM"/>
+		<result property="seolchi_jangso_nm"        column="SEOLCHI_JANGSO_NM"/>
+		<result property="hiseogje_nm"          	column="HISEOGJE_NM"/>
+		<result property="junggeumsok_yn_nm"        column="JUNGGEUMSOK_YN_NM"/>
+		<result property="saeobjang_nm"	           	column="SAEOBJANG_NM"/>
+		<result property="solid_nm"	           	column="SOLID_NM"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectSampleRequest" parameterMap="param_selectSampleRequest">
+		<![CDATA[
+			{CALL PKG_ORDER_RCH.Q_RC181M_S(?, ?, ?, ?, ?)}
+		]]>
+	</procedure>
+	
+	<procedure id="procedure_selectSampleRequestDetail" parameterMap="param_selectSampleRequestDetail">
+		<![CDATA[
+			{CALL PKG_ORDER_RCH.Q_RC181F_S(?, ?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //견본 요청서 조회 -->
+	
+	
+	<!-- 견본 요청서 등록&수정&삭제// -->
+	<parameterMap class="map" id="param_updateSampleRequest">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SAEOBJANG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ILJA" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GYEJEONG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_JEONPYO_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GEOLAECHEO_CODE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_HIMANG_WANRYOIL" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_JECHULCHEO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GOGAEG_MYEONG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TEL_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GYEONBON_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_JEPUM_CODE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PUMMYEONG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_WANJEPUM_MYEONG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DOJANG_SOJI" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEOLCHI_JANGSO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GYESOK_YN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SAYONG_MM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_POJANG_DANWI_A" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_POJANG_DANWI_B" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SULYANG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SIPYEONMAESU" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_KYEONGJAENGSA" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_HISEOGJE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_JUNGGEUMSOK_YN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TEUGKISAHANG_3" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PYOJUN_SIPYEON" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TEUGKISAHANG_2" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_KWANGTAEG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GLOSS_A" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GLOSS_B" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DORYO_JONGLYU" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DORYO_JONGLYU_M" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DOJANG_BANGBEOB" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_JEONCHEOLI_BANGBEOB" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GEONJO_BANGBEOB" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_HADO_DOLYO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TEUGKISAHANG_1" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BAEDAL_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_INSUJA" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_INSU_TEL" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_INSU_JUSO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ZIP" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ADDR1" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ADDR2" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SOLID" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_updateSampleRequest" parameterMap="param_updateSampleRequest" resultClass="java.util.HashMap">
+		<![CDATA[
+			{CALL PKG_ORDER_RCH.Q_RC181_MM(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //견본 요청서 조회 -->
+	
+</sqlMap>

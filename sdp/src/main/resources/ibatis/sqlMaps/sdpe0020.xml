@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpe0020">
+	<typeAlias alias="msdsHVO" type="com.jebi.sdp.model.MsdsHeaderVO" />
+	<typeAlias alias="msdsSVO" type="com.jebi.sdp.model.MsdsSubVO" />
+	
+	<!-- MSDS 목록 조회// -->
+	<parameterMap class="map" id="param_selectMsdsList">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SUBMIT_NM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectMsdsList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="msdsHVO" id="result_selectMsdsList">
+		<result property="req_dt" column="REQ_DT"/>
+		<result property="req_no" column="REQ_NO"/>
+		<result property="submit_nm" column="SUBMIT_NM"/>
+		<result property="submit_dt" column="SUBMIT_DT"/>
+	</resultMap>
+
+	<procedure id="procedure_selectMsdsList" parameterMap="param_selectMsdsList">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC122M_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS 목록 조회 -->
+	
+	<!-- MSDS header 조회// -->
+	<parameterMap class="map" id="param_selectMsdsHeader">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectMsdsHeader" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="msdsHVO" id="result_selectMsdsHeader">
+		<result property="req_dt" column="REQ_DT"/>
+		<result property="req_no" column="REQ_NO"/>
+		<result property="submit_nm" column="SUBMIT_NM"/>
+		<result property="submit_dt" column="SUBMIT_DT"/>
+		<result property="rmk" column="RMK"/>
+	</resultMap>
+
+	<procedure id="procedure_selectMsdsHeader" parameterMap="param_selectMsdsHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC122F_S (
+				?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS header 조회 -->
+	
+	<!-- MSDS sub 조회// -->
+	<parameterMap class="map" id="param_selectMsdsSub">
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectMsdsSub" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="msdsSVO" id="result_selectMsdsSub">
+		<result property="seq" column="SEQ"/>
+		<result property="item_cd" column="ITEM_CD"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="prog_dt" column="PROG_DT"/>
+		<result property="buseomyeong" column="BUSEOMYEONG"/>
+		<result property="msds_yn" column="MSDS_YN"/>
+		<result property="saeobjang" column="SAEOBJANG"/>
+	</resultMap>
+
+	<procedure id="procedure_selectMsdsSub" parameterMap="param_selectMsdsSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC122D_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS sub 조회 -->
+	
+	<!-- MSDS 전표번호 조회// -->
+	<parameterMap class="map" id="param_selectJeonpyoNo">
+		<parameter property="ARG_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectJeonpyoNo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="msdsHVO" id="result_selectJeonpyoNo">
+		<result property="req_no" column="SLIP_NO"/>
+	</resultMap>
+
+	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_SLIP_NO(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS 전표번호 조회 -->
+	
+	<!-- MSDS 수신인 email 조회// -->
+	<parameterMap class="map" id="param_selectEmail">
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectEmail" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="msdsSVO" id="result_selectEmail">
+		<result property="item_cd" column="ITEM_CD"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="email" column="MAIL_ADDR"/>
+	</resultMap>
+
+	<procedure id="procedure_selectEmail" parameterMap="param_selectEmail">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC122T_S_MT(
+				?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS 수신인 email 조회 -->
+	
+	<!-- MSDS header 등록, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateMsdsHeader">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SUBMIT_NM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SUBMIT_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+
+	<procedure id="procedure_updateMsdsHeader" parameterMap="param_updateMsdsHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC122_MM(
+				?, ?, ?, ?, ?,
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS header 등록, 수정, 삭제 -->
+	
+	<!-- MSDS header 등록, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateMsdsSub">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEQ" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DEPT_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_EMP_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+
+	<procedure id="procedure_updateMsdsSub" parameterMap="param_updateMsdsSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RCD.Q_RC122_MD(
+				?, ?, ?, ?, ?,
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //MSDS header 등록, 수정, 삭제 -->
+</sqlMap>

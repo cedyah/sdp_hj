@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpa0040">
+	<typeAlias alias="prHeaderVO" type="com.jebi.sdp.model.ProdReqHeaderVO"/>
+	<typeAlias alias="prSubVO" type="com.jebi.sdp.model.ProdReqSubVO"/>
+	<typeAlias alias="nprHeaderVO" type="com.jebi.sdp.model.NprodReqHeaderVO"/>
+	<typeAlias alias="nprSubVO" type="com.jebi.sdp.model.NprodReqSubVO"/>
+	
+	<!-- 	제조의뢰 + 신규제조의뢰를 union으로 연결하여 함께 출력(테이블이 서로 다름)// -->
+	<parameterMap class="map" id="param_selectProdReqList">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEARCH_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProdReqList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="prHeaderVO" id="result_selectProdReqList">
+		<result property="product_type" column="PRODUCT_TYPE"/>
+		<result property="ilja" column="ILJA"/>
+		<result property="jeonpyo_no" column="JEONPYO_NO"/>
+		<result property="baedal_gubun" column="BAEDAL_GUBUN"/>
+		<result property="baedal_gubun_nm" column="BAEDAL_GUBUN_NM"/>
+		<result property="baedal_jangso" column="BAEDAL_JANGSO"/>
+		<result property="insuja" column="INSUJA"/>
+		<result property="euiloiil" column="EUILOIIL"/>
+		<result property="zip" column="ZIP"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectProdReqList" parameterMap="param_selectProdReqList">
+		<![CDATA[
+			{CALL PKG_ORDER_RCG.Q_RC161M_S(
+				?, ?, ?, ?, ?,
+				?
+			)}
+		]]>
+	</procedure>
+	<!-- 	//제조의뢰 + 신규제조의뢰를 union으로 연결하여 함께 출력(테이블이 서로 다름) -->
+	
+	
+	<!-- 	제조의뢰 헤더 조회// -->
+	<parameterMap class="map" id="param_selectProdReqHeader">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProdReqHeader" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="prHeaderVO" id="result_selectProdReqHeader">
+		<result property="saeobjang" column="SAEOBJANG"/>
+		<result property="ilja" column="ILJA"/>
+		<result property="jeonpyo_no" column="JEONPYO_NO"/>
+		<result property="geolaecheo_code" column="GEOLAECHEO_CODE"/>
+		<result property="euiloiil" column="EUILOIIL"/>
+		<result property="bigo" column="BIGO"/>
+		<result property="jejo_saeobjang" column="JEJO_SAEOBJANG"/>
+		<result property="jejo_ilja" column="JEJO_ILJA"/>
+		<result property="jejo_jeonpyo_no" column="JEJO_JEONPYO_NO"/>
+		<result property="wanlyo_yejeongil" column="WANLYO_YEJEONGIL"/>
+		<result property="wanlyo_yn" column="WANLYO_YN"/>
+		<result property="internet" column="INTERNET"/>
+		<result property="baedal_gubun" column="BAEDAL_GUBUN"/>
+		<result property="baedal_gubun_nm" column="BAEDAL_GUBUN_NM"/>
+		<result property="deunglogil" column="DEUNGLOGIL"/>
+		<result property="insuja" column="INSUJA"/>
+		<result property="tel_no" column="TEL_NO"/>
+		<result property="zip" column="ZIP"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectProdReqHeader" parameterMap="param_selectProdReqHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCG.Q_RC160F_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 	//제조의뢰 헤더 조회 -->
+	
+	<!-- 	제조의뢰 서브 조회// -->
+	<parameterMap class="map" id="param_selectProdReqSub">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProdReqSub" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="prSubVO" id="result_selectProdReqSub">
+		<result property="jepum_code" column="JEPUM_CODE"/>
+		<result property="pojang_danwi_a" column="POJANG_DANWI_A"/>
+		<result property="pojang_danwi_b" column="POJANG_DANWI_B"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="pojang_sulyang" column="POJANG_SULYANG"/>
+		<result property="wanlyo_yn" column="WANLYO_YN"/>
+		<result property="wanlyo_yn_nm" column="WANLYO_YN_NM"/>
+		<result property="jindo_date" column="JINDO_DATE"/>
+		<result property="sunbeon" column="SUNBEON"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectProdReqSub" parameterMap="param_selectProdReqSub">
+		{CALL PKG_ORDER_RCG.Q_RC160D_S(
+				?, ?, ?, ?, ?
+		)}
+	</procedure>
+	<!-- 	//제조의뢰 서브 조회 -->
+	
+	<!-- 제조의뢰 전표번호 생성// -->
+	<parameterMap class="map" id="param_selectJeonpyoNo">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SLIP_TYPE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectJeonpyoNo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="prHeaderVO" id="result_selectJeonpyoNo">
+		<result property="jeonpyo_no" column="V_SLIP_NO"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
+		<![CDATA[
+			{CALL PKG_ORDER_RCE.Q_RC010_NO(?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //제조의뢰 전표번호 생성 -->
+	
+	
+	<!-- 제조의뢰 헤더 생성, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateProdReqHeader">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DELY_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DELY_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_RECVER" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TEL_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ZIP" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ADDR1" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ADDR2" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_updateProdReqHeader" parameterMap="param_updateProdReqHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCG.Q_RC160_MM(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //제조의뢰 헤더 생성, 수정, 삭제-->
+	
+	<!-- 제조의뢰 서브 생성, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateProdReqSub">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEQ" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_UNIT_A" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_UNIT_B" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_QTY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_updateProdReqSub" parameterMap="param_updateProdReqSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RCG.Q_RC160_MD(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?
+			)}
+		]]>
+	</procedure>
+	<!-- //제조의뢰 헤더 생성, 수정, 삭제-->
+	
+	<!-- 	신규 제조의뢰 헤더 조회// -->
+	<parameterMap class="map" id="param_selectNprodReqHeader">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectNprodReqHeader" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="nprHeaderVO" id="result_selectNprodReqHeader">
+		<result property="ilja" column="ILJA"/>
+		<result property="jeonpyo_no" column="JEONPYO_NO"/>
+		<result property="euiloiil" column="EUILOIIL"/>
+		<result property="baedal_gubun" column="BAEDAL_GUBUN"/>
+		<result property="baedal_gubun_nm" column="BAEDAL_GUBUN_NM"/>
+		<result property="baedal_jangso" column="BAEDAL_JANGSO"/>
+		<result property="insuja" column="INSUJA"/>
+		<result property="tel_no" column="TEL_NO"/>
+		<result property="bigo" column="BIGO"/>
+		<result property="zip" column="ZIP"/>
+		<result property="addr1" column="ADDR1"/>
+		<result property="addr2" column="ADDR2"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectNprodReqHeader" parameterMap="param_selectNprodReqHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCE.Q_RC020F_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 	//신규 제조의뢰 헤더 조회 -->
+	
+	<!-- 	신규 제조의뢰 서브 조회// -->
+	<parameterMap class="map" id="param_selectNprodReqSub">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectNprodReqSub" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="nprSubVO" id="result_selectNprodReqSub">
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="pojang_danwi_a" column="POJANG_DANWI_A"/>
+		<result property="pojang_danwi_b" column="POJANG_DANWI_B"/>
+		<result property="pojang_sulyang" column="POJANG_SULYANG"/>
+		<result property="bigo" column="BIGO"/>
+		<result property="gyeon_saeobjang" column="GYEON_SAEOBJANG"/>
+		<result property="gyeon_saeobjang_nm" column="GYEON_SAEOBJANG_NM"/>
+		<result property="gyeon_ilja" column="GYEON_ILJA"/>
+		<result property="gyeon_jeonpyo_no" column="GYEON_JEONPYO_NO"/>
+		<result property="jindo" column="JINDO"/>
+		<result property="jindo_nm" column="JINDO_NM"/>
+		<result property="sunbeon" column="SUNBEON"/>
+		<result property="jejo_saeobjang" column="JEJO_SAEOBJANG"/>
+		<result property="jejo_ilja" column="JEJO_ILJA"/>
+		<result property="jejo_jeonpyo_no" column="JEJO_JEONPYO_NO"/>
+		<result property="jejo_sunbeon" column="JEJO_SUNBEON"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectNprodReqSub" parameterMap="param_selectNprodReqSub">
+		{CALL PKG_ORDER_RCE.Q_RC020D_S(
+				?, ?, ?, ?, ?
+		)}
+	</procedure>
+	<!-- 	//신규 제조의뢰 서브 조회 -->
+	
+	<!-- 신규 제조의뢰 헤더 생성, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateNprodReqHeader">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_DELY_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DELY_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DELY_PLACE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_RECVER" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TEL_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ZIP" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ADDR1" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ADDR2" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_updateNprodReqHeader" parameterMap="param_updateNprodReqHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RCE.Q_RC020_MM(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //신규 제조의뢰 헤더 생성, 수정, 삭제-->
+	
+	<!-- 신규 제조의뢰 헤더 생성, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateNprodReqSub">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEQ" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_UNIT_A" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_UNIT_B" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_QTY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GYEON_SAEOBJANG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GYEON_ILJA" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GYEON_JEONPYO_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_updateNprodReqSub" parameterMap="param_updateNprodReqSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RCE.Q_RC020_MD(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //신규 제조의뢰 헤더 생성, 수정, 삭제-->
+</sqlMap>

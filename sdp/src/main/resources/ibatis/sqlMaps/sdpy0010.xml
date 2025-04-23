@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpy0010">
+	<typeAlias alias="noticeVO" type="com.jebi.sdp.model.NoticeVO"/>
+	
+	<!-- 메인화면용 최근 n건 조회 -->
+	<select id="select_noticeTop" parameterClass="noticeVO" resultClass="noticeVO">
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+			SELECT
+			    X.NOTICE_NUM
+			    ,TO_CHAR(X.NOTICE_FROM, 'YYYY.MM.DD') AS NOTICE_FROM
+			    ,TO_CHAR(X.NOTICE_TO, 'YYYY.MM.DD') AS NOTICE_TO
+			    ,X.NOTICE_TYPE
+			    ,X.TITLE
+			    ,X.CONTENTS
+			    ,X.UPLOADFILE
+			    ,X.LINK
+			    ,X.IMAGE
+			    ,X.INTERNET_YN
+			    ,X.DEL_YN
+			    ,X.VIEW_CNT
+			    ,TO_CHAR(X.CREATEDATE, 'YYYY.MM.DD') AS CREATEDATE
+			    ,X.CREATEDBY
+			    ,X.RECORDDATE
+			    ,X.UPDATEDBY
+			FROM SDP_NOTICE_HANJIN X
+			WHERE 1=1
+				AND X.DEL_YN = 'N'
+				<isNotEmpty property="notice_type">
+					AND INSTR(TRIM(#notice_type#), TRIM(X.NOTICE_TYPE)) > 0
+				</isNotEmpty>
+			ORDER BY X.CREATEDATE DESC
+		) A
+		WHERE #top# >= ROWNUM 
+	</select>
+	
+	<!-- 공지사항 목록 조회 -->
+	<select id="select_notice" parameterClass="noticeVO" resultClass="noticeVO">
+		SELECT * FROM (	
+			SELECT ROWNUM RNUM, A.* FROM(
+				SELECT
+					 NOTICE_NUM
+				    ,TO_CHAR(NOTICE_FROM, 'YYYY.MM.DD') AS NOTICE_FROM
+				    ,TO_CHAR(NOTICE_TO, 'YYYY.MM.DD') AS NOTICE_TO
+				    ,NOTICE_TYPE
+				    ,TITLE
+				    ,CONTENTS
+				    ,UPLOADFILE
+				    ,LINK
+				    ,IMAGE
+				    ,INTERNET_YN
+				    ,DEL_YN
+				    ,VIEW_CNT
+				    ,CREATEDATE
+				    ,CREATEDBY
+				    ,RECORDDATE
+				    ,UPDATEDBY
+				FROM SDP_NOTICE_HANJIN
+				WHERE 1=1
+					AND DEL_YN = 'N'
+					<isEmpty property="notice_from">
+						<isNotEmpty property="notice_num">
+							AND NOTICE_NUM = #notice_num#
+						</isNotEmpty>
+						<isNotEmpty property="searchText">
+							<isEqual property="searchDiv" compareValue="title">
+								<isNotEmpty property="searchText">
+									AND TITLE LIKE '%'||REPLACE(RTRIM(LTRIM(#searchText#)), ' ', '%')||'%'
+								</isNotEmpty>
+							</isEqual>
+							<isEqual property="searchDiv" compareValue="contents">
+								<isNotEmpty property="searchText">
+									AND CONTENTS LIKE '%'||REPLACE(RTRIM(LTRIM(#searchText#)), ' ', '%')||'%'
+								</isNotEmpty>
+							</isEqual>
+						</isNotEmpty>
+						<isNotEmpty property="notice_type">
+							AND RTRIM(LTRIM(NOTICE_TYPE)) = RTRIM(LTRIM(#notice_type#))
+						</isNotEmpty>
+					</isEmpty>
+					<isNotEmpty property="notice_from">
+						AND TO_CHAR(NOTICE_FROM, 'YYYYMM') = TO_CHAR(TO_DATE(#notice_from#, 'YYYY.MM.DD'), 'YYYYMM')
+						<isNotEmpty property = "notice_num">
+							AND NOTICE_NUM not like #notice_num#
+						</isNotEmpty>
+						<isNotEmpty property = "notice_type">
+							AND NOTICE_TYPE = #notice_type#
+						</isNotEmpty>
+					</isNotEmpty>
+				ORDER BY CREATEDATE DESC
+			) A
+		)
+		WHERE 1=1
+		<isNotEmpty property="page_current">
+		    AND RNUM BETWEEN ((#page_current# - 1) * #page_countPer# + 1) AND (#page_current# * #page_countPer#)
+		</isNotEmpty>
+	</select>
+	
+	<!-- 공지사항 목록 조회 갯수	 -->
+	<select id="selectCnt_notice" parameterClass="noticeVO" resultClass="Integer">
+		SELECT count(*) as totalCnt
+		FROM SDP_NOTICE_HANJIN
+		WHERE 1=1
+			AND DEL_YN = 'N'
+			<isNotEmpty property="notice_num">
+				AND NOTICE_NUM = #notice_num#
+			</isNotEmpty>
+			<isNotEmpty property="searchText">
+				<isEqual property="searchDiv" compareValue="title">
+					<isNotEmpty property="searchText">
+						AND TITLE LIKE '%'||REPLACE(RTRIM(LTRIM(#searchText#)), ' ', '%')||'%'
+					</isNotEmpty>
+				</isEqual>
+				<isEqual property="searchDiv" compareValue="contents">
+					<isNotEmpty property="searchText">
+						AND CONTENTS LIKE '%'||REPLACE(RTRIM(LTRIM(#searchText#)), ' ', '%')||'%'
+					</isNotEmpty>
+				</isEqual>
+			</isNotEmpty>
+			<isNotEmpty property="notice_type">
+				AND RTRIM(LTRIM(NOTICE_TYPE))= RTRIM(LTRIM(#notice_type#))
+			</isNotEmpty>
+			<isNotEmpty property="notice_from">
+				AND CONVERT(CHAR(6), notice_from, 112) = CONVERT(CHAR(6), REPLACE(#notice_from#, '-', ''))
+			</isNotEmpty>
+	</select>
+	
+	<!-- 공지사항 저장 -->
+	<insert id="insert_notice" parameterClass="noticeVO">
+		<selectKey keyProperty="notice_num" resultClass="String">
+			SELECT CREATE_PK(#notice_type#) AS NOTICE_NUM FROM DUAL
+		</selectKey>
+		INSERT INTO SDP_NOTICE_HANJIN (
+			NOTICE_NUM
+			<isNotEmpty property="notice_from">
+				,NOTICE_FROM
+			</isNotEmpty>
+			<isNotEmpty property="notice_to">
+				,NOTICE_TO
+			</isNotEmpty>
+			,NOTICE_TYPE
+			,TITLE
+			,CONTENTS
+			,UPLOADFILE
+			,LINK
+			,IMAGE
+			,INTERNET_YN
+			,DEL_YN
+			,VIEW_CNT
+			,CREATEDATE
+			,CREATEDBY
+			,RECORDDATE
+			,UPDATEDBY
+		) VALUES (
+			#notice_num#
+			<isNotEmpty property="notice_from">
+				,#notice_from#
+			</isNotEmpty>
+			<isNotEmpty property="notice_to">
+				,#notice_to#
+			</isNotEmpty>
+			,#notice_type#
+			,#title#
+			,#contents#
+			,NULL
+			,#link#
+			,#image#
+			,#internet_yn#
+			,#del_yn#
+			,#view_cnt#
+			,SYSDATE
+			,#cust_num#
+			,NULL
+			,NULL
+		)
+	</insert>
+	
+
+	<!-- 공지사항 수정 -->
+	<update id="update_notice" parameterClass="noticeVO">
+		UPDATE SDP_NOTICE_HANJIN
+		SET	 UPDATEDBY = #cust_num#
+			,RECORDDATE = SYSDATE
+			,NOTICE_FROM = #notice_from#
+			,NOTICE_TO = #notice_to#
+			,TITLE = #title#
+			,CONTENTS = #contents#
+			,LINK = #link#
+		WHERE 1=1
+			AND NOTICE_NUM = #notice_num#
+	</update>
+	
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="delete_notice" parameterClass="noticeVO">
+		DELETE SDP_NOTICE_HANJIN
+		WHERE 1=1
+			AND NOTICE_NUM = #notice_num#
+	</delete>
+	
+	
+	<!-- 조회수 증가 -->
+	<update id="update_viewCnt" parameterClass="noticeVO">
+		UPDATE SDP_NOTICE_HANJIN
+		SET VIEW_CNT = NVL(VIEW_CNT, 0) + 1
+		WHERE NOTICE_NUM = #notice_num# 
+	</update>
+</sqlMap>

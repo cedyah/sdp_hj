@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpf0030">
+	<typeAlias alias="customerVO" type="com.jebi.sdp.model.CustomerVO"/>
+	<typeAlias alias="pointVO" type="com.jebi.sdp.model.PointVO"/>
+	<typeAlias alias="subsidyVO" type="com.jebi.sdp.model.SubsidyVO"/>
+	<typeAlias alias="consignPtVO" type="com.jebi.sdp.model.ConsignmentPointVO"/>
+	<typeAlias alias="giftVO" type="com.jebi.sdp.model.GiftVO"/>
+	
+	<!-- 포인트 종합정보 조회// -->
+	<select id="select_pointInfo" parameterClass="customerVO" resultClass="customerVO">
+	SELECT  999  AS CUST_POINT,
+	        999 AS CUST_SUBSIDY,
+	        999 AS CUST_CONSIGNMENT_POINT
+	   FROM dual  
+	<!-- //포인트 종합정보 조회 
+		 SELECT
+	        (SELECT
+	               (SELECT NVL(SUM(POINT), 0)
+	                 FROM RG011T
+	                WHERE cust_cd IN (SELECT GEOLAECHEO_CODE
+	                                    FROM KSMSADM.SA0020
+	                                   WHERE G_GEOLAECHEO_CODE = #cust_num#
+	                                 )
+	               ) -
+	               (SELECT NVL(SUM(amt), 0)
+	                 FROM RG020T
+	                WHERE CUST_CD IN (SELECT GEOLAECHEO_CODE
+	                                    FROM KSMSADM.SA0020
+	                                   WHERE G_GEOLAECHEO_CODE = #cust_num#
+	                                 )
+	
+	               ) AS CUST_POINT
+	          FROM dual
+	        ) AS CUST_POINT,
+	        (SELECT NVL(SUM(NVL(DIV_AMT1,0)) + SUM(NVL(DIV_AMT3,0)) -SUM(NVL(DIV_AMT2,0)), 0)
+	          FROM SDA020V
+	         WHERE 1=1
+	               AND cust_cd = #cust_num#
+	               AND YYYYMM_2 >= TO_CHAR(SYSDATE, 'YYYY')||'01'
+	        ) AS CUST_SUBSIDY,
+	        (SELECT SUM(NVL(BALSAENG_PT,0) + NVL(CHUGA_PT,0)) -SUM(NVL(JIGEUB_PT,0)) + SUM(NVL(JOJEONG_PT,0)) W_HAB
+	          FROM KSMSADM.SA0371
+	         WHERE GEOLAECHEO_CODE = #cust_num#
+	               AND YYYY = TO_CHAR(SYSDATE, 'YYYY')
+	               AND MM   = TO_CHAR(SYSDATE, 'MM')
+	        ) AS CUST_CONSIGNMENT_POINT
+	   FROM dual  
+	   -->
+	</select>
+	<!-- //포인트 종합정보 조회 -->
+	
+	
+	<!-- 포인트목록 조회// -->
+	<parameterMap class="map" id="param_selectPointList">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_YYYY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectPointList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="pointVO" id="result_selectPointList">
+		<result property="dt" column="DT"/>
+		<result property="up" column="UP"/>
+		<result property="down" column="DOWN"/>
+		<result property="bal" column="BAL"/>
+		<result property="inst_dt" column="INST_DT"/>
+		<result property="reason" column="REASON"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectPointList" parameterMap="param_selectPointList">
+		<![CDATA[
+			{CALL PKG_ORDER_RG.Q_RG010D_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //포인트목록 조회 -->
+	
+	
+	<!-- 장려금 목록 조회// -->
+	<parameterMap class="map" id="param_selectSubsidyList">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_YYYY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSubsidyList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="subsidyVO" id="result_selectSubsidyList">
+		<result property="pay_yyyymm" column="PAY_YYYYMM"/>
+		<result property="div_amt1" column="DIV_AMT1"/>
+		<result property="div_amt2" column="DIV_AMT2"/>
+		<result property="div_amt3" column="DIV_AMT3"/>
+		<result property="w_hab" column="W_HAB"/>
+		<result property="sale_yyyymm" column="SALE_YYYYMM"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectSubsidyList" parameterMap="param_selectSubsidyList">
+		<![CDATA[
+			{CALL PKG_ORDER_RD.Q_RD030_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //장려금 목록 조회 -->
+	
+	<!-- 화물탁송 포인트 목록 조회// -->
+	<parameterMap class="map" id="param_selectConsignPtList">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_YYYY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectConsignPtList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="consignPtVO" id="result_selectConsignPtList">
+		<result property="yyyymm" column="YYYYMM"/>
+		<result property="balsaeng_pt" column="BALSAENG_PT"/>
+		<result property="jigeub_pt" column="JIGEUB_PT"/>
+		<result property="w_hab" column="W_HAB"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectConsignPtList" parameterMap="param_selectConsignPtList">
+		<![CDATA[
+			{CALL PKG_ORDER_RD.Q_RD040_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //화물탁송 포인트 목록 조회 -->
+	
+	
+	<!-- 상품권 조회// -->
+	<parameterMap class="map" id="param_selectGift">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectGift" mode="OUT"/>
+	</parameterMap>
+	<resultMap class="giftVO" id="result_selectGift">
+		<result property="dt" column="DT"/>
+		<result property="bal" column="BAL"/>
+		<result property="repay_type" column="REPAY_TYPE"/>
+		<result property="amt" column="AMT"/>
+		<result property="fix_dt" column="FIX_DT"/>
+		<result property="paym_dt" column="PAYM_DT"/>
+	</resultMap>
+	<procedure id="procedure_selectGift" parameterMap="param_selectGift">
+		<![CDATA[
+			{CALL PKG_ORDER_RG.Q_RG020D_S(
+				?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //상품권 조회 -->
+	
+	
+	<!-- 상품권 입력, 수정, 삭제// -->
+	<parameterMap class="map" id="param_insertGift">
+		<parameter property="ARG_FLAG" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REPAY_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_AMT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_insertGift" parameterMap="param_insertGift">
+		<![CDATA[
+			{CALL PKG_ORDER_RG.Q_RG020_M(
+				?, ?, ?, ?, ?,
+				?
+			)}
+		]]>
+	</procedure>
+	<!-- //상품권 입력, 수정, 삭제 -->
+	
+	
+</sqlMap>

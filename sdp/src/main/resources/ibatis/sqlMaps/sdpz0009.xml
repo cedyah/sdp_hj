@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpz0009">
+	<typeAlias alias="customerVO" type="com.jebi.sdp.model.CustomerVO"/>
+	<typeAlias alias="smsVO" type="com.jebi.sdp.model.SMSVO"/>
+	
+	<!-- 로그인// -->
+	<parameterMap class="map" id="param_login">
+		<parameter property="iCustNum" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="iPassWd" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="outParam" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_login" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="customerVO" id="result_login">
+		<result property="cust_num" column="cust_num"/>
+		<result property="cust_nm" column="cust_nm"/>
+		<result property="password" column="password"/>
+		<result property="set_item_group" column="set_item_group"/>
+		<result property="set_alarm" column="set_alarm"/>
+		<result property="workplace" column="workplace"/>
+		<result property="cust_type" column="cust_type"/>
+		<result property="auth" column="auth"/>
+		<result property="email" column="email"/>
+		<result property="hp_no" column="hp_no"/>
+	</resultMap>
+	
+	<procedure id="procedure_login" parameterMap="param_login">
+		<![CDATA[
+			{CALL HJBIZPOWER.SDP_LOGIN_PROCESS(?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //로그인 -->
+	
+	<!-- 사용자 정보 불러오기(비밀번호 초기화 확인용)// -->
+	<select id="select_userInfo" parameterClass="customerVO" resultClass="customerVO">
+		SELECT A.GEOLAECHEO_CODE AS CUST_NUM,
+			   A.TAX_EMAIL AS EMAIL,
+			   A.TAX_HP_NO AS HP_NO
+		FROM BBAT041 A
+	   WHERE 1=1	
+		 AND A.SAYONG_YN = 'Y'
+		 <isNotEmpty property="cust_num">
+		 	AND A.GEOLAECHEO_CODE = #cust_num#
+		 </isNotEmpty>
+		 <isNotEmpty property="hp_no">
+		 	AND A.TAX_HP_NO = #hp_no#
+		 </isNotEmpty>
+	</select>
+	<!-- //사용자 정보 불러오기(비밀번호 초기화 확인용) -->
+	
+	<!-- sms table 등록// -->
+	<insert id="insert_scTran" parameterClass="smsVO">
+		<selectKey keyProperty="tr_num">
+			 SELECT KSMSADM.SC_SEQUENCE.NEXTVAL AS TR_NUM 
+			   FROM DUAL
+		</selectKey>
+		INSERT INTO SC_TRAN@SMS (
+		    TR_NUM,
+		    TR_SENDDATE,
+		    TR_ID,
+		    TR_SENDSTAT,
+		    TR_RSLTSTAT,
+		    TR_MSGTYPE,
+		    TR_PHONE,
+		    TR_CALLBACK,
+		    TR_RSLTDATE,
+		    TR_MODIFIED,
+		    TR_MSG,
+		    TR_ETC1,
+		    TR_ETC2,
+		    TR_ETC3,
+		    TR_ETC4,
+		    TR_ETC5,
+		    TR_ETC6,
+		    TR_NET
+		) VALUES (
+		   #tr_num#,
+		    sysdate,
+		    #tr_id#,
+		    #tr_sendstat#,
+		    #tr_rsltstat#,
+		    #tr_msgtype#,
+		    #tr_phone#,
+		    #tr_callback#,
+		    #tr_rsltdate#,
+		    #tr_modified#,
+		    #tr_msg#,
+		    #tr_etc1#,
+		    #tr_etc2#,
+		    #tr_etc3#,
+		    #tr_etc4#,
+		    #tr_etc5#,
+		    #tr_etc6#,
+		    #tr_net#
+		)
+	</insert>
+	<!-- //sms table 등록 -->
+</sqlMap>

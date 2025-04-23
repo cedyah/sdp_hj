@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+/* reset */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,textarea,p,blockquote,th,td,input,select,textarea,button{margin:0;padding:0}
+fieldset,img{border:0 none}
+dl,ul,ol,menu,li{list-style:none}
+blockquote, q{quotes: none}
+blockquote:before, blockquote:after,q:before, q:after{content:'';content:none}
+input,select,textarea,button{vertical-align:middle}
+input::-ms-clear{display:none}
+button{border:0 none;background-color:transparent;cursor:pointer}
+body{background:#eef3f9;min-height: 100%;} /* 배경컬러 */
+body,th,td,input,select,textarea,button{font-size:13px;line-height:1.5;font-family:'나눔 고딕','Nanum Gothic',Apple SD Gothic Neo,'돋움',dotum,sans-serif;color:#333} /* color값은 디자인가이드에 맞게사용 */
+
+a{color:#333;text-decoration:none}
+a:active, a:hover{text-decoration:none}
+a:active{background-color:transparent}
+address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:normal}
+
+/* ------------------------ 공통정의 통합 ------------------------- */
+.ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis}
+table tr td.left{text-align:left !important}
+table tr td.right{text-align:right !important}
+table tr td.center{text-align:center !important}
+/* Cursor */
+.CP { cursor: pointer;}
+/* float */
+.FL { float:left;}
+.FR { float:right;}
+.L { text-align:left;}
+.R { text-align:right;}
+.C { text-align:center;}
+.clear { clear:both;}
+.hide { position: absolute; left: -9999px; top: -9999px; width: 0; height: 0; text-indent: -9999px; font-size: 0; line-height: 0; }
+/*Margin-right*/
+.mR5 { margin-right: 5px; }
+.mR10 { margin-right: 10px; }
+.mR15 { margin-right: 15px; }
+.mR20 { margin-right: 20px; }
+.mR30 { margin-right: 30px; }
+/*Margin-left*/
+.mL5 { margin-left: 5px; }
+.mL10 { margin-left: 10px; }
+.mL15 { margin-left: 15px; }
+.mL20 { margin-left: 20px; }
+.mL30 { margin-left: 30px; }
+/*Margin-top*/
+.mT5 { margin-top: 5px; }
+.mT10 { margin-top: 10px; }
+.mT15 { margin-top: 15px; }
+.mT20 { margin-top: 20px; }
+.mT30 { margin-top: 30px; }
+/*Margin-bottom*/
+.mB5 { margin-bottom: 5px; }
+.mB10 { margin-bottom: 10px; }
+.mB15 { margin-bottom: 15px; }
+.mB20 { margin-bottom: 20px; }
+.mB30 { margin-bottom: 30px; }
+/*Padding-left*/
+.pL5 { padding-left: 5px; }
+.pL10 { padding-left: 10px; }
+.pL15 { padding-left: 15px; }
+.pL20 { padding-left: 20px; }
+.pL30 { padding-left: 30px; }
+/*Padding-right*/
+.pR5 { padding-right: 5px; }
+.pR10 { padding-right: 10px; }
+.pR15 { padding-right: 15px; }
+.pR20 { padding-right: 20px; }
+.pR30 { padding-right: 30px; }
