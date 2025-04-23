@@ -54,8 +54,8 @@
 		var str_itemGroup = "";
 		
 		if(li_chkBox.length < 1) {
-			c_alert("제품 분류 검색조건은 최소 1가지 이상 선택하셔야 합니다.");
-			return;
+			//c_alert("제품 분류 검색조건은 최소 1가지 이상 선택하셔야 합니다.");
+			//return;
 		}
 		
 		$("#page_current").val("1");
@@ -306,8 +306,8 @@
 													<col style="width: 90px;" />
 													
 													<col style="width: 80px;" />
-													<col style="width: 90px;" />
-													<col style="width: 80px;" />
+													<!-- <col style="width: 90px;" /> -->
+													<!-- <col style="width: 80px;" /> -->
 													<col style="width: 80px;" />
 													<col style="width: 80px;" />
 
@@ -324,14 +324,15 @@
 														<th scope="col" rowspan="2">품명</th>
 														<th scope="col" rowspan="2">판매단위</th>
 														
-														<th scope="col" rowspan="2">구분</th>
-														<th scope="col" rowspan="2">취급제한</th>
-														<th scope="col" colspan="3" class="tbl_col_tit">재고량</th>
+														<!--  <th scope="col" rowspan="2">구분</th>-->
+														<!-- <th scope="col" rowspan="2">취급제한</th>-->
+														<!--  <th scope="col" colspan="3" class="tbl_col_tit">재고량</th>-->
+														<th scope="col" colspan="1" class="tbl_col_tit">재고량</th>
 														<th scope="col" rowspan="2">장바<br>구니</th>
 													</tr>
-													<tr>
+													<!--<tr>
 														<jsp:directive.include file="/WEB-INF/views/templates/include_itemTitle.jsp" />
-													</tr>
+													</tr>-->
 												</thead>
 											</table>
 										</div>
@@ -347,8 +348,8 @@
 													<col style="width: 90px;" />
 													
 													<col style="width: 80px;" />
-													<col style="width: 90px;" />
-													<col style="width: 80px;" />
+													<!--  <col style="width: 90px;" />-->
+													<!-- <col style="width: 80px;" />-->
 													<col style="width: 80px;" />
 													<col style="width: 80px;" />
 
@@ -380,11 +381,11 @@
 																	<td class="pro_name" id="td_description">${row.description}</td>
 																	<td class="txt_rig" id="td_qty_allocjob">${row.qty_allocjob}${row.u_m}</td>
 																	
-																	<td class="txt_center">${row.pummog_gubun}</td>
-																	<td class="pro_code txt_center">${row.item_type}</td>
+																	<!-- <td class="txt_center">${row.pummog_gubun}</td> -->
+																	<!--<td class="pro_code txt_center">${row.item_type}</td>-->
 																	<td class="txt_rig ft_grey" id="td_qtyOnHand01">0</td>
-																	<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>
-																	<td class="txt_rig ft_grey" id="td_keepOnHand">0</td>
+																	<!--<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>-->
+																	<!--<td class="txt_rig ft_grey" id="td_keepOnHand">0</td>-->
 																	
 																	<td class="txt_center">
 																		<input type="button" class="ico_basket" onclick="javascript:addBasket(this);" value="담기">
