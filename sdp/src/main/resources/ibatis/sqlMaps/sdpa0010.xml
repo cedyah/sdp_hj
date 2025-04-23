@@ -217,7 +217,7 @@
 		       SUM(JAEGO_B) AS KEEP_ON_HAND
 		  FROM SDP_JAEGO_ILBAN_HANJIN
 		  WHERE 1=1
-		  	AND ((GEOLAECHEO_CODE  > '600000'  AND GYEJEONG_GUBUN   = '4' ) OR GEOLAECHEO_CODE IN('000001', '001100', #cust_num#) OR JEPUM_CODE LIKE '_________K')
+		  	AND (GEOLAECHEO_CODE IN('000001', '001100', #cust_num#) OR JEPUM_CODE LIKE '_________K')
 		<isNotEmpty property="paramList">
 			<iterate
 				prepend="AND REPLACE(UPPER(trim(JEPUM_CODE||decode(sign(PANMAE_DANWI_A - 1), -1, replace(to_char(PANMAE_DANWI_A),'.','0.'), TO_CHAR(PANMAE_DANWI_A))||PANMAE_DANWI_B)), ' ', '') IN "
@@ -278,7 +278,7 @@
 		       SUM(B_JAEGO_7) AS B_JAEGO_7
 		  FROM JAEGO_SANGSE
 		 WHERE 1=1
-		 	AND ((GEOLAECHEO_CODE  > '600000'  AND GYEJEONG_GUBUN   = '4' ) OR GEOLAECHEO_CODE IN('000001', '001100', #cust_num#) OR JEPUM_CODE LIKE '_________K')
+		 	AND (GEOLAECHEO_CODE IN('000001', '001100', #cust_num#) OR JEPUM_CODE LIKE '_________K')
 		<isNotEmpty property="paramList">
 			<iterate
 				prepend="AND REPLACE(UPPER(trim(JEPUM_CODE||decode(sign(PANMAE_DANWI_A - 1), -1, replace(to_char(PANMAE_DANWI_A),'.','0.'), TO_CHAR(PANMAE_DANWI_A))||PANMAE_DANWI_B)), ' ', '') IN "

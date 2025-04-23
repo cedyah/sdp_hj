@@ -35,9 +35,9 @@ public class Sdpa0060Controller extends CommonUtil {
 		map.put("arg_cust_cd", productionVO.getCust_num());
 		map.put("arg_frdt", getExpDateString(productionVO.getSearchDate_from()));
 		map.put("arg_todt", getExpDateString(productionVO.getSearchDate_to()));
-		map.put("arg_item_cd", productionVO.getSearchText());
+	    //map.put("arg_item_cd", productionVO.getSearchText());
 		map.put("arg_item_nm", productionVO.getSearchText());
-		map.put("arg_jindo_gubun", "T");
+		//<!--	map.put("arg_jindo_gubun", "T"); 
 		map.put("out_param", null);
 		
 		dao.update("sdpa0060.procedure_selectProductionProgress",map);

@@ -1,43 +1,48 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
-	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+package com.jebi.sdp.controller;
+
+import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.catalina.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.jebi.sdp.common.CommonUtil;
+import com.jebi.sdp.dao.CmmnDao;
+import com.jebi.sdp.model.*;
+import com.jebi.sdp.service.*;
+
+@Controller
+public class Sdpa0060Controller extends CommonUtil {
+	private static final Logger logger = LoggerFactory.getLogger(Sdpa0060Controller.class);
+
+	@Autowired
+	private CmmnDao dao;
 	
-<sqlMap namespace="sdpa0060">
-	<typeAlias alias="productionVO" type="com.jebi.sdp.model.ProductionProgressVO"/>
-	
-	<!-- 생산 진도 조회 -->
-	<parameterMap class="map" id="param_selectProductionProgress">
-		<parameter property="arg_cust_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="arg_frdt" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="arg_todt" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<!-- <parameter property="arg_item_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>-->
-		<parameter property="arg_item_nm" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<!--<parameter property="arg_jindo_gubun" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>-->
-		<parameter property="out_param" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProductionProgress" mode="OUT"/>
-	</parameterMap>
-	
-	<resultMap class="productionVO" id="result_selectProductionProgress">
-		<result property="ilja" 			column="PROD_REQ_DT"/>
-		<result property="jeonpyo_no" 		column="PROD_REQ_NO"/>
-		<result property="sunbeon" 			column="SEQ"/>
-		<result property="jepum_code" 		column="ITEM_CD"/>
-		<result property="pummyeong" 		column="PUMMYEONG"/>
-		<result property="pojang_danwi" 	column="UNIT"/>
-		<result property="pojang_sulyang" 	column="QTY"/>
-		<result property="ibgo_sulyang" 	column="IBGO_SULYANG"/>
-		<result property="euiloiil" 		column="EUILOIIL"/>
-		<result property="wanlyo_yejeongil" column="WANLYO_YEJEONGIL"/>
-		<result property="lot_no" 			column="LOT_NO"/>
-		<result property="wanlyo_yn" 		column="PRGS_STATUS"/>
-		<result property="jindo_date" 		column="PRGS_DT"/>
-		<result property="bigo" 			column="ETC_TXT"/>
-	</resultMap>
-	
-	<procedure id="procedure_selectProductionProgress" parameterMap="param_selectProductionProgress">
-		<![CDATA[
-			{CALL PKG_ORDER_RC.Q_RC150_S(?, ?, ?, ?, ?)}
-		]]>
-	</procedure>
-	<!-- 생산 진도 조회 -->
-	
-</sqlMap>
+	@RequestMapping(value = "sdpa006001l.do")		//생산진도 조회
+	public String selectList(@ModelAttribute("productionVO")ProductionProgressVO productionVO,
+			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("arg_cust_cd", productionVO.getCust_num());
+		map.put("arg_frdt", getExpDateString(productionVO.getSearchDate_from()));
+		map.put("arg_todt", getExpDateString(productionVO.getSearchDate_to()));
+	    //map.put("arg_item_cd", productionVO.getSearchText());
+		map.put("arg_item_nm", productionVO.getSearchText());
+		//<!--	map.put("arg_jindo_gubun", "T"); 
+		map.put("out_param", null);
+		
+		dao.update("sdpa0060.procedure_selectProductionProgress",map);
+		
+		model.addAttribute("productionList", map.get("out_param"));
+		return "sdpa0060/sdpa006001l";
+	}
+}
