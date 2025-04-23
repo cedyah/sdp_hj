@@ -10,32 +10,32 @@
 		<parameter property="arg_cust_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="arg_frdt" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="arg_todt" 			jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="arg_item_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<!-- <parameter property="arg_item_cd" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>-->
 		<parameter property="arg_item_nm" 		jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="arg_jindo_gubun" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<!--<parameter property="arg_jindo_gubun" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>-->
 		<parameter property="out_param" 		jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProductionProgress" mode="OUT"/>
 	</parameterMap>
 	
 	<resultMap class="productionVO" id="result_selectProductionProgress">
-		<result property="ilja" 			column="ILJA"/>
-		<result property="jeonpyo_no" 		column="JEONPYO_NO"/>
-		<result property="sunbeon" 			column="SUNBEON"/>
-		<result property="jepum_code" 		column="JEPUM_CODE"/>
+		<result property="ilja" 			column="PROD_REQ_DT"/>
+		<result property="jeonpyo_no" 		column="PROD_REQ_NO"/>
+		<result property="sunbeon" 			column="SEQ"/>
+		<result property="jepum_code" 		column="ITEM_CD"/>
 		<result property="pummyeong" 		column="PUMMYEONG"/>
-		<result property="pojang_danwi" 	column="POJANG_DANWI"/>
-		<result property="pojang_sulyang" 	column="POJANG_SULYANG"/>
+		<result property="pojang_danwi" 	column="UNIT"/>
+		<result property="pojang_sulyang" 	column="QTY"/>
 		<result property="ibgo_sulyang" 	column="IBGO_SULYANG"/>
 		<result property="euiloiil" 		column="EUILOIIL"/>
 		<result property="wanlyo_yejeongil" column="WANLYO_YEJEONGIL"/>
 		<result property="lot_no" 			column="LOT_NO"/>
-		<result property="wanlyo_yn" 		column="WANLYO_YN"/>
-		<result property="jindo_date" 		column="JINDO_DATE"/>
-		<result property="bigo" 			column="BIGO"/>
+		<result property="wanlyo_yn" 		column="PRGS_STATUS"/>
+		<result property="jindo_date" 		column="PRGS_DT"/>
+		<result property="bigo" 			column="ETC_TXT"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectProductionProgress" parameterMap="param_selectProductionProgress">
 		<![CDATA[
-			{CALL PKG_ORDER_RC.Q_RC150_S(?, ?, ?, ?, ?, ?, ?)}
+			{CALL PKG_ORDER_RC.Q_RC150_S(?, ?, ?, ?, ?)}
 		]]>
 	</procedure>
 	<!-- 생산 진도 조회 -->
