@@ -33,5 +33,5 @@
 	<sqlMap resource="ibatis/sqlMaps/sdpf0060.xml" />
 	<sqlMap resource="ibatis/sqlMaps/sdpy0010.xml" />
 	<sqlMap resource="ibatis/sqlMaps/sdpz0003.xml" />
-	<sqlMap resource="ibatis/sqlMaps/sdpz0009.xml" />
+	<sqlMap resource="ibatis/sqlMaps/sdpz0009.xml"   />
 </sqlMapConfig>
