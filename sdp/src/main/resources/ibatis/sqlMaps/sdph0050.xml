@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdph0050">
+	<typeAlias alias="sampleRequestItemStatVO" type="com.jebi.sdp.model.SampleRequestItemStatVO"/>
+	
+	<!-- 샘플진도 제품목록 조회// -->
+	<parameterMap class="map" id="param_selectSampleRequestItemStat">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PUMMYEONG" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequestItemStat" mode="OUT"/>
+	</parameterMap>
+	<resultMap class="sampleRequestItemStatVO" id="result_selectSampleRequestItemStat">
+		<result property="prod_req_dt" column="PROD_REQ_DT"/>
+		<result property="prod_req_no" column="PROD_REQ_NO"/>
+		<result property="seq" column="SEQ"/>
+		<result property="item_cd" column="ITEM_CD"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="po_danwi" column="PO_DANWI"/>
+		<result property="qty" column="QTY"/>
+		<result property="dely_date" column="DELY_DATE"/>
+		<result property="prgs_status" column="PRGS_STATUS"/>
+		<result property="rmk_1" column="RMK_1"/>
+		<result property="rmk_2" column="RMK_2"/>
+		<result property="rmk_3" column="RMK_3"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectSampleRequestItemStat" parameterMap="param_selectSampleRequestItemStat">
+		<![CDATA[
+			{CALL PKG_ORDER_RCH.Q_RC183D_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+
+
+</sqlMap>
