@@ -13,6 +13,24 @@
 	        $('#div_title').scrollLeft($(this).scrollLeft());
 	    });
 	});
+	
+	//상세정보 화면으로 이동
+	function detailForm(obj) {
+		//var product_type = $(obj).find("#hid_product_type").val();
+		var ilja = $(obj).find("#hid_ilja").val();
+		var jeonpyo_no = $(obj).find("#hid_jeonpyo_no").val();
+
+		//if(product_type == '제조') {				//일반 제조의뢰 상세
+			$("#jeonpyo_no").val(jeonpyo_no);
+			$("#ilja").val(ilja);
+			c_submit("frm", "sdph005001d.do");
+			
+		//} else if(product_type == '신규') {		//신규 제조의뢰 상세
+		//	$("#jeonpyo_no").val(jeonpyo_no);
+		//	$("#ilja").val(ilja);
+		//	c_submit("frm", "sdpa004001d.do");
+		//}
+	}
 </script>
 <title>한진화학 주문관리 시스템</title>
 </head>
@@ -53,7 +71,12 @@
 									샘플진도  : ${fn:length(sampleRequestItemStat)}건
 								</div>
 								<!-- left_num_count -->
-	
+	                    <div class="search_btn_wrap">
+							<p class="result_num">샘플요청 : ${fn:length(sampleRequestItemStat)}건</p>
+							<div class="search_btn_area">
+								<input class="btn_sample" id="" type="button" value="샘플출고 요청" onclick="c_submit('frm','sdph005101u.insert.do');">
+							</div>
+						</div>
 								<!-- board_list_wrap (게시물 리스트) -->
 								<div class="searchlist_wrap_tit" id="div_title" style="overflow: hidden; width: 100%;">
 									<div style="width:1920px;">

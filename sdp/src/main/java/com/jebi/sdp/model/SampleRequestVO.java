@@ -50,6 +50,8 @@ public class SampleRequestVO extends CustomerVO {
     String gyeolgwa_gihan     ;
     String balsin_buseo       ;
     String balsinja           ;
+    String saeobjang_nm       ;
+    
 	public String getSaeobjang() {
 		return saeobjang == null ? "" : saeobjang;
 	}
@@ -313,6 +315,12 @@ public class SampleRequestVO extends CustomerVO {
 	}
 	public void setBalsinja(String balsinja) {
 		this.balsinja = balsinja == null ? "" : balsinja;
+	}
+	public String getSaeobjang_nm() {
+		return saeobjang_nm;
+	}
+	public void setSaeobjang_nm(String saeobjang_nm) {
+		this.saeobjang_nm = saeobjang_nm;
 	}
 
  

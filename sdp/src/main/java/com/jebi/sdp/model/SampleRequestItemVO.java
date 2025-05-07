@@ -39,8 +39,13 @@ public class SampleRequestItemVO extends ItemVO{
     String model_4        ;
     String model_5        ;
     String model_6        ;
+    String sunbeon_1      ;
+    String stat_nm        ;
+    String  balhaengil    ;
+    String  balhaeng_buseo;
+    String  balhaengja    ;
     
-	public String getSaeobjang() {
+    public String getSaeobjang() {
 		return saeobjang == null ? "" : saeobjang;
 	}
 	public void setSaeobjang(String saeobjang) {
@@ -231,6 +236,36 @@ public class SampleRequestItemVO extends ItemVO{
 	}
 	public void setModel_6(String model_6) {
 		this.model_6 = model_6 == null ? "" : model_6;
+	}
+	public String getSunbeon_1() {
+		return sunbeon_1;
+	}
+	public void setSunbeon_1(String sunbeon_1) {
+		this.sunbeon_1 = sunbeon_1;
+	}
+	public String getStat_nm() {
+		return stat_nm;
+	}
+	public void setStat_nm(String stat_nm) {
+		this.stat_nm = stat_nm;
+	}
+	public String getBalhaengil() {
+		return balhaengil;
+	}
+	public void setBalhaengil(String balhaengil) {
+		this.balhaengil = balhaengil;
+	}
+	public String getBalhaeng_buseo() {
+		return balhaeng_buseo;
+	}
+	public void setBalhaeng_buseo(String balhaeng_buseo) {
+		this.balhaeng_buseo = balhaeng_buseo;
+	}
+	public String getBalhaengja() {
+		return balhaengja;
+	}
+	public void setBalhaengja(String balhaengja) {
+		this.balhaengja = balhaengja;
 	}
 
 }
