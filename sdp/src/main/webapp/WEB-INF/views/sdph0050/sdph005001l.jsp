@@ -20,16 +20,14 @@
 		var ilja = $(obj).find("#hid_ilja").val();
 		var jeonpyo_no = $(obj).find("#hid_jeonpyo_no").val();
 
-		//if(product_type == '제조') {				//일반 제조의뢰 상세
+		alert(ilja);
+		alert(jeonpyo_no);
+		
+		
 			$("#jeonpyo_no").val(jeonpyo_no);
 			$("#ilja").val(ilja);
 			c_submit("frm", "sdph005001d.do");
-			
-		//} else if(product_type == '신규') {		//신규 제조의뢰 상세
-		//	$("#jeonpyo_no").val(jeonpyo_no);
-		//	$("#ilja").val(ilja);
-		//	c_submit("frm", "sdpa004001d.do");
-		//}
+			 
 	}
 </script>
 <title>한진화학 주문관리 시스템</title>
@@ -149,7 +147,13 @@
 													<c:when test="${fn:length(sampleRequestItemStat) > 0 }">
 														<c:set var="preCoNum" value="" />
 														<c:forEach items="${sampleRequestItemStat}" var="row" varStatus="status">
-															<tr <c:if test="${row.gubun == '2'}" >style="background:#f5f5f5;"</c:if>>
+															<tr onclick="javascript:detailForm(this); return false;" style="cursor: pointer;" >
+															    <td class="txt_center">
+															        <!-- <input type="hidden" id="hid_saeobjang" name="hid_saeobjang" value="${row.saeobjang}"/> -->
+														            <input type="hidden" id="hid_ilja" name="hid_ilja" value="${row.prod_req_dt}"/>
+												                 	<input type="hidden" id="hid_jeonpyo_no" name="hid_jeonpyo_no" value="${row.prod_req_no}"/>
+                 												</td>
+															
 																<td class="txt_center">${status.count}</td>
 																<td class="txt_center">${row.prod_req_dt}</td>
 																<td class="txt_center">${row.prod_req_no}</td>

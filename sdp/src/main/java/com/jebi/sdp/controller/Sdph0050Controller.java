@@ -49,8 +49,41 @@ public class Sdph0050Controller extends CommonUtil {
 		 
 	}
 
+
+	@RequestMapping(value = "sdph005001d.do")		//샘플의뢰 상세 조회
+	public String sdph005001d(@ModelAttribute("sampleRequestVO")SampleRequestVO sampleRequestVO,
+			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
+		HashMap<String, Object> map;
+		
+		//샘플의뢰 헤더 불러오기
+		map = new HashMap<String, Object>();
+		//map.put("ARG_BIZ_AREA_CD", sampleRequestVO.getWorkplace());
+		map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
+		map.put("ARG_REQ_DT", getExpDateString(sampleRequestVO.getIlja()));
+		map.put("ARG_REQ_NO", sampleRequestVO.getJeonpyo_no());
+		map.put("OUT_PARAM", null);
+		dao.select("sdph0050.procedure_selectSampleRequest", map);
+		SampleRequestVO sampleRequest = ((List<SampleRequestVO>) map.get("OUT_PARAM")).get(0);
+		model.addAttribute("sampleRequest", sampleRequest);
+		
+		
+		//샘플의뢰 서브 불러오기
+		map = new HashMap<String, Object>();
+		//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
+		map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
+		map.put("ARG_REQ_DT", getExpDateString(sampleRequestVO.getIlja()));
+		map.put("ARG_REQ_NO", sampleRequestVO.getJeonpyo_no());
+		map.put("OUT_PARAM", null);
+		dao.select("sdph0050.procedure_selectSampleRequestItem", map);
+		List<SampleRequestItemVO> sampleRequestItemList = (List<SampleRequestItemVO>) map.get("OUT_PARAM");
+		model.addAttribute("sampleRequestItemList", sampleRequestItemList);
+		
+		return "sdph0050/sdph005001d";
+	}
 	
-	@RequestMapping(value = "sdph005101u.{flag}.do")		//제조의뢰 작성 & 수정 화면 호출
+	
+	
+	@RequestMapping(value = "sdph005101u.{flag}.do")		//샐플의뢰 작성 & 수정 화면 호출
 	public String sdph005101u(@ModelAttribute("sampleRequestVO") SampleRequestVO sampleRequestVO, @PathVariable("flag")String flag,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		HashMap<String, Object> map;

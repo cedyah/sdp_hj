@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:directive.include file="/WEB-INF/views/common/taglib.jsp" />
 
-<!-- 신규제조의뢰서 등록&수정  -->
+<!-- 샘플요청 등록&수정  -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +83,7 @@
 		$("#"+target_tr).find("#div_smplReqContents").show();
 	}
 	
-	//신규제조의뢰 작성(db insert)
+	//샘플요청 작성(db insert)
 	function confirmSmplRequest() {
 		//데이터 검증
 		if(!doFormValidate(document.frm)){
@@ -151,7 +151,7 @@
 		}
 	}
 	
-	//신규제조의뢰 수정(db update)
+	//샘플의뢰등록 수정(db update)
 // 	function updateSmplRequest() {
 // 		//데이터 검증
 // 		if(!doFormValidate(document.frm)){
@@ -190,12 +190,12 @@
 
 <body>
 <form id="frm" name="frm">
-<input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="${nprVO.jeonpyo_no}" />
-<input type="hidden" id="ilja" name="ilja" value="${nprVO.ilja}" />
+<input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="${sampleRequestVO.jeonpyo_no}" />
+<input type="hidden" id="ilja" name="ilja" value="${sampleRequestVO.ilja}" />
 
-<input type="hidden" id="searchDiv" name="searchDiv" value="${nprVO.searchDiv}" />
-<input type="hidden" id="searchDate_from" name="searchDate_from" value="${nprVO.searchDate_from}" />
-<input type="hidden" id="searchDate_to" name="searchDate_to" value="${nprVO.searchDate_to}" />
+<input type="hidden" id="searchDiv" name="searchDiv" value="${sampleRequestVO.searchDiv}" />
+<input type="hidden" id="searchDate_from" name="searchDate_from" value="${sampleRequestVO.searchDate_from}" />
+<input type="hidden" id="searchDate_to" name="searchDate_to" value="${sampleRequestVO.searchDate_to}" />
 
 	<div class="wrap">
 		<jsp:directive.include file="/WEB-INF/views/templates/header.jsp" />			
@@ -203,12 +203,12 @@
 				<div class="sub_wrap">
 					<div class="sub_contents">					
 						<div class="local_nav_wrap">
-					 		<h3 class="sub_tit">신규제조의뢰서</h3>		       				
+					 		<h3 class="sub_tit">샘플 의뢰 등록</h3>		       				
 			       				<div class="local_nav">
 			                         <ul>
 				                           <li class="home">홈</li>
 				                           <li>주문관리</li>
-				                           <li>신규제조의뢰서</li>
+				                           <li>샘플 의뢰 등록</li>
 			                         </ul>
 			                   </div>
 			                   <!--local_nav-->		                   
@@ -217,8 +217,8 @@
 	         			<div class="sub_cont">		            
 			
 							<div class="orderlist_wrap_tit">
-								<table class="table_common" summary="신규제조의뢰서">
-									<caption>신규제조의뢰서</caption>
+								<table class="table_common" summary="샘플의뢰서등록">
+									<caption>샘플의뢰서등록</caption>
 									<colgroup>
 										<col style="width: 480px;" />
 										<col style="width: 120px;" />
@@ -259,40 +259,40 @@
 									<tbody id="tbody_list">
 										<tr id="tr_1">													
 											<td class="pro_name" colspan="1">
-												<input type="text" style="width:100%" id="pummyeong" name="pummyeong" value="${nprodReqSub.pummyeong}" 
+												<input type="text" style="width:100%" id="pummyeong" name="pummyeong" value="${sampleRequestItem.pummyeong}" 
 													maxlength="30" title="제품명" req/>
 											</td>	
 											<td class="txt_center" colspan="1">
-												<input type="text" class="entry_f" id="pojang_danwi_a" name="pojang_danwi_a"
-													value="${nprodReqSub.pojang_danwi_a != null ? nprodReqSub.pojang_danwi_a:0}" title="판매단위(수량)" req/>
-												<select class="select" title="판매단위" id="pojang_danwi_b" name="pojang_danwi_b">
-													<option value="LT" <c:if test="${'LT' == nprodReqSub.pojang_danwi_b}"> selected</c:if>>LT</option>
-													<option value="KG" <c:if test="${'KG' == nprodReqSub.pojang_danwi_b}"> selected</c:if>>KG</option>
-													<option value="EA" <c:if test="${'EA' == nprodReqSub.pojang_danwi_b}"> selected</c:if>>EA</option>
+												<input type="text" class="entry_f" id="po_danwi_a" name="po_danwi_a"
+													value="${sampleRequestItem.po_danwi_a != null ? sampleRequestItem.po_danwi_a:0}" title="판매단위(수량)" req/>
+												<select class="select" title="포장단위" id="po_danwi_b" name="pojang_danwi_b">
+													<option value="LT" <c:if test="${'LT' == sampleRequestItem.po_danwi_b}"> selected</c:if>>LT</option>
+													<option value="KG" <c:if test="${'KG' == sampleRequestItem.po_danwi_b}"> selected</c:if>>KG</option>
+													<option value="EA" <c:if test="${'EA' == sampleRequestItem.po_danwi_b}"> selected</c:if>>EA</option>
 												</select>
 											</td>																															
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="pojang_sulyang" name="pojang_sulyang" title="주문수량" 
-													value="${nprodReqSub.pojang_sulyang != null ? nprodReqSub.pojang_sulyang : 0}" title="주문수량" req/>
+												<input type="text" class="entry" id="po_su" name="po_su" title="주문수량" 
+													value="${sampleRequestItem.po_su != null ? sampleRequestItem.po_su : 0}" title="주문수량" req/>
 											</td>									
-											<td class="txt_center" id="td_smplReq" colspan="">
-												<div id="div_smplReqContents" name="" style="<c:out value="${fn:length(nprodReqSub.gyeon_jeonpyo_no) > 0 ? '' : 'display:none;'}"/>">
+											<td class="txt_center" id="td_sampleRequest" colspan="">
+												<div id="div_sampleRequestContents" name="" style="<c:out value="${fn:length(sampleRequestItem.gyeon_jeonpyo_no) > 0 ? '' : 'display:none;'}"/>">
 													<!-- 저장용 hidden값 -->
-													<input type="hidden" id="gyeon_ilja" name="gyeon_ilja" value="${nprodReqSub.gyeon_ilja}"/>
-													<input type="hidden" id="gyeon_jeonpyo_no" name="gyeon_jeonpyo_no" value="${nprodReqSub.gyeon_jeonpyo_no}"/>
-													<input type="hidden" id="gyeon_saeobjang" name="gyeon_saeobjang" value="${nprodReqSub.gyeon_saeobjang}"/>
+													<input type="hidden" id="gyeon_ilja" name="gyeon_ilja" value="${sampleRequestItem.gyeon_ilja}"/>
+													<input type="hidden" id="gyeon_jeonpyo_no" name="gyeon_jeonpyo_no" value="${sampleRequestItem.gyeon_jeonpyo_no}"/>
+													<input type="hidden" id="gyeon_saeobjang" name="gyeon_saeobjang" value="${sampleRequestItem.gyeon_saeobjang}"/>
 													
 													<!-- 화면표시용 input -->
 													<input type="text" class="readonly" id="ipt_gyeon_ilja" name="ipt_gyeon_ilja" style="width: 100px;"
-														value="${nprodReqSub.gyeon_ilja}" maxlength="10" readonly/>
+														value="${sampleRequestItem.gyeon_ilja}" maxlength="10" readonly/>
 													<input type="text" class="readonly" id="ipt_gyeon_jeonpyo_no" name="ipt_gyeon_jeonpyo_no" style="width: 100px;"
-														value="${nprodReqSub.gyeon_jeonpyo_no}" maxlength="5" readonly/>
+														value="${sampleRequestItem.gyeon_jeonpyo_no}" maxlength="5" readonly/>
 													<input type="text" class="readonly" id="ipt_gyeon_saeobjang" name="ipt_gyeon_saeobjang" style="width: 50px;"
-														value="${nprodReqSub.gyeon_saeobjang_nm}" maxlength="4" readonly/>
+														value="${sampleRequestItem.gyeon_saeobjang_nm}" maxlength="4" readonly/>
 													<input class="order_addlist" id="" type="button" value="취소" onclick="cancelGyeon_info(this);">
 												</div>
 												
-												<div id="div_smplReqButton" name="" style="<c:out value="${fn:length(nprodReqSub.gyeon_jeonpyo_no) > 0 ? 'display:none;' : ''}"/>">
+												<div id="div_sampleRequestButton" name="" style="<c:out value="${fn:length(sampleRequestItem.gyeon_jeonpyo_no) > 0 ? 'display:none;' : ''}"/>">
 													<input class="order_addlist" id="" type="button" value="견본요청 불러오기" onclick="changeDiv(this);">
 												</div>
 											</td>
@@ -305,8 +305,8 @@
 							<div class="order_subtit">주문자 정보</div>
 												
 							<div class="tbl_wrap">				
-								<table class="tbl_input" summary="신규제조의뢰서 등록 입력폼">
-									<caption>신규제조의뢰서 등록</caption>
+								<table class="tbl_input" summary="샘플의뢰 등록 입력폼">
+									<caption>샘플의뢰서 등록</caption>
 									<colgroup>
 										<col style="width:15%" />
 										<col style="width:45%" />
@@ -321,24 +321,24 @@
 													<c:if test="${fn:length(code10) > 0}">
 														<c:forEach items="${code10}" var="row" varStatus="status">
 															<option value="${row.code}"
-																<c:if test="${fn:trim(nprodReqHeader.baedal_gubun) == row.code}"> selected</c:if> >${row.name}</option>
+																<c:if test="${fn:trim(sampleRequest.baedal_gubun) == row.code}"> selected</c:if> >${row.name}</option>
 														</c:forEach>
-														<option value="B" <c:if test="${fn:trim(nprodReqHeader.baedal_gubun) == 'B'}"> selected</c:if>>요청후출고 (11말 또는 44G/A 이상)</option>
+														<option value="B" <c:if test="${fn:trim(sampleRequest.baedal_gubun) == 'B'}"> selected</c:if>>요청후출고 (11말 또는 44G/A 이상)</option>
 													</c:if>
 												</select>
 											</td>
 											<th scope="row">생산완료 요청일</th>
 											<td class="last">
-												<input type="text" class="ico_cal datepicker_aftToday" id="euiloiil" name="euiloiil" value="${nprodReqHeader.euiloiil}"
+												<input type="text" class="ico_cal datepicker_aftToday" id="euiloiil" name="euiloiil" value="${sampleRequest.euiloiil}"
 													readonly title="배달요청일" req/>
 											</td>
 										</tr>
 										<tr>
 											<th scope="row">인수자</th>
-											<td class="last"><input type="text" id="insuja" name="insuja" value="${nprodReqHeader.insuja}" maxlength="10" /></td>
+											<td class="last"><input type="text" id="insuja" name="insuja" value="${sampleRequest.insuja}" maxlength="10" /></td>
 											<th scope="row">전화번호</th>
 											<td class="last">
-												<input type="text" class="phone" id="tel_no" name="tel_no" placeholder="예시 : 01012345678" value="${nprodReqHeader.tel_no}" title="전화번호"/>							
+												<input type="text" class="phone" id="tel_no" name="tel_no" placeholder="예시 : 01012345678" value="${sampleRequest.tel_no}" title="전화번호"/>							
 											</td>
 										</tr>
 										<tr>
@@ -367,11 +367,11 @@
 							<div class="btn_center_wrap">
 								<c:choose>
 									<c:when test="${flag == 'insert'}">
-										<input type="button" class="btn_big_order" value="등록하기" id="" name="" onclick="confirmSmplRequest();"/>
+										<input type="button" class="btn_big_order" value="등록하기" id="" name="" onclick="confirmSampleRequest();"/>
 										<input type="button" class="btn_big_cancel" value="취소하기" id="" name="" onclick="c_submit('frm', 'sdph005001l.do');" />
 									</c:when>
 									<c:otherwise>
-										<input type="button" class="btn_big_order" value="수정하기" id="" name="" onclick="confirmSmplRequest();"/>
+										<input type="button" class="btn_big_order" value="수정하기" id="" name="" onclick="confirmSampleRequest();"/>
 										<input type="button" class="btn_big_cancel" value="취소하기" onclick="c_submit('frm', 'sdph005001d.do');" />
 									</c:otherwise>
 								</c:choose>

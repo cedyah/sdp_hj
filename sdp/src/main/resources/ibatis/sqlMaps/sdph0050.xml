@@ -4,6 +4,8 @@
 	
 <sqlMap namespace="sdph0050">
 	<typeAlias alias="sampleRequestItemStatVO" type="com.jebi.sdp.model.SampleRequestItemStatVO"/>
+	<typeAlias alias="sampleRequestVO" type="com.jebi.sdp.model.SampleRequestVO"/>
+	<typeAlias alias="sampleRequestItemVO" type="com.jebi.sdp.model.SampleRequestItemVO"/>
 	
 	<!-- 샘플진도 제품목록 조회// -->
 	<parameterMap class="map" id="param_selectSampleRequestItemStat">
@@ -36,5 +38,242 @@
 		]]>
 	</procedure>
 
+<!-- 	샘플의뢰뢰를(테이블이 서로 다름)// -->
+	<parameterMap class="map" id="param_selectSampleRequestList">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SEARCH_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequestList" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="SampleRequestVO" id="result_selectSampleRequestList">
+		<result property="gubun" column="GUBUN"/> 
+		<result property="ilja" column="ILJA"/>
+		<result property="jeonpyo_no" column="JEONPYO_NO"/>
+		<result property="nabpum_ilja" column="NABPUM_ILJA"/>
+		<result property="saeobjang" column="SAEOBJANG"/> 
+	</resultMap>
+	
+	<procedure id="procedure_selectSampleRequestList" parameterMap="param_selectSampleRequestList">
+		<![CDATA[
+			{CALL PKG_ORDER_RCG.Q_RC181M_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 	//샘플출고 리스트) -->
+	
+	
+	<!-- 	샘플출고 헤더 조회// -->
+	<parameterMap class="map" id="param_selectSampleRequest">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequest" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="sampleRequestVO" id="result_selectSampleRequest">
+        <result property="saeobjang_nm"         column="SAEOBJANG_NM"/>
+        <result property="saeobjang"            column="SAEOBJANG"/>
+        <result property="ilja"                 column="ILJA"/>
+        <result property="jeonpyo_no"           column="JEONPYO_NO"/>
+        <result property="pummog_bunryu"        column="PUMMOG_BUNRYU"/>
+        <result property="hp_bunryu"            column="HP_BUNRYU"/>
+        <result property="geolaecheo_code"      column="GEOLAECHEO_CODE"/>
+        <result property="sangho"               column="SANGHO"/>
+        <result property="geolaecheo_code_2"    column="GEOLAECHEO_CODE_2"/>
+        <result property="sangho_2"             column="SANGHO_2"/>
+        <result property="gogaeg_myeong"        column="GOGAEG_MYEONG"/>
+        <result property="balsinja"             column="BALSINJA"/>
+        <result property="susin_buseo"          column="SUSIN_BUSEO"/>
+        <result property="susinja"              column="SUSINJA"/>
+        <result property="ibhoija"              column="IBHOIJA"/>
+        <result property="nabpum_ilja"          column="NABPUM_ILJA"/>
+        <result property="yesang_geumaeg"       column="YESANG_GEUMAEG"/>
+        <result property="sayong_geumaeg"       column="SAYONG_GEUMAEG"/>
+        <result property="himang_gagyeog"       column="HIMANG_GAGYEOG"/>
+        <result property="ex_geolaecheo"        column="EX_GEOLAECHEO"/>
+        <result property="ex_gyeonbon_yn"       column="EX_GYEONBON_YN"/>
+        <result property="dojang_bangbeob"      column="DOJANG_BANGBEOB"/>
+        <result property="dojang_gongjeong"     column="DOJANG_GONGJEONG"/>
+        <result property="geonjo_bangbeob"      column="GEONJO_BANGBEOB"/>
+        <result property="doryo_type"           column="DORYO_TYPE"/>
+        <result property="sojae_jonglyu"        column="SOJAE_JONGLYU"/>
+        <result property="gita_yogu6"           column="GITA_YOGU6"/>
+        <result property="gita_yogu3"           column="GITA_YOGU3"/>
+        <result property="bigo_1"               column="BIGO_1"/>
+        <result property="bigo_2"               column="BIGO_2"/>
+        <result property="bigo_3"               column="BIGO_3"/>
+        <result property="gyeolgwa_gihan"       column="GYEOLGWA_GIHAN"/>
+    
+	</resultMap>
+	
+	<procedure id="procedure_selectSampleRequest" parameterMap="param_selectSampleRequest">
+		<![CDATA[
+			{CALL PKG_ORDER_RCH.Q_RC181F_S(
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- 	//샘플출고 헤더 조회 -->
+	
+	<!-- 	샘플출고 서브 조회// -->
+	<parameterMap class="map" id="param_selectSampleRequestItem">
+		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequestItem" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="sampleRequestItemVO" id="result_selectSampleRequestItem">
+		<result property="sunbeon"         column="SUNBEON"/>
+        <result property="gyeonbon_gubun"  column="GYEONBON_GUBUN"/>
+        <result property="pummog_code"     column="PUMMOG_CODE"/>
+        <result property="pummyeong"       column="PUMMYEONG"/>
+        <result property="po_danwi_a"      column="PO_DANWI_A"/>
+        <result property="po_danwi_b"      column="PO_DANWI_B"/>
+        <result property="po_su"           column="PO_SU"/>
+        <result property="price_yn"        column="PRICE_YN"/>
+        <result property="dopyeon_yn"      column="DOPYEON_YN"/>
+        <result property="stat_nm"         column="STAT_NM"/>
+        <result property="model_1"         column="MODEL_1"/>
+        <result property="model_2"         column="MODEL_2"/>
+        <result property="model_3"         column="MODEL_3"/>
+        <result property="model_4"         column="MODEL_4"/>
+        <result property="model_5"         column="MODEL_5"/>
+        <result property="model_6"         column="MODEL_6"/>
+        <result property="sunbeon_1"       column="SUNBEON_1"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectSampleRequestItem" parameterMap="param_selectSampleRequestItem">
+		{CALL PKG_ORDER_RCH.Q_RC181D_S(
+				?, ?, ?, ?, ?
+		)}
+	</procedure>
+	<!-- 	//샘플출고 서브 조회 -->
+	
+	<!-- 샘플출고 전표번호 생성// -->
+	<parameterMap class="map" id="param_selectJeonpyoNo">
+		<parameter property="ARG_BIZ_AREA_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SLIP_TYPE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectJeonpyoNo" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="sampleRequestVO" id="result_selectJeonpyoNo">
+		<result property="jeonpyo_no" column="V_SLIP_NO"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
+		<![CDATA[
+			{CALL PKG_ORDER_POPUP.Q_SLIP_NO(?, ?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //샘플출고 전표번호 생성 -->
+	
+	
+	<!-- 샘플출고  헤더 생성, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateSampleRequest">
+		<parameter property="ARG_FLAG"                       jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SAEOBJANG"                  jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_ILJA"                       jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_JEONPYO_NO"                 jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SIL_GEOLAECHEO"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GYEONBON_GUBUN"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PUMMOG_BUNRYU"              jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_HP_BUNRYU"                  jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GEOLAECHEO_CODE1"           jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SANGHO1"                    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 
+        <parameter property="ARG_GEOLAECHEO_CODE2"           jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SANGHO2"                    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GOGAEG_MYEONG"              jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BALSINJA"                   jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SUSIN_BUSEO"                jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SUSINJA"                    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_IBHOIJA"                    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_NABPUM_ILJA"                jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_YESANG_GEUMAEG"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SAYONG_GEUMAEG"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+
+        <parameter property="ARG_HIMANG_GAGYEOG"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_EX_GEOLAECHEO"              jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_EX_GYEONBON_YN"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_DOJANG_BANGBEOB"            jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_DOJANG_GONGJEONG"           jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GEONJO_BANGBEOB"            jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_DORYO_TYPE"                 jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SOJAE_JONGLYU"              jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GITA_YOGU6"                 jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GITA_YOGU3"                 jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        
+        <parameter property="ARG_BIGO1"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BIGO2"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BIGO3"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>  
+        <parameter property="ARG_GYEOLGWA_GIHAN"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>				
+        <parameter property="OUT_PARAM"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="OUT"/>
+	</parameterMap>
+	
+	<procedure id="procedure_updateSampleRequest" parameterMap="param_updateSampleRequest">
+		<![CDATA[
+			{CALL PKG_ORDER_RCH.Q_RC181_MM(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?				
+			)}
+		]]>
+	</procedure>
+	<!-- //샘플출고 헤더 생성, 수정, 삭제-->
+	
+	<!-- 샘플출고 서브 생성, 수정, 삭제// -->
+	<parameterMap class="map" id="param_updateSampleRequestItem">
+        <parameter property="ARG_FLAG"              jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BIZ_AREA_CD"       jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_ORD_DT"            jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_ORD_NO"            jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SEQ"               jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SEQ_1"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SIL_GEOLAECHEO"    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GYEONBON_GUBUN"    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PUMMOG_BUNRYU"     jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GEOLAECHEO_CODE1"  jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+ 
+        <parameter property="ARG_SANGHO1"           jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_GEOLAECHEO_CODE2"  jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_SANGHO2"           jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PUMMOG_CODE"       jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PUMMYEONG"         jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PO_DANWI_A"        jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PO_DANWI_B"        jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PO_SU"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_PRICE_YN"          jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_DOPYEON_YN"        jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+ 
+        <parameter property="ARG_MODEL_CODE"        jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BALHAENGIL"        jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BALHAENG_BUSEO"    jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="ARG_BALHAENGJA"        jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+        <parameter property="OUT_PARAM"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="OUT"/>
+ 	</parameterMap>
+	
+	<procedure id="procedure_updateSampleRequestItem" parameterMap="param_updateSampleRequestItem">
+		<![CDATA[
+			{CALL PKG_ORDER_RCG.Q_RC181_MD(
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?,
+				?, ?, ?, ?, ?
+			)}
+		]]>
+	</procedure>
+	<!-- //샘플출고 서브 생성, 수정, 삭제-->
+	 
 </sqlMap>

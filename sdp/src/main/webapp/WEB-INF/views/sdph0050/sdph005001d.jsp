@@ -42,12 +42,12 @@
 
 <body>
 <form id="frm" name="frm">
-<input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="${nprVO.jeonpyo_no}" />
-<input type="hidden" id="ilja" name="ilja" value="${nprVO.ilja}" />
+<input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="${sampleRequestVO.jeonpyo_no}" />
+<input type="hidden" id="ilja" name="ilja" value="${sampleRequestVO.ilja}" />
 
-<input type="hidden" id="searchDiv" name="searchDiv" value="${nprVO.searchDiv}" />
+<!-- <input type="hidden" id="searchDiv" name="searchDiv" value="${nprVO.searchDiv}" />
 <input type="hidden" id="searchDate_from" name="searchDate_from" value="${nprVO.searchDate_from}" />
-<input type="hidden" id="searchDate_to" name="searchDate_to" value="${nprVO.searchDate_to}" />
+<input type="hidden" id="searchDate_to" name="searchDate_to" value="${nprVO.searchDate_to}" /> -->
 
 	<div class="wrap">
 		<jsp:directive.include file="/WEB-INF/views/templates/header.jsp" />			
@@ -55,12 +55,12 @@
 				<div class="sub_wrap">
 					<div class="sub_contents">					
 						<div class="local_nav_wrap">
-					 		<h3 class="sub_tit">샘플의뢰서</h3>
+					 		<h3 class="sub_tit">샘플의뢰서등록</h3>
 			       				<div class="local_nav">
 			                         <ul>
 				                           <li class="home">홈</li>
 				                           <li>주문관리</li>
-				                           <li>샘플의뢰서</li>
+				                           <li>샘플의뢰서등록</li>
 			                         </ul>
 			                   </div>
 			                   <!--local_nav-->		                   
@@ -75,8 +75,8 @@
 							</div>
 							
 							<div class="orderlist_wrap_tit">
-								<table class="table_common" summary="샘플의뢰서">
-									<caption>샘플의뢰서</caption>
+								<table class="table_common" summary="샘플의뢰서등록">
+									<caption>샘플의뢰서등록</caption>
 									<colgroup>
 										<col style="width: 450px;" />
 										<col style="width: 100px;" />
@@ -87,12 +87,21 @@
 									</colgroup>
 									<thead>
 										<tr>
-											<th scope="col">품명</th>																
-											<th scope="col">판매단위</th>		
-											<th scope="col">주문수량</th>
-											<th scope="col">견본일자</th>
-											<th scope="col">견본번호</th>
-											<th scope="col">견본사업장</th>
+											<th scope="col">순번</th>																
+											<th scope="col">견본구분</th>		
+											<th scope="col">품목코드</th>
+											<th scope="col">품명</th>
+											<th scope="col">포장단위</th>
+											<th scope="col">포장수량</th>
+											<th scope="col">유무상</th>
+											<th scope="col">도편</th>
+											<th scope="col">진도상황</th>
+											<th scope="col">적용모델1</th>
+											<th scope="col">적용모델2</th>
+											<th scope="col">적용모델3</th>
+											<th scope="col">적용모델4</th>
+											<th scope="col">적용모델5</th>
+											<th scope="col">적용모델6</th>
 										</tr>
 									</thead>
 								</table>
@@ -102,27 +111,45 @@
 								<table class="table_common" summary="주문 리스트">
 									<caption>주문 리스트</caption>
 									<colgroup>
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 100px;" />
 										<col style="width: 450px;" />
 										<col style="width: 100px;" />
-										<col style="width: 100px;" />
-										<col style="width: 120px;" />
-										<col style="width: 100px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
 										<col style="" />
 									</colgroup>
 									<tbody>
 										<tr>													
-											<td class="pro_name">${nprodReqSub.pummyeong}</td>	
-											<td class="txt_rig blue_B">${nprodReqSub.pojang_danwi_a} ${nprodReqSub.pojang_danwi_b}</td>									
-											<td class="txt_rig blue_B">${nprodReqSub.pojang_sulyang}</td>																															
-											<td class="txt_center">${nprodReqSub.gyeon_ilja}</td>
-											<td class="txt_center">${nprodReqSub.gyeon_jeonpyo_no}</td>
-											<td class="txt_center">${nprodReqSub.gyeon_saeobjang_nm}</td>
+											<td class="txt_center">${sampleRequestItem.sunbeon}</td>
+											<td class="txt_center">${sampleRequestItem.gyeonbon_gubun}</td>
+											<td class="txt_center">${sampleRequestItem.pummoog_code}</td>
+											<td class="pro_name">${sampleRequestItem.pummyeong}</td>	
+											<td class="txt_rig blue_B">${sampleRequestItem.po_danwi_a} ${sampleRequestItem.po_danwi_b}</td>									
+											<td class="txt_rig blue_B">${sampleRequestItem.po_su}</td>
+											<td class="txt_center">${sampleRequestItem.price_yn}</td>
+											<td class="txt_center">${sampleRequestItem.dopyen_yn}</td>
+											<td class="txt_center">${sampleRequestItem.stat_nm}</td>	
+											<td class="txt_center">${sampleRequestItem.model_1}</td>	
+											<td class="txt_center">${sampleRequestItem.model_2}</td>	
+											<td class="txt_center">${sampleRequestItem.model_3}</td>	
+											<td class="txt_center">${sampleRequestItem.model_4}</td>	
+											<td class="txt_center">${sampleRequestItem.model_5}</td>	
+											<td class="txt_center">${sampleRequestItem.model_6}</td>																				
 										</tr>																												
 									</tbody>
 								</table>	
 							</div>
 									
-							<div class="input_subtit">주문자 정보</div>
+							<div class="input_subtitle">주문자 정보</div>
 							<div class="tbl_wrap">				
 								<table class="tbl_input" summary="샘플의뢰서 등록 입력폼">
 									<caption>샘플의뢰서 등록</caption>
@@ -134,42 +161,105 @@
 									</colgroup>
 									<tbody>
 										<tr class="first">
-											<th scope="row">의뢰일자</th>
-											<td class="last">${nprodReqHeader.ilja}</td>
+											<th scope="row">사업장명</th>
+											<td class="last">${sampleRequest.saeobjang_nm}</td>
+											<th scope="row">일자</th>
+											<td class="last">${sampleRequest.ilja}</td>
+										</tr>
+										<tr>
 											<th scope="row">전표번호</th>
-											<td class="last">${nprodReqHeader.jeonpyo_no}</td>
+											<td class="last" colspan="1">${sampleRequest.jeonpyo_no}</td>
+											<th scope="row">품목분류</th>
+											<td class="last" colspan="1">${sampleRequest.pummog_bunryu}</td>
 										</tr>
 										<tr>
-											<th scope="row">완료요청일</th>
-											<td class="last" colspan="1">${nprodReqHeader.euiloiil}</td>
-											<th scope="row">배달구분</th>
-											<td class="last" colspan="1">${nprodReqHeader.baedal_gubun_nm}</td>
+											<th scope="row">핸드폰분류</th>
+											<td class="last">${sampleRequest.hp_bunryu}</td>
+										<!-- 	<th scope="row">거래처코드</th>
+											<td class="last">${sampleRequest.geolaecheo_code}</td> -->
+										</tr>
+		
+										<tr>
+											<th scope="row">1차거래처코드</th>
+											<td class="last">${sampleRequest.geolaecheo_code}</td>
+										 	<th scope="row">1차거래처상호</th>
+											<td class="last">${sampleRequest.sangho}</td>
 										</tr>
 										<tr>
-											<th scope="row">인수자</th>
-											<td class="last">${nprodReqHeader.insuja}</td>
-											<th scope="row">전화번호</th>
-											<td class="last">${nprodReqHeader.tel_no}</td>
+											<th scope="row">2차거래처코드</th>
+											<td class="last">${sampleRequest.geolaecheo_code_2}</td>
+										 	<th scope="row">2차거래처상호</th>
+											<td class="last">${sampleRequest.sangho_2}</td>
 										</tr>
 										<tr>
-											<th scope="row">배달장소</th>
-											<td class="last" colspan="3">
-												<c:if test="${fn:length(nprodReqHeader.zip) > 0}">
-													<span class="zipnum">(${nprodReqHeader.zip})&nbsp;</span>
-												</c:if>
-												<c:if test="${fn:length(nprodReqHeader.addr1) > 0}">
-													${nprodReqHeader.addr1}&nbsp;
-												</c:if>
-												<c:if test="${fn:length(nprodReqHeader.addr2) > 0}">
-													${nprodReqHeader.addr2}
-												</c:if>
-												
-											</td>
+											<th scope="row">거래처실무자</th>
+											<td class="last">${sampleRequest.gogaeg_myeong}</td>
+										 	<th scope="row">영업담당자</th>
+											<td class="last">${sampleRequest.balsinja}</td>
 										</tr>
 										<tr>
-											<th scope="row">비고</th>
-											<td class="last" colspan="3">${nprodReqHeader.bigo}</td>
-										</tr>							
+											<th scope="row">수신부서</th>
+											<td class="last">${sampleRequest.susin_buseo}</td>
+										 	<th scope="row">수신자</th>
+											<td class="last">${sampleRequest.susinja}</td>
+										</tr>
+										<tr>
+											<th scope="row">입회자</th>
+											<td class="last">${sampleRequest.ibhoija}</td>
+										 	<th scope="row">납품일자</th>
+											<td class="last">${sampleRequest.nabpum_ilja}</td>
+										</tr>
+										<tr>
+											<th scope="row">예상판매금액(만원)</th>
+											<td class="last">${sampleRequest.yesang_geumaeg}</td>
+										 	<th scope="row">도료사용금액(만원)</th>
+											<td class="last">${sampleRequest.sayong_geumaeg}</td>
+										</tr>
+										<tr>
+											<th scope="row">희망가격(원)</th>
+											<td class="last">${sampleRequest.himang_gagyeog}</td>
+										 	<th scope="row">경쟁회사</th>
+											<td class="last">${sampleRequest.ex_geolaecheo}</td>
+										</tr>
+										<tr>
+											<th scope="row">타사견본유무</th>
+											<td class="last">${sampleRequest.ex_gyeonbon_yn}</td>
+										 	<th scope="row">도장SYSTEM</th>
+											<td class="last">${sampleRequest.dojang_bangbeob}</td>
+										</tr>
+										
+										<tr>
+											<th scope="row">현장도장공정</th>
+											<td class="last">${sampleRequest.dojang_gongjeong}</td>
+										 	<th scope="row">건조조건</th>
+											<td class="last">${sampleRequest.geonjo_bangbeob}</td>
+										</tr>
+										<tr>
+											<th scope="row">도료TYPE</th>
+											<td class="last">${sampleRequest.doryo_type}</td>
+										 	<th scope="row">소재의 종류</th>
+											<td class="last">${sampleRequest.sojae_jonglyu}</td>
+										</tr>
+										<tr>
+											<th scope="row">기타요구사항(도료)</th>
+											<td class="last">${sampleRequest.gita_yogu6}</td>
+										 	<th scope="row">기타요구사항(기술자 출장3</th>
+											<td class="last">${sampleRequest.gita_yogu3}</td>
+										</tr>
+										<tr>
+											<th scope="row">비고1</th>
+											<td class="last">${sampleRequest.bigo_1}</td>
+										 	<th scope="row">비고2</th>
+											<td class="last">${sampleRequest.bigo_2}</td>
+										</tr>
+										
+										<tr>
+											<th scope="row">비고3</th>
+											<td class="last">${sampleRequest.bigo_3}</td>
+										 	<th scope="row">결과등록기한</th>
+											<td class="last">${sampleRequest.gyeolgwa_gihan}</td>
+										</tr>
+										 		
 									</tbody>
 								</table>					
 							</div>	

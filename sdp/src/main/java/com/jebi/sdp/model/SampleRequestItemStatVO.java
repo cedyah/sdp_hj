@@ -7,6 +7,7 @@ public class SampleRequestItemStatVO extends CustomerVO{
 		// TODO Auto-generated constructor stub
 	}
 	//BSET091_WEB
+	String saeobjang          ;
     String prod_req_dt         ;
     String prod_req_no       ;
     String seq                ;
@@ -21,6 +22,12 @@ public class SampleRequestItemStatVO extends CustomerVO{
     String rmk_3             ;
     String gubun             ;
     
+	public String getSaeobjang() {
+		return saeobjang;
+	}
+	public void setSaeobjang(String saeobjang) {
+		this.saeobjang = saeobjang;
+	}
 	public String getProd_req_dt() {
 		return prod_req_dt;
 	}
