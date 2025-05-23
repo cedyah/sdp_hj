@@ -55,12 +55,14 @@ public class Sdph0050Controller extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		HashMap<String, Object> map;
 		
+		
 		//샘플의뢰 헤더 불러오기
 		map = new HashMap<String, Object>();
 		//map.put("ARG_BIZ_AREA_CD", sampleRequestVO.getWorkplace());
 		map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
-		map.put("ARG_REQ_DT", getExpDateString(sampleRequestVO.getIlja()));
-		map.put("ARG_REQ_NO", sampleRequestVO.getJeonpyo_no());
+		map.put("ARG_DT", getExpDateString(sampleRequestVO.getIlja()));
+		map.put("ARG_NO", sampleRequestVO.getJeonpyo_no());
+		map.put("ARG_GUBUN", "일반");
 		map.put("OUT_PARAM", null);
 		dao.select("sdph0050.procedure_selectSampleRequest", map);
 		SampleRequestVO sampleRequest = ((List<SampleRequestVO>) map.get("OUT_PARAM")).get(0);
@@ -71,8 +73,12 @@ public class Sdph0050Controller extends CommonUtil {
 		map = new HashMap<String, Object>();
 		//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
 		map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
-		map.put("ARG_REQ_DT", getExpDateString(sampleRequestVO.getIlja()));
-		map.put("ARG_REQ_NO", sampleRequestVO.getJeonpyo_no());
+		map.put("ARG_ORD_DT", getExpDateString(sampleRequestVO.getIlja()));
+		map.put("ARG_ORD_NO", sampleRequestVO.getJeonpyo_no());
+		map.put("ARG_GUBUN","일반");
+		logger.debug("param: {}", "AAAAA");
+		logger.debug("ilja param: {}", sampleRequestVO.getIlja());
+		logger.debug("jeonpyo_no param: {}", sampleRequestVO.getJeonpyo_no());
 		map.put("OUT_PARAM", null);
 		dao.select("sdph0050.procedure_selectSampleRequestItem", map);
 		List<SampleRequestItemVO> sampleRequestItemList = (List<SampleRequestItemVO>) map.get("OUT_PARAM");
@@ -82,8 +88,7 @@ public class Sdph0050Controller extends CommonUtil {
 	}
 	
 	
-	
-	@RequestMapping(value = "sdph005101u.{flag}.do")		//샐플의뢰 작성 & 수정 화면 호출
+	@RequestMapping(value = "sdph005001u.{flag}.do")		//샐플의뢰 작성 & 수정 화면 호출
 	public String sdph005101u(@ModelAttribute("sampleRequestVO") SampleRequestVO sampleRequestVO, @PathVariable("flag")String flag,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		HashMap<String, Object> map;
@@ -96,7 +101,7 @@ public class Sdph0050Controller extends CommonUtil {
 		model.addAttribute("code10", map.get("OUT_PARAM"));
 		
 		if(flag != null && flag.equals("update")) {
-			//제조의뢰 헤더 불러오기
+			//샘플의뢰 헤더 불러오기
 			map = new HashMap<String, Object>();
 			map.put("ARG_BIZ_AREA_CD", sampleRequestVO.getWorkplace());
 			map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
@@ -221,7 +226,7 @@ public class Sdph0050Controller extends CommonUtil {
           map.put("ARG_GYEONBON_GUBUN"                 ,    sampleRequestItemVO.getGyeonbon_gubun        ());   
           map.put("ARG_PUMMOG_BUNRYU"                  ,    sampleRequestItemVO.getPummog_bunryu         ());   
           map.put("ARG_GEOLAECHEO_CODE1"               ,    sampleRequestItemVO.getGeolaecheo_code      ());   
-                                                            sampleRequestItemVO.
+                                                            
           map.put("ARG_SANGHO1"                        ,    sampleRequestItemVO.getSangho               ());   
           map.put("ARG_GEOLAECHEO_CODE2"               ,    sampleRequestItemVO.getGeolaecheo_code_2      ());   
           map.put("ARG_SANGHO2"                        ,    sampleRequestItemVO.getSangho_2               ());   
@@ -232,7 +237,7 @@ public class Sdph0050Controller extends CommonUtil {
           map.put("ARG_PO_SU"                          ,    sampleRequestItemVO.getPo_su                 ());   
           map.put("ARG_PRICE_YN"                       ,    sampleRequestItemVO.getPrice_yn              ());   
           map.put("ARG_DOPYEON_YN"                     ,    sampleRequestItemVO.getDopyeon_yn            ());   
-                                                            sampleRequestItemVO.
+                                                            
           map.put("ARG_MODEL_CODE"                     ,    sampleRequestItemVO.getModel_code            ());   
           map.put("ARG_BALHAENGIL"                     ,    sampleRequestItemVO.getBalhaengil            ());   
           map.put("ARG_BALHAENG_BUSEO"                 ,    sampleRequestItemVO.getBalhaeng_buseo        ());   
@@ -365,7 +370,7 @@ public class Sdph0050Controller extends CommonUtil {
 				          map.put("ARG_GYEONBON_GUBUN"                 ,    sampleRequestItemVO.getGyeonbon_gubun        ());   
 				          map.put("ARG_PUMMOG_BUNRYU"                  ,    sampleRequestItemVO.getPummog_bunryu         ());   
 				          map.put("ARG_GEOLAECHEO_CODE1"               ,    sampleRequestItemVO.getGeolaecheo_code      ());   
-				                                                            sampleRequestItemVO.
+
 				          map.put("ARG_SANGHO1"                        ,    sampleRequestItemVO.getSangho               ());   
 				          map.put("ARG_GEOLAECHEO_CODE2"               ,    sampleRequestItemVO.getGeolaecheo_code_2      ());   
 				          map.put("ARG_SANGHO2"                        ,    sampleRequestItemVO.getSangho_2               ());   
@@ -376,7 +381,7 @@ public class Sdph0050Controller extends CommonUtil {
 				          map.put("ARG_PO_SU"                          ,    sampleRequestItemVO.getPo_su                 ());   
 				          map.put("ARG_PRICE_YN"                       ,    sampleRequestItemVO.getPrice_yn              ());   
 				          map.put("ARG_DOPYEON_YN"                     ,    sampleRequestItemVO.getDopyeon_yn            ());   
-				                                                            sampleRequestItemVO.
+
 				          map.put("ARG_MODEL_CODE"                     ,    sampleRequestItemVO.getModel_code            ());   
 				          map.put("ARG_BALHAENGIL"                     ,    sampleRequestItemVO.getBalhaengil            ());   
 				          map.put("ARG_BALHAENG_BUSEO"                 ,    sampleRequestItemVO.getBalhaeng_buseo        ());   

@@ -49,14 +49,24 @@ public class Sdpa0020Controller extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		//header 정보
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ARG_CUST_CD", 		coVO.getCust_num());
-		map.put("ARG_ORD_DT", 		getExpDateString(coVO.getIlja()));
-		map.put("ARG_ORD_NO", 		coVO.getJeonpyo_no());
-		map.put("OUT_PARAM", 		null);
+		map.put("ARG_CUST_CD",     coVO.getCust_num());
+		map.put("ARG_ORD_DT",      getExpDateString(coVO.getIlja()));
+		map.put("ARG_ORD_NO",      coVO.getJeonpyo_no());
+		map.put("ARG_GUBUN",       "인터넷");
+		map.put("OUT_PARAM",       null);
+
 		dao.update("sdpa0020.procedure_selectOrderHeader", map);
-		
-		CoVO co = ((List<CoVO>) map.get("OUT_PARAM")).get(0);
-		model.addAttribute("co", co);
+
+		// OUT_PARAM 꺼내기
+		List<CoVO> outList = (List<CoVO>) map.get("OUT_PARAM");
+
+		if (outList != null && !outList.isEmpty()) {
+		    CoVO co = outList.get(0);
+		    model.addAttribute("co", co);
+		} else {
+		    model.addAttribute("message", "해당 정보가 없습니다.");
+		    return "errorPage";
+		}
 		
 		//sub 정보
 		map = new HashMap<String, Object>();

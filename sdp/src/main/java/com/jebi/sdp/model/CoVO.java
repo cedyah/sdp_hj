@@ -57,6 +57,13 @@ public class CoVO extends CustomerVO {
 	
 	String baedal_gubun_nm;     //배달구분명
 	String jindo_code_nm;       //진도명
+
+	String yocheong_hh;         //납품요청시간
+	String yocheong_mm;         //납품요청분
+    String panmae_gubun;        //판매구분
+    String hwapye_code;         //화폐코드
+	
+	
 	
 	public String getSaeobjang() {
 		return saeobjang == null ? "" : saeobjang;
@@ -315,5 +322,29 @@ public class CoVO extends CustomerVO {
 	}
 	public void setDel_YN(String del_YN) {
 		this.del_YN = del_YN == null ? "" : del_YN;
+	}
+	public String getYocheong_hh() {
+		return yocheong_hh;
+	}
+	public void setYocheong_hh(String yocheong_hh) {
+		this.yocheong_hh = yocheong_hh;
+	}
+	public String getYocheong_mm() {
+		return yocheong_mm;
+	}
+	public void setYocheong_mm(String yocheong_mm) {
+		this.yocheong_mm = yocheong_mm;
+	}
+	public String getPanmae_gubun() {
+		return panmae_gubun;
+	}
+	public void setPanmae_gubun(String panmae_gubun) {
+		this.panmae_gubun = panmae_gubun;
+	}
+	public String getHwapye_code() {
+		return hwapye_code;
+	}
+	public void setHwapye_code(String hwapye_code) {
+		this.hwapye_code = hwapye_code;
 	}
 }

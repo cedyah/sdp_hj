@@ -72,13 +72,6 @@
 												<col style="width: 80px;" />
 												<col style="width: 350px;" />
 												
-												<col style="width: 80px;" />
-												<col style="width: 80px;" />
-												<col style="width: 110px;" />
-												<col style="width: 80px;" />
-												<col style="width: 80px;" />
-												
-												<col style="width: 80px;" />
 												<col style="" />
 											</colgroup>
 											<thead>
@@ -95,14 +88,8 @@
 													<th scope="col">배달구분</th>
 													<th scope="col">비고</th>
 	
-													<th scope="col">차량번호</th>
-													<th scope="col">기사성명</th>
-													<th scope="col">전화번호</th>
-													<th scope="col">주문일자</th>
-													<th scope="col">주문번호</th>
-													
-													<th scope="col">순번</th>
-													<th scope="col">도착예정시간</th>
+													<th scope="col">보기</th>
+
 												</tr>
 											</thead>
 										</table>
@@ -127,12 +114,6 @@
 												<col style="width: 350px;" />
 												
 												<col style="width: 80px;" />
-												<col style="width: 80px;" />
-												<col style="width: 110px;" />
-												<col style="width: 80px;" />
-												<col style="width: 80px;" />
-												
-												<col style="width: 80px;" />
 												<col style="" />
 											</colgroup>
 											<tbody>
@@ -154,13 +135,8 @@
 																<td class="txt_lef">${row.rmk}</td>
 																<td class="txt_center">${row.car_no}</td>
 																
-																<td class="txt_center">${row.deriver_nm}</td>
-																<td class="txt_center">${row.tel_no}</td>
-																<td class="txt_center">${row.ord_dt}</td>
-																<td class="txt_center">${row.ord_no}</td>
 																<td class="txt_center">${row.sunbeon}</td>
 																
-																<td class="txt_center">${row.arrivale_time}</td>
 	<%-- 															<td class="txt_rig"><fmt:formatNumber value="${row.keep_on_hand}" groupingUsed="true"/></td> --%>
 															</tr>
 														</c:forEach>

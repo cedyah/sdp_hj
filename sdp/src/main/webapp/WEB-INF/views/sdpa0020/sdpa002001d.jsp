@@ -92,8 +92,8 @@
 										<col style="width: 80px;" />
 										<col style="width: 80px;" />
 										
-										<col style="width: 80px;" />
-										<col style="width: 80px;" />
+										<!-- <col style="width: 80px;" />
+										<col style="width: 80px;" /> -->
 										<col style="" />
 									</colgroup>
 									<thead>
@@ -101,12 +101,12 @@
 											<th scope="col">No</th>
 											<th scope="col">제품코드</th>
 											<th scope="col">품명</th>
-											<th scope="col">판매<br>전표번호</th>
+											<th scope="col"><!-- 판매<br>전표번호 --></th>
 											<th scope="col">판매단위</th>
 											
 											<th scope="col">주문수량</th>
-											<th scope="col">보관품출고</th>
-											<th scope="col">상태</th>
+											<!-- <th scope="col">보관품출고</th>
+											<th scope="col">상태</th> -->
 											<th scope="col">품목별 비고</th>
 										</tr>
 									</thead>
@@ -124,8 +124,8 @@
 										<col style="width: 80px;" />
 										<col style="width: 80px;" />
 										
-										<col style="width: 80px;" />
-										<col style="width: 80px;" />
+										<!--  <col style="width: 80px;" />
+										<col style="width: 80px;" />-->
 										<col style="" />
 									</colgroup>
 									<tbody>
@@ -136,12 +136,12 @@
 														<td class="txt_center">${row.sunbeon}</td>
 														<td class="pro_code">${row.jepum_code}</td>
 														<td class="pro_name">${row.pummyeong}</td>
-														<td class="txt_center">${row.panmae_jeonpyo_no}</td>
-														<td class="txt_rig">${row.panmae_danwi_a}${row.panmae_danwi_b}</td>
+														<td class="txt_center"><!--  ${row.panmae_jeonpyo_no}--></td>
+														<td class="txt_rig">${row.panmae_danwi}</td>
 														<td class="txt_rig blue_B">${row.panmae_sulyang}</td>
 														
-														<td class="txt_rig blue_B last">${row.bo_sulyang}</td>
-														<td class="txt_center">${row.stat}</td>
+														<!--<td class="txt_rig blue_B last">${row.bo_sulyang}</td>
+														 <td class="txt_center">${row.stat}</td>-->
 														<td class="txt_center">
 															<input type="text" class="readonly" id="" name="" value="${row.bigo}" style="width:100%;" readonly/>
 														</td>
@@ -179,7 +179,6 @@
 											<th scope="row">배달구분</th>
 											<td class="last">
 												${co.baedal_gubun_nm}
-												<c:if test="${co.taksong_point_yn == 'Y'}">(탁송포인트 사용)</c:if>
 											</td>
 											<th scope="row">배달요청일</th>
 											<td class="last">${co.yocheongil}</td>
@@ -192,14 +191,7 @@
 										</tr>
 										<tr>
 											<th scope="row">배달장소</th>
-											<c:choose>
-												<c:when test="${fn:trim(co.zip) != ''}">	
-													<td class="last" colspan="3">(${co.zip}) ${co.addr1} ${co.addr2}</td>
-												</c:when>
-												<c:otherwise>
-													<td class="last" colspan="3">${co.addr2}</td>
-												</c:otherwise>
-											</c:choose>
+											<td class="last" colspan="3">${co.baedal_jangso}</td>
 										</tr>
 										<tr>
 											<th scope="row">비고</th>

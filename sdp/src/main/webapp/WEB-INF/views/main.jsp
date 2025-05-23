@@ -11,7 +11,7 @@
 	$(document).ready(function() {
 		//쿠키를 체크해서 공지사항이 있을경우 팝업 띄움
 		if(!cookieCheck("1")) {
-			showNoticeView_1();
+		//	showNoticeView_1();
 		}
 
 		if(!cookieCheck("2")) {

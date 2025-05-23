@@ -11,6 +11,7 @@
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_FRDT" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_TODT" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PUMMYEONG" jdbcType="VARCHAR" javaType="java.lang.String" mode="IN"/>		
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectShipmentInfo" mode="OUT"/>
 	</parameterMap>
 	
@@ -38,7 +39,7 @@
 	<procedure id="procedure_selectShipmentInfo" parameterMap="param_selectShipmentInfo">
 		<![CDATA[
 			{CALL PKG_ORDER_RC.Q_RC063_S(
-				?, ?, ?, ?, ?
+				?, ?, ?, ?, ?, ?
 			)}
 		]]>
 	</procedure>

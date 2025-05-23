@@ -78,11 +78,20 @@
 								<table class="table_common" summary="샘플의뢰서등록">
 									<caption>샘플의뢰서등록</caption>
 									<colgroup>
-										<col style="width: 450px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
 										<col style="width: 100px;" />
+										<col style="width: 250px;" />
 										<col style="width: 100px;" />
-										<col style="width: 120px;" />
-										<col style="width: 100px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
+										<col style="width: 50px;" />
 										<col style="" />
 									</colgroup>
 									<thead>
@@ -114,7 +123,7 @@
 										<col style="width: 50px;" />
 										<col style="width: 50px;" />
 										<col style="width: 100px;" />
-										<col style="width: 450px;" />
+										<col style="width: 250px;" />
 										<col style="width: 100px;" />
 										<col style="width: 50px;" />
 										<col style="width: 50px;" />
@@ -128,23 +137,26 @@
 										<col style="" />
 									</colgroup>
 									<tbody>
+									    <c:forEach var="sampleRequestItem" items="${sampleRequestItemList}" varStatus="status">
 										<tr>													
 											<td class="txt_center">${sampleRequestItem.sunbeon}</td>
 											<td class="txt_center">${sampleRequestItem.gyeonbon_gubun}</td>
-											<td class="txt_center">${sampleRequestItem.pummoog_code}</td>
+											<td class="txt_center">${sampleRequestItem.pummog_code}</td>
 											<td class="pro_name">${sampleRequestItem.pummyeong}</td>	
 											<td class="txt_rig blue_B">${sampleRequestItem.po_danwi_a} ${sampleRequestItem.po_danwi_b}</td>									
 											<td class="txt_rig blue_B">${sampleRequestItem.po_su}</td>
 											<td class="txt_center">${sampleRequestItem.price_yn}</td>
-											<td class="txt_center">${sampleRequestItem.dopyen_yn}</td>
+											<td class="txt_center">${sampleRequestItem.dopyeon_yn}</td>
 											<td class="txt_center">${sampleRequestItem.stat_nm}</td>	
 											<td class="txt_center">${sampleRequestItem.model_1}</td>	
 											<td class="txt_center">${sampleRequestItem.model_2}</td>	
 											<td class="txt_center">${sampleRequestItem.model_3}</td>	
 											<td class="txt_center">${sampleRequestItem.model_4}</td>	
 											<td class="txt_center">${sampleRequestItem.model_5}</td>	
-											<td class="txt_center">${sampleRequestItem.model_6}</td>																				
-										</tr>																												
+											<td class="txt_center">${sampleRequestItem.model_6}</td>	
+											                       																			
+										</tr>	
+     								 </c:forEach>																											
 									</tbody>
 								</table>	
 							</div>
@@ -155,7 +167,7 @@
 									<caption>샘플의뢰서 등록</caption>
 									<colgroup>
 										<col style="width:15%" />
-										<col style="width:45%" />
+										<col style="width:25%" />
 										<col style="width:15%" />
 										<col style="width:45%">
 									</colgroup>

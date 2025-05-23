@@ -54,6 +54,7 @@ public class CoItemVO extends ItemVO{
 	String ibgo_ilja;
 	String saeobjang;
 	String restriction;		//제한품 여부
+	String panmae_danwi;
 	
 	public String getRestriction() {
 		return restriction == null ? "" : restriction;
@@ -312,5 +313,11 @@ public class CoItemVO extends ItemVO{
 	}
 	public void setInternet_yn(String internet_yn) {
 		this.internet_yn = internet_yn == null ? "" : internet_yn;
+	}
+	public String getPanmae_danwi() {
+		return panmae_danwi;
+	}
+	public void setPanmae_danwi(String panmae_danwi) {
+		this.panmae_danwi = panmae_danwi;
 	}
 }

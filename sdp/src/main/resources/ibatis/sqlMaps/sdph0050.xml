@@ -68,8 +68,8 @@
 	<!-- 	샘플출고 헤더 조회// -->
 	<parameterMap class="map" id="param_selectSampleRequest">
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequest" mode="OUT"/>
 	</parameterMap>
@@ -122,8 +122,8 @@
 	<!-- 	샘플출고 서브 조회// -->
 	<parameterMap class="map" id="param_selectSampleRequestItem">
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ORD_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectSampleRequestItem" mode="OUT"/>
 	</parameterMap>

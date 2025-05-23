@@ -17,13 +17,9 @@
 	//상세정보 화면으로 이동
 	function detailForm(obj) {
 		//var product_type = $(obj).find("#hid_product_type").val();
-		var ilja = $(obj).find("#hid_ilja").val();
-		var jeonpyo_no = $(obj).find("#hid_jeonpyo_no").val();
+		var ilja = $(obj).data("ilja");
+		var jeonpyo_no = $(obj).data("jeonpyo_no");
 
-		alert(ilja);
-		alert(jeonpyo_no);
-		
-		
 			$("#jeonpyo_no").val(jeonpyo_no);
 			$("#ilja").val(ilja);
 			c_submit("frm", "sdph005001d.do");
@@ -35,6 +31,8 @@
 
 <body>
 	<form id="frm" name="frm">
+	    <input type="hidden" id="jeonpyo_no" name="jeonpyo_no" />
+        <input type="hidden" id="ilja" name="ilja" />
 		<div class="wrap">
 			<jsp:directive.include file="/WEB-INF/views/templates/header.jsp" />			
 				<div class="sub_wrap_area">
@@ -72,7 +70,7 @@
 	                    <div class="search_btn_wrap">
 							<p class="result_num">샘플요청 : ${fn:length(sampleRequestItemStat)}건</p>
 							<div class="search_btn_area">
-								<input class="btn_sample" id="" type="button" value="샘플출고 요청" onclick="c_submit('frm','sdph005101u.insert.do');">
+								<input class="btn_sample" id="" type="button" value="샘플출고 요청" onclick="c_submit('frm','sdph005001u.insert.do');">
 							</div>
 						</div>
 								<!-- board_list_wrap (게시물 리스트) -->
@@ -147,12 +145,12 @@
 													<c:when test="${fn:length(sampleRequestItemStat) > 0 }">
 														<c:set var="preCoNum" value="" />
 														<c:forEach items="${sampleRequestItemStat}" var="row" varStatus="status">
-															<tr onclick="javascript:detailForm(this); return false;" style="cursor: pointer;" >
-															    <td class="txt_center">
-															        <!-- <input type="hidden" id="hid_saeobjang" name="hid_saeobjang" value="${row.saeobjang}"/> -->
+															<tr onclick="detailForm(this)" style="cursor: pointer;" data-ilja="${row.prod_req_dt}" data-jeonpyo_no="${row.prod_req_no}">
+															    <!-- <td class="txt_center">
+															        <input type="hidden" id="hid_saeobjang" name="hid_saeobjang" value="${row.saeobjang}"/> 
 														            <input type="hidden" id="hid_ilja" name="hid_ilja" value="${row.prod_req_dt}"/>
 												                 	<input type="hidden" id="hid_jeonpyo_no" name="hid_jeonpyo_no" value="${row.prod_req_no}"/>
-                 												</td>
+                 												</td>-->
 															
 																<td class="txt_center">${status.count}</td>
 																<td class="txt_center">${row.prod_req_dt}</td>

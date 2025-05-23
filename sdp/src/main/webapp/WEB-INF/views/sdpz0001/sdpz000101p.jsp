@@ -30,10 +30,10 @@
 		var li_chkBox = $("input[name='search_jungbun']:checked");
 		var str_itemGroup = "";
 
-		if(li_chkBox.length < 1) {
-			c_alert("제품 분류 검색조건은 최소 1가지 이상 선택하셔야 합니다.");
-			return;
-		}
+		//if(li_chkBox.length < 1) {
+		//	c_alert("제품 분류 검색조건은 최소 1가지 이상 선택하셔야 합니다.");
+		//	return;
+		//}
 		for(var i=0; i < li_chkBox.length; i++) {
 			str_itemGroup += $(li_chkBox[i]).attr("id") + ","; 
 		}
@@ -45,6 +45,7 @@
 	
 	//팝업창의 부모페이지에 선택된 아이템들을 추가
 	function addItem() {
+		console.log("체크된 박스 개수:", $("input[name='chkBox']:checked").length);
 		var li_chkBox = $("input[name='chkBox']:checked")
 		var item;
 		var jsonList = [];
@@ -68,6 +69,8 @@
 // 		opener.addItem(JSON.stringify(jsonList));
 
 		var li_duplChk = opener.addItem(jsonList);
+		console.log("▶ child.addItem called:", jsonList);
+		debugger;
 
 		if(li_duplChk.length > 1) {		//이미 추가된 품목 배열 크기가 0보다 크면 알림창 띄움
 // 			c_alert("아래 품목들은 이미 주문서에 존재합니다.<br>" + li_duplChk[0] + " 외 " + (li_duplChk.length - 1) + "건");

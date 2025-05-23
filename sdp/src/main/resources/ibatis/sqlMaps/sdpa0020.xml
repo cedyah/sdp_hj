@@ -47,16 +47,13 @@
 		<result property="bigo" 				column="BIGO"/>
 		<result property="panmae_ilja" 			column="PANMAE_ILJA"/>
 		<result property="panmae_jeonpyo_no" 	column="PANMAE_JEONPYO_NO"/>
-		<result property="jindo_code" 			column="JINDO_CODE"/>
+		<!-- <result property="jindo_code" 			column="JINDO_CODE"/>  -->
 		<result property="jindo_code_nm" 		column="JINDO_CODE_NM"/>
-		<result property="zip" 			column="ZIP"/>
-		<result property="addr1" 		column="ADDR1"/>
-		<result property="addr2" 		column="ADDR2"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectOrder" parameterMap="param_selectOrder">
 		<![CDATA[
-			{CALL PKG_ORDER_RC.Q_RC030M_S1(?, ?, ?, ?, ?)}
+			{CALL PKG_ORDER_RC.Q_RC030M_S(?, ?, ?, ?, ?)}
 		]]>
 	</procedure>
 	<!-- //주문서 목록  조회 -->
@@ -66,6 +63,7 @@
 		<parameter property="ARG_CUST_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_ORD_DT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_ORD_NO" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectOrderHeader" mode="OUT"/>
 	</parameterMap>
 	
@@ -73,23 +71,27 @@
 		<result property="ilja" column="ILJA"/>
 		<result property="jeonpyo_no"  column="JEONPYO_NO"/>
 		<result property="yocheongil" column="YOCHEONGIL"/>
-		<result property="baedal_gubun" column="BAEDAL_GUBUN"/>
-		<result property="baedal_gubun_nm" column="BAEDAL_GUBUN_NM"/>
+	<!--  	<result property="baedal_gubun" column="BAEDAL_GUBUN"/>
+		<result property="baedal_gubun_nm" column="BAEDAL_GUBUN_NM"/>-->
 		<result property="baedal_jangso" column="BAEDAL_JANGSO"/>
 		<result property="insuja" column="INSUJA"/>
 		<result property="tel_no" column="TEL_NO"/>
 		<result property="bigo" column="BIGO"/>
-		<result property="jindo_code" column="JINDO_CODE"/>
+<!--		<result property="jindo_code" column="JINDO_CODE"/>
 		<result property="jindo_code_nm" column="JINDO_CODE_NM"/>
-		<result property="taksong_point_yn" column="TAKSONG_POINT_YN"/>
+ 		<result property="taksong_point_yn" column="TAKSONG_POINT_YN"/>
 		<result property="zip" column="ZIP"/>
 		<result property="addr1" column="ADDR1"/>
-		<result property="addr2" column="ADDR2"/>
+		<result property="addr2" column="ADDR2"/>  -->
+		<result property="yocheong_hh" column="YOCHEONG_HH"/>
+		<result property="yocheong_mm" column="YOCHEONG_MM"/>
+		<result property="panmae_gubun" column="PANMAE_GUBUN"/>
+	    <result property="hwapye_code" column="HWAPYE_CODE"/>		
 	</resultMap>
 	
 	<procedure id="procedure_selectOrderHeader" parameterMap="param_selectOrderHeader">
 		<![CDATA[
-			{CALL PKG_ORDER_RCE.Q_RC010F_S(?, ?, ?, ?)}
+			{CALL PKG_ORDER_RCE.Q_RC010F_S(?, ?, ?, ?, ?)}
 		]]>
 	</procedure>
 	<!-- //주문서 header 조회 -->
@@ -106,20 +108,22 @@
 		<result property="sunbeon" column="SUNBEON"/>
 		<result property="jepum_code" column="JEPUM_CODE"/>
 		<result property="pummyeong" column="PUMMYEONG"/>
-		<result property="disp_yn" column="DISP_YN"/>
+		<!--  <result property="disp_yn" column="DISP_YN"/>-->
 		<result property="panmae_danwi_a" column="PANMAE_DANWI_A"/>
 		<result property="panmae_danwi_b" column="PANMAE_DANWI_B"/>
+		<result property="panmae_danwi" column="PANMAE_DANWI"/>
 		<result property="panmae_sulyang" column="PANMAE_SULYANG"/>
-		<result property="bo_sulyang" column="BO_SULYANG"/>
-		<result property="bo_sulyang_c" column="BO_SULYANG_C"/>
-		<result property="bigo" column="BIGO"/>
-		<result property="stat" column="STAT"/>
 		<result property="panmae_jeonpyo_no" column="PANMAE_JEONPYO_NO"/>
+		<!--  <result property="bo_sulyang" column="BO_SULYANG"/>
+		<result property="bo_sulyang_c" column="BO_SULYANG_C"/> --> 
+		<result property="bigo" column="BIGO"/>
+		<!--<result property="stat" column="STAT"/>
+		<result property="panmae_jeonpyo_no" column="PANMAE_JEONPYO_NO"/>-->
 	</resultMap>
 	
 	<procedure id="procedure_selectOrderSub" parameterMap="param_selectOrderSub">
 		<![CDATA[
-			{CALL PKG_ORDER_RCE.Q_RC010D_S_J(?, ?, ?, ?)}
+			{CALL PKG_ORDER_RC.Q_RC030D_S(?, ?, ?, ?)}
 		]]>
 	</procedure>
 	<!-- //주문서 sub 조회 -->
