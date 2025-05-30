@@ -94,12 +94,85 @@ public class Sdph0050Controller extends CommonUtil {
 		HashMap<String, Object> map;
 		model.addAttribute("flag", flag);
 		
-		//배달구분 코드목록
+		//견본구분(기존품, 신제품:4007)
 		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "4020");
+		map.put("ARG_MAJOR_CD", "4007");
 		dao.update("common.procedure_selectCode", map);
-		model.addAttribute("code10", map.get("OUT_PARAM"));
+		model.addAttribute("code4007", map.get("OUT_PARAM"));
+
 		
+		
+		//포장단위(LT,KG,EA:0102)
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "0102");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("po_danwi_b", map.get("OUT_PARAM"));
+
+		
+		//품목분류(핸드폰/일반품 4901)
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "4901");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code4901", map.get("OUT_PARAM"));
+
+		
+		//핸드폰분류(삼성,LG,기타:4902)
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "4902");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code4902", map.get("OUT_PARAM"));
+
+		//결과등록시한(7일이네:4905)
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "4905");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code4905", map.get("OUT_PARAM"));
+
+		//수신부서
+		map = new HashMap<String, Object>();
+		map.put("ARG_COMP_CD", "HJCHEM");
+		map.put("ARG_GUBUN", "1");
+		dao.update("common.procedure_selectBaseDddwS1", map);
+		model.addAttribute("codeSusinBuseo", map.get("OUT_PARAM"));
+
+		//수신자
+		map = new HashMap<String, Object>();
+		map.put("ARG_COMP_CD", "HJCHEM");
+		map.put("ARG_GUBUN", "2");
+		try{
+		dao.update("common.procedure_selectBaseDddwS1", map);
+		}
+		catch(Exception e){
+			logger.error("수신자 코드 조회 실패",e);
+		}
+		model.addAttribute("codeSusinja", map.get("OUT_PARAM"));
+		//List<CommonCodeVO> codeSusinja = commonCodeService.getCodeList("SUSINJA");
+		//model.addAttribute("codeSusinja", codeSusinja);
+		
+		logger.debug("codeSusinja size: " + map.size());
+		
+		
+		
+		//영업담당자
+		map = new HashMap<String, Object>();
+		map.put("ARG_COMP_CD", "HJCHEM");
+		map.put("ARG_GUBUN", "2");
+		dao.update("common.procedure_selectBaseDddwS1", map);
+		model.addAttribute("codeBalsinja", map.get("OUT_PARAM"));
+
+		//입회자
+		map = new HashMap<String, Object>();
+		map.put("ARG_COMP_CD", "HJCHEM");
+		map.put("ARG_GUBUN", "2");
+		dao.update("common.procedure_selectBaseDddwS1", map);
+		model.addAttribute("codeIbhoija", map.get("OUT_PARAM"));
+		
+		//유무상구분(유상,무상:4030)
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "4030");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code4030", map.get("OUT_PARAM"));
+
 		if(flag != null && flag.equals("update")) {
 			//샘플의뢰 헤더 불러오기
 			map = new HashMap<String, Object>();

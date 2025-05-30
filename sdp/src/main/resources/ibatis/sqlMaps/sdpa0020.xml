@@ -17,7 +17,7 @@
 	</parameterMap>
 	
 	<resultMap class="coVO" id="result_selectJeonpyoNo">
-		<result property="jeonpyo_no" column="V_SLIP_NO"/>
+		<result property="jeonpyo_no" column="SLIP_NO"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
@@ -136,18 +136,19 @@
 		<parameter property="ARG_ORD_NO" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_CUST_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		
-		<parameter property="ARG_DELY_TYPE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PANMAE_GUBUN" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_HWAPYE_CODE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CODE_1" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_CODE_2" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_DELY_DT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_YOCHEONG_SI" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_YOCHEONG_BUN" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_DELY_PLACE" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_RECVER" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_TEL_NO" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		
 		<parameter property="ARG_RMK" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_TAKSONG_POINT_YN" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_ZIP" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_ADDR1" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_ADDR2" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
-		
 		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
 	</parameterMap>
 	
@@ -157,7 +158,7 @@
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?,
-				?
+				?, ?
 			)}
 		]]>
 	</procedure>
@@ -170,15 +171,19 @@
 		<parameter property="ARG_ORD_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_ORD_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_SEQ" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_DELY_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PANMAE_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_SALE_UNIT_A" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_SALE_UNIT_B" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
 		<parameter property="ARG_QTY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_QTY_BO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_QTY_BO_C" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_NABPUM" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_SAMSUNG_YN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
 		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
 	</parameterMap>
 	
@@ -187,7 +192,8 @@
 			{CALL PKG_ORDER_RCE.Q_RC010_MD(
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?,
-				?, ?, ?, ?, ?
+				?, ?, ?, ?, ?,
+				?
 			)}
 		]]>
 	</procedure>

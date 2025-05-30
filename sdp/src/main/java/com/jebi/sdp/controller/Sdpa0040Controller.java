@@ -42,7 +42,7 @@ public class Sdpa0040Controller extends CommonUtil {
 		map.put("ARG_CUST_CD", prVO.getCust_num());
 		map.put("ARG_FRDT", getExpDateString(prVO.getSearchDate_from()));
 		map.put("ARG_TODT", getExpDateString(prVO.getSearchDate_to()));
-		map.put("ARG_SEARCH_TYPE", prVO.getSearchDiv().equals("") ? "A" : prVO.getSearchDiv());
+		map.put("ARG_SEARCH_TYPE", prVO.getSearchDiv().equals("") ? "1" : prVO.getSearchDiv());
 		map.put("OUT_PARAM", null);
 		dao.select("sdpa0040.procedure_selectProdReqList", map);
 		
@@ -56,12 +56,20 @@ public class Sdpa0040Controller extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		HashMap<String, Object> map;
 		
+		
+	    System.out.println(">>> [coVO] received: " + prVO);
+	    System.out.println(">>> [cust_num]: " + prVO.getCust_num());
+	    System.out.println(">>> [ord_dt]: " + prVO.getIlja());
+	    System.out.println(">>> [ord_no]: " + prVO.getJeonpyo_no());
+	    System.out.println(">>> [product_type()]: " + prVO.getProduct_type());
+
 		//제조의뢰 헤더 불러오기
 		map = new HashMap<String, Object>();
-		map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
+		//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
 		map.put("ARG_CUST_CD", prVO.getCust_num());
 		map.put("ARG_REQ_DT", getExpDateString(prVO.getIlja()));
 		map.put("ARG_REQ_NO", prVO.getJeonpyo_no());
+		map.put("ARG_GUBUN", prVO.getProduct_type());
 		map.put("OUT_PARAM", null);
 		dao.select("sdpa0040.procedure_selectProdReqHeader", map);
 		ProdReqHeaderVO prodReqHeader = ((List<ProdReqHeaderVO>) map.get("OUT_PARAM")).get(0);
@@ -70,10 +78,11 @@ public class Sdpa0040Controller extends CommonUtil {
 		
 		//제조의뢰 서브 불러오기
 		map = new HashMap<String, Object>();
-		map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
+//		map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
 		map.put("ARG_CUST_CD", prVO.getCust_num());
 		map.put("ARG_REQ_DT", getExpDateString(prVO.getIlja()));
 		map.put("ARG_REQ_NO", prVO.getJeonpyo_no());
+		map.put("ARG_GUBUN", prVO.getProduct_type());
 		map.put("OUT_PARAM", null);
 		dao.select("sdpa0040.procedure_selectProdReqSub", map);
 		List<ProdReqSubVO> prodReqSubList = (List<ProdReqSubVO>) map.get("OUT_PARAM");
@@ -88,19 +97,20 @@ public class Sdpa0040Controller extends CommonUtil {
 		HashMap<String, Object> map;
 		model.addAttribute("flag", flag);
 		
-		//배달구분 코드목록
+		//판매구분 코드목록
 		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "425");
+		map.put("ARG_MAJOR_CD", "4069");
 		dao.update("common.procedure_selectCode", map);
 		model.addAttribute("code10", map.get("OUT_PARAM"));
-		
+
 		if(flag != null && flag.equals("update")) {
 			//제조의뢰 헤더 불러오기
 			map = new HashMap<String, Object>();
-			map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
+			//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
 			map.put("ARG_CUST_CD", prVO.getCust_num());
 			map.put("ARG_REQ_DT", getExpDateString(prVO.getIlja()));
 			map.put("ARG_REQ_NO", prVO.getJeonpyo_no());
+			map.put("ARG_GUBUN", prVO.getProduct_type());
 			map.put("OUT_PARAM", null);
 			dao.select("sdpa0040.procedure_selectProdReqHeader", map);
 			ProdReqHeaderVO prodReqHeader = ((List<ProdReqHeaderVO>) map.get("OUT_PARAM")).get(0);
@@ -109,10 +119,11 @@ public class Sdpa0040Controller extends CommonUtil {
 			
 			//제조의뢰 서브 불러오기
 			map = new HashMap<String, Object>();
-			map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
+			//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
 			map.put("ARG_CUST_CD", prVO.getCust_num());
 			map.put("ARG_REQ_DT", getExpDateString(prVO.getIlja()));
 			map.put("ARG_REQ_NO", prVO.getJeonpyo_no());
+			map.put("ARG_GUBUN", prVO.getProduct_type());
 			map.put("OUT_PARAM", null);
 			dao.select("sdpa0040.procedure_selectProdReqSub", map);
 			List<ProdReqSubVO> prodReqSubList = (List<ProdReqSubVO>) map.get("OUT_PARAM");
@@ -142,7 +153,7 @@ public class Sdpa0040Controller extends CommonUtil {
 			//전표번호 가져오기
 			map = new HashMap<String, Object>();
 			map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
-			map.put("ARG_SLIP_TYPE", "02");		//일반제조는 02
+			map.put("ARG_SLIP_TYPE", "W2");		//일반제조는 02
 			map.put("ARG_DT", getExpDateString(prVO.getIlja()));
 			map.put("OUT_PARAM", null);
 			

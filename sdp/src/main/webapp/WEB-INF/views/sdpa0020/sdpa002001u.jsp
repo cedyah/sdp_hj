@@ -314,8 +314,6 @@
 									<col style="width: 70px;" />
 									
 									<col style="width: 70px;" />
-									<col style="width: 70px;" />
-									<col style="width: 60px;" />
 									<col style="width: 60px;" />
 									<col style="" />
 								</colgroup>
@@ -328,11 +326,9 @@
 										<th scope="col" rowspan="2">제품코드</th>
 										<th scope="col" rowspan="2">품명</th>
 										<th scope="col" rowspan="2">판매단위</th>
-
-										<th scope="col" colspan="3" class="tbl_col_tit">재고수량</th>
-										<th scope="col" rowspan="2">본사<br>출고</th>
-										<th scope="col" rowspan="2">보관품<br/>출고</th>
+										<th scope="col" colspan="2" class="tbl_col_tit">재고수량</th>
 										
+										<th scope="col" rowspan="2">출고량</th>
 										<th scope="col" rowspan="2">제품별 비고</th>
 									</tr>
 									<tr>
@@ -352,9 +348,6 @@
 									<col style="width: 80px;" />
 									<col style="width: 70px;" />
 									
-									<col style="width: 70px;" />
-									<col style="width: 70px;" />
-									<col style="width: 60px;" />
 									<col style="width: 60px;" />
 									<col style="" />
 								</colgroup>
@@ -379,13 +372,13 @@
 													<td class="txt_rig ft_grey" id="td_qtyOnHand01">0</td>
 													
 													<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>
-													<td class="txt_rig ft_grey" id="td_keepOnHand">0</td>
+													<!--<td class="txt_rig ft_grey" id="td_keepOnHand">0</td> -->
 													<td class="txt_center">
 														<input type="text" class="entry" id="input_qty1" name="input_qty1" value="${row.panmae_sulyang}" title="주문수량"/>
 													</td>
-													<td class="txt_center">
+													<!-- <td class="txt_center">
 														<input type="text" class="entry" id="input_qty2" name="input_qty2"  value="${row.bo_sulyang}" title="보관품출고">
-													</td>
+													</td>-->
 													<td class="txt_center">
 														<input class="order_key" type="text" id="input_bigo" name="input_bigo" placeholder="텍스트 입력..."
 															value="${row.bigo}" style="width:100%;" readonly="readonly"/>
@@ -437,17 +430,34 @@
 										<td class="last">
 											<input type="text" class="ico_cal datepicker_aftToday" id="yocheongil" name="yocheongil" readonly="readonly" 
 												value="${co.yocheongil}" title="배달요청일" req/>
+											<input type="text" id="yocheong_hh" name="yocheong_hh"  
+												value="${co.yocheong_hh}" title="배달요청시" req/>
+											<input type="text" id="yocheong_mm" name="yocheong_hh"  
+												value="${co.yocheong_mm}" title="배달요청분" req/>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row">화물탁송비</th>
-										<td class="last" colspan="3">
-											<span class="blue">
-												<fmt:formatNumber value="${customerVO.cust_consignment_point}" groupingUsed="true"/>
-											</span>원&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-											<input class="blue_checkbox" type="checkbox" id="taksong_point_yn" name="taksong_point_yn" value="Y"
-												<c:if test="${fn:trim(co.taksong_point_yn) == 'Y'}"> checked</c:if>/>
-											<label class="blue_label" for="taksong_point_yn" >탁송포인트 사용</label>
+										<th scope="row">판매구분</th>
+										<td class="last">
+											<select class="select" title="판매구분" id="panmae_gubun" name="panmae_gubun">
+												<c:if test="${fn:length(code11) > 0}">
+													<c:forEach items="${code11}" var="row" varStatus="status">
+														<option value="${row.code}"
+															<c:if test="${fn:trim(co.panmae_gubun) == row.code}"> selected</c:if> >${row.name}</option>
+													</c:forEach>
+												</c:if>
+											</select>
+										</td>
+										<th scope="row">화폐코드</th>
+										<td class="last">
+											<select class="select" title="화폐코드" id="hwapye_code" name="v">
+												<c:if test="${fn:length(code12) > 0}">
+													<c:forEach items="${code12}" var="row" varStatus="status">
+														<option value="${row.code}"
+															<c:if test="${fn:trim(co.hwapye_code) == row.code}"> selected</c:if> >${row.name}</option>
+													</c:forEach>
+												</c:if>
+											</select>
 										</td>
 									</tr>
 									<tr>
@@ -544,13 +554,13 @@
 			<td class="txt_rig ft_grey" id="td_qtyOnHand01">0</td>
 			
 			<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>
-			<td class="txt_rig ft_grey" id="td_keepOnHand">0</td>
+			<!-- <td class="txt_rig ft_grey" id="td_keepOnHand">0</td> -->
 			<td class="txt_center">
 				<input type="text" class="entry" id="input_qty1" name="input_qty1" value="0" title="주문수량"/>
 			</td>
-			<td class="txt_center">
+			<!--<td class="txt_center">
 				<input class="entry" id="input_qty2" name="input_qty2" type="text" value="0" title="보관품출고">
-			</td>
+			</td>-->
 			<td class="txt_center">
 				<input class="order_key" type="text" id="input_bigo" name="input_bigo" placeholder="텍스트 입력..."
 					style="width:100%;" readonly="readonly"/>

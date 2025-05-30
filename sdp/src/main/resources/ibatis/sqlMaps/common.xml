@@ -39,7 +39,7 @@
 	
 	<resultMap class="codeVO" id="result_selectCode">
 		<result property="code" column="CODE"/>
-		<result property="name" column="NAME"/>
+		<result property="name" column="CODE_NAME"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectCode" parameterMap="param_selectCode">
@@ -48,6 +48,25 @@
 		]]>
 	</procedure>
 	<!-- 공통코드 조회// -->
+	
+	<!-- //1.샘플의뢰서수신부서, 2.샘플의뢰서수신자, 3.장기재고의 년도, 4.출고의뢰서 사업장, 5.출고의뢰서 판매구분 -->
+	<parameterMap class="map" id="param_selectBaseDddwS1">
+		<parameter property="ARG_COMP_CD" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" 	jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="OUT_PARAM" 	jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectBaseDddwS1" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="codeVO" id="result_selectBaseDddwS1">
+		<result property="code" column="CODE"/>
+		<result property="name" column="NAME"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectBaseDddwS1" parameterMap="param_selectBaseDddwS1">
+		<![CDATA[
+			{CALL PKG_ORDER_BASE.Q_BASE_DDDW_S1(?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- 사원 조회// -->	
 
 	<!-- 첨부파일 조회 -->
 	<select id="select_file" parameterClass="fileVO" resultClass="fileVO">

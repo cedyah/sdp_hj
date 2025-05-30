@@ -55,6 +55,9 @@ public class CoItemVO extends ItemVO{
 	String saeobjang;
 	String restriction;		//제한품 여부
 	String panmae_danwi;
+	String gubun;
+	String nabpum_gubun;
+	String samsung_yn;
 	
 	public String getRestriction() {
 		return restriction == null ? "" : restriction;
@@ -319,5 +322,23 @@ public class CoItemVO extends ItemVO{
 	}
 	public void setPanmae_danwi(String panmae_danwi) {
 		this.panmae_danwi = panmae_danwi;
+	}
+	public String getGubun() {
+		return gubun;
+	}
+	public void setGubun(String gubun) {
+		this.gubun = gubun;
+	}
+	public String getNabpum_gubun() {
+		return nabpum_gubun;
+	}
+	public void setNabpum_gubun(String nabpum_gubun) {
+		this.nabpum_gubun = nabpum_gubun;
+	}
+	public String getSamsung_yn() {
+		return samsung_yn;
+	}
+	public void setSamsung_yn(String samsung_yn) {
+		this.samsung_yn = samsung_yn;
 	}
 }

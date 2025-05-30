@@ -23,16 +23,17 @@
 		var ilja = $(obj).find("#hid_ilja").val();
 		var jeonpyo_no = $(obj).find("#hid_jeonpyo_no").val();
 
-		if(product_type == '제조') {				//일반 제조의뢰 상세
+		//if(product_type == '제조') {				//일반 제조의뢰 상세
+			$("#product_type").val(product_type);
 			$("#jeonpyo_no").val(jeonpyo_no);
 			$("#ilja").val(ilja);
 			c_submit("frm", "sdpa004101d.do");
 			
-		} else if(product_type == '신규') {		//신규 제조의뢰 상세
-			$("#jeonpyo_no").val(jeonpyo_no);
-			$("#ilja").val(ilja);
-			c_submit("frm", "sdpa004001d.do");
-		}
+		//} else if(product_type == '신규') {		//신규 제조의뢰 상세
+		//	$("#jeonpyo_no").val(jeonpyo_no);
+		//	$("#ilja").val(ilja);
+		//	c_submit("frm", "sdpa004001d.do");
+		//}
 	}
 </script>
 <title>한진화학 주문관리 시스템</title>
@@ -40,6 +41,7 @@
 
 <body>
 <form id="frm" name="frm">
+<input type="hidden" id="product_type" name="product_type" value="" />
 <input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="" />
 <input type="hidden" id="ilja" name="ilja" value="" />
 
@@ -65,9 +67,9 @@
 						<div class="gray_wrap">
 							<span>구분</span>
 							<select id="searchDiv" name="searchDiv" style="margin-right: 20px;">
-								<option value="A" <c:if test="${prVO.searchDiv eq 'A'}">selected</c:if>>전체</option>
-								<option value="S" <c:if test="${prVO.searchDiv eq 'S'}">selected</c:if>>제조의뢰</option>
-								<option value="N" <c:if test="${prVO.searchDiv eq 'N'}">selected</c:if>>신규제조</option>
+								<option value="1" <c:if test="${prVO.searchDiv eq '1'}">selected</c:if>>전체</option>
+								<option value="2" <c:if test="${prVO.searchDiv eq '2'}">selected</c:if>>인터넷</option>
+								<option value="3" <c:if test="${prVO.searchDiv eq '3'}">selected</c:if>>일반</option>
 							</select>
 							
 							<span>요청기간</span>
@@ -84,7 +86,7 @@
 							<p class="result_num">제조의뢰요청 : ${fn:length(prodReqList)}건</p>
 							<div class="search_btn_area">
 								<input class="btn_sample" id="" type="button" value="제조의뢰 작성" onclick="c_submit('frm','sdpa004101u.insert.do');">
-								<input class="btn_red" id="" type="button" value="신규제조 작성" onclick="c_submit('frm','sdpa004001u.insert.do');">
+								<!-- <input class="btn_red" id="" type="button" value="신규제조 작성" onclick="c_submit('frm','sdpa004001u.insert.do');"> -->
 							</div>
 						</div>
 						<!--search_btn_wrap-->
@@ -97,10 +99,6 @@
 									<col style="width: 100px;" />
 									<col style="width: 60px;" />
 									<col style="width: 60px;" />
-									<col style="width: 260px;" />
-
-									<col style="width: 100px;" />
-									<col style="width: 320px;" />
 									<col style="" />
 								</colgroup>
 								<thead>
@@ -111,9 +109,6 @@
 										<th scope="col">유형</th>
 										<th scope="col">의뢰품목</th>
 										
-										<th scope="col">배달구분</th>
-										<th scope="col">배달장소</th>
-										<th scope="col">인수자</th>
 									</tr>
 								</thead>
 							</table>
@@ -126,10 +121,6 @@
 									<col style="width: 100px;" />
 									<col style="width: 60px;" />
 									<col style="width: 60px;" />
-									<col style="width: 260px;" />
-
-									<col style="width: 100px;" />
-									<col style="width: 320px;" />
 									<col style="" />
 								</colgroup>
 								<tbody>
@@ -148,28 +139,12 @@
 													<td class="txt_center">${row.jeonpyo_no}</td>
 													<td class="txt_center">
 														<c:choose>
-															<c:when test="${row.product_type == '제조'}"><span class="make_normal">${row.product_type}</span></c:when>
-															<c:when test="${row.product_type == '신규'}"><span class="make_new">${row.product_type}</span></c:when>
+															<c:when test="${row.product_type == '인터넷'}"><span class="make_normal">${row.product_type}</span></c:when>
+															<c:when test="${row.product_type == '일반'}"><span class="make_new">${row.product_type}</span></c:when>
 															<c:otherwise>${row.product_type}</c:otherwise>
 														</c:choose>
 													</td>
 													<td>${row.pummyeong}</td>
-													
-													<td class="txt_center">${row.baedal_gubun_nm }</td>
-													<td class="txt_lef">
-														<c:choose>
-															<c:when test="${row.zip != ''}">
-																(${row.zip}) ${row.addr1} ${row.addr2} 
-															</c:when>
-															<c:when test="${addr2 != ''}">
-																${row.addr2}
-															</c:when>
-															<c:otherwise>
-																${row.baedal_jangso}
-															</c:otherwise>
-														</c:choose>
-													</td>
-													<td class="txt_center">${row.insuja}</td>
 												</tr>
 												<c:set var="no" value="${no - 1}" />
 											</c:forEach>

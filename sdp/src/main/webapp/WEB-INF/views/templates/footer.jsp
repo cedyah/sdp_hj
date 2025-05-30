@@ -29,13 +29,14 @@
 		<div class="family_site" style="height:44px;">
 			<a href="#">Family site</a>
 			<ul>
-				<li><a href="javascript:fncNewWindow('http://www.kangnamchem.com');">강남화성</a></li>
+				<li><a href="javascript:fncNewWindow('http://www.hjci.co.kr');">한진화학</a></li>
+				<!-- <li><a href="javascript:fncNewWindow('http://www.kangnamchem.com');">강남화성</a></li>
 				<li><a href="javascript:fncNewWindow('http://www.kangnamship.co.kr');">(주)강남</a></li>
 				<li><a href="javascript:fncNewWindow('http://www.jevisco.com');">강남제비스코</a></li>
 				<li><a href="javascript:fncNewWindow('http://www.kangnamkpi.com/kor/ppage/main/index.do');">강남KPI</a></li>
 				<li><a href="javascript:fncNewWindow('http://www.munhwapen.co.kr/kor/page/main/index.do');">문화연필</a></li>
 				<li><a href="javascript:fncNewWindow('http://www.kangnamcon.com/kor/ppage/main/index.do');">강남건영</a></li>
-				<li><a href="javascript:fncNewWindow('http://www.knitec.co.kr/kor/ppage/main/index.do');">강남아이텍</a></li>
+				<li><a href="javascript:fncNewWindow('http://www.knitec.co.kr/kor/ppage/main/index.do');">강남아이텍</a></li> -->
 			</ul>
 		</div>
 		<!--family_site-->

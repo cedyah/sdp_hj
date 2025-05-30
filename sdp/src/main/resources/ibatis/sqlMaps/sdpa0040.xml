@@ -10,7 +10,7 @@
 	
 	<!-- 	제조의뢰 + 신규제조의뢰를 union으로 연결하여 함께 출력(테이블이 서로 다름)// -->
 	<parameterMap class="map" id="param_selectProdReqList">
-		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<!-- <parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>  -->
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_FRDT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_TODT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
@@ -22,22 +22,17 @@
 		<result property="product_type" column="PRODUCT_TYPE"/>
 		<result property="ilja" column="ILJA"/>
 		<result property="jeonpyo_no" column="JEONPYO_NO"/>
-		<result property="baedal_gubun" column="BAEDAL_GUBUN"/>
-		<result property="baedal_gubun_nm" column="BAEDAL_GUBUN_NM"/>
-		<result property="baedal_jangso" column="BAEDAL_JANGSO"/>
-		<result property="insuja" column="INSUJA"/>
-		<result property="euiloiil" column="EUILOIIL"/>
-		<result property="zip" column="ZIP"/>
-		<result property="addr1" column="ADDR1"/>
-		<result property="addr2" column="ADDR2"/>
 		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="jepum_code" column="PUMMOG_CODE"/>
+		<result property="euiloiil" column="EUILOIIL"/>
+		<result property="bigo" column="BIGO"/>
+		<result property="saeobjang" column="SAEOBJANG"/> 
 	</resultMap>
 	
 	<procedure id="procedure_selectProdReqList" parameterMap="param_selectProdReqList">
 		<![CDATA[
-			{CALL PKG_ORDER_RCG.Q_RC161M_S(
-				?, ?, ?, ?, ?,
-				?
+			{CALL PKG_ORDER_RCG.Q_RC160M_S(
+				?, ?, ?, ?, ?
 			)}
 		]]>
 	</procedure>
@@ -46,10 +41,11 @@
 	
 	<!-- 	제조의뢰 헤더 조회// -->
 	<parameterMap class="map" id="param_selectProdReqHeader">
-		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<!-- <parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/> -->
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProdReqHeader" mode="OUT"/>
 	</parameterMap>
 	
@@ -87,10 +83,11 @@
 	
 	<!-- 	제조의뢰 서브 조회// -->
 	<parameterMap class="map" id="param_selectProdReqSub">
-		<parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<!-- <parameter property="ARG_BIZ_AREA_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/> -->
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>		
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectProdReqSub" mode="OUT"/>
 	</parameterMap>
 	
@@ -140,21 +137,16 @@
 		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
 		<parameter property="ARG_DELY_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_DELY_TYPE" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_PANMAE_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_RMK" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_RECVER" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_TEL_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_ZIP" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_ADDR1" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
-		<parameter property="ARG_ADDR2" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
 	</parameterMap>
 	
 	<procedure id="procedure_updateProdReqHeader" parameterMap="param_updateProdReqHeader">
 		<![CDATA[
 			{CALL PKG_ORDER_RCG.Q_RC160_MM(
-				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?
 			)}
@@ -169,10 +161,13 @@
 		<parameter property="ARG_REQ_DT" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_REQ_NO" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_SEQ" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
+		<parameter property="ARG_PANMAE_GUBUN" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_CUST_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_ITEM_CD" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_UNIT_A" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="ARG_UNIT_B" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
+		
 		<parameter property="ARG_QTY" jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="VARCHAR" javaType="java.lang.String" mode="OUT"/>
 	</parameterMap>
@@ -182,7 +177,7 @@
 			{CALL PKG_ORDER_RCG.Q_RC160_MD(
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?,
-				?
+				?, ?
 			)}
 		]]>
 	</procedure>

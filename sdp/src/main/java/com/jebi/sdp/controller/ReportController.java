@@ -54,7 +54,7 @@ import com.sun.javafx.collections.SetAdapterChange;
 public class ReportController extends CommonUtil {
 	@Autowired
 	private CmmnDao dao;
-	private String url = "http://biz.jevisco.com";		//오즈서버 호출 URL
+	//private String url = "http://biz.jevisco.com";		//오즈서버 호출 URL
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
 	

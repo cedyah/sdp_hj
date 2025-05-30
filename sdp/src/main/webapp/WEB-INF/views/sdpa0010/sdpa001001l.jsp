@@ -307,7 +307,7 @@
 													
 													<col style="width: 80px;" />
 													<!-- <col style="width: 90px;" /> -->
-													<!-- <col style="width: 80px;" /> -->
+													<col style="width: 80px;" /> 
 													<col style="width: 80px;" />
 													<col style="width: 80px;" />
 
@@ -327,7 +327,7 @@
 														<!--  <th scope="col" rowspan="2">구분</th>-->
 														<!-- <th scope="col" rowspan="2">취급제한</th>-->
 														<!--  <th scope="col" colspan="3" class="tbl_col_tit">재고량</th>-->
-														<th scope="col" colspan="1" class="tbl_col_tit">재고량</th>
+														<th scope="col" colspan="2" class="tbl_col_tit">재고량</th>
 														<th scope="col" rowspan="2">장바<br>구니</th>
 													</tr>
 													<!--<tr>
@@ -349,7 +349,7 @@
 													
 													<col style="width: 80px;" />
 													<!--  <col style="width: 90px;" />-->
-													<!-- <col style="width: 80px;" />-->
+													<col style="width: 80px;" />
 													<col style="width: 80px;" />
 													<col style="width: 80px;" />
 
@@ -384,7 +384,7 @@
 																	<!-- <td class="txt_center">${row.pummog_gubun}</td> -->
 																	<!--<td class="pro_code txt_center">${row.item_type}</td>-->
 																	<td class="txt_rig ft_grey" id="td_qtyOnHand01">0</td>
-																	<!--<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>-->
+																	<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>
 																	<!--<td class="txt_rig ft_grey" id="td_keepOnHand">0</td>-->
 																	
 																	<td class="txt_center">

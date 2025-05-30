@@ -67,7 +67,7 @@ public class CommonController extends CommonUtil {
 	
 	@RequestMapping(value = "ozReport.do")		//오즈레포트
 	public String ozReport(HttpServletRequest request, ModelMap model, Locale locale, HttpServletResponse response) throws Exception {
-		String url = "http://biz.jevisco.com:8080";
+		//String url = "http://biz.jevisco.com:8080";
 		
 		
 		return "templates/ozh_sample";

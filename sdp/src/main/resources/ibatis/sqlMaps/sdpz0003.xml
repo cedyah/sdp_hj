@@ -22,7 +22,7 @@
 			,RECORDDATE
 			,CREATEDBY
 			,UPDATEDBY
-		FROM SDP_SHIPMENT
+		FROM SDP_SHIPMENT_HANJIN
 		WHERE 1=1
 			 AND CUST_NUM = #cust_num#
 			 <isNotEmpty property="ship_num">
@@ -44,7 +44,7 @@
 		<selectKey keyProperty="ship_num" resultClass="String">
 			SELECT CREATE_PK('S') AS SHIP_NUM FROM DUAL
 		</selectKey>
-		INSERT INTO SDP_SHIPMENT(
+		INSERT INTO SDP_SHIPMENT_HANJIN(
 			SHIP_NUM
 			,CUST_NUM
 			,CUST_SEQ
@@ -80,7 +80,7 @@
 	</insert>
 	
 	<insert id="update_shipment" parameterClass="shipmentVO">
-		UPDATE SDP_SHIPMENT
+		UPDATE SDP_SHIPMENT_HANJIN
 		SET MAN = #man#
 			,ZIP = #zip#
 			,PHONE = #phone#
@@ -92,7 +92,7 @@
 	</insert>
 	
 	<delete id="delete_shipment" parameterClass="shipmentVO">
-		DELETE SDP_SHIPMENT
+		DELETE SDP_SHIPMENT_HANJIN
 		WHERE 1=1
 			AND CUST_NUM = #cust_num#
 			<isNotEmpty property="ship_num">

@@ -97,9 +97,24 @@
 				$("#hid_table1").find("input[name='hid_item']").val(jsonList[i].item );
 				$("#hid_table1").find("input[name='hid_qty_allocjob']").val(jsonList[i].qty_allocjob);
 				$("#hid_table1").find("input[name='hid_u_m']").val(jsonList[i].u_m);
+				$("#hid_table1").find("input[name='hid_description']").val(jsonList[i].item );
 				$("#hid_table1").find("#td_item").html(jsonList[i].item);
+				
 				$("#hid_table1").find("#td_description").html(jsonList[i].description);
-				$("#hid_table1").find("#td_u_m").html(jsonList[i].qty_allocjob + jsonList[i].u_m);
+				$("#hid_table1").find("#td_model_1").html("9");
+				$("#hid_table1").find("#td_model_2").html("9");
+				$("#hid_table1").find("#td_model_3").html("9");
+				$("#hid_table1").find("#td_model_4").html("9");
+				$("#hid_table1").find("#td_model_5").html("9");
+				//$("#hid_table1").find("#td_u_m").html(jsonList[i].qty_allocjob + jsonList[i].u_m);
+				//$("#hid_table1").find("input[name='pummog_code']").val(jsonList[i].item);
+				//$("#hid_table1").find("#pummog_code").val(jsonList[i].item);
+				//$("#hid_table1").find("#pummyeong").val(jsonList[i].description);
+				//$("#hid_table1").find("#po_danwi_a").val(jsonList[i].u_m);
+				//$("#hid_table1").find("#pummog_code").val(jsonList[i].qty_allocjob);
+				console.log(jsonList[i].item);         // 품목코드
+				console.log("jsonList[i].item");         // 품목코드
+				//$("#hid_table1").find("#hid_item").html(jsonList[i].item);
 				
 				$("#tbody_list").append($("#hid_table1 tbody").html());
 				$("#tr_empty").remove();			//빈칸용 tr 삭제
@@ -109,8 +124,12 @@
 		var trList = $("#table_item tbody tr");
 		$("#p_listCnt").html("주문상품 : <strong>" + $("#tbody_list tr").length + "</strong>건");		//행 갯수 갱신
 		
-		ajaxRefreshQty_all();
+		console.log("▶ ajaxRefreshQty_all:", trList);
 		
+		ajaxRefreshQty_all();
+
+		console.log("▶ ajaxRefreshQty_all:", "new");
+
 		return li_duplChk;
 	}
 	
@@ -203,7 +222,7 @@
 					if (result) { //yes Click
 						c_submit("frm", "sdpa004101u_update.do");
 					} else { //no Click
-						return;
+						return; 
 					}
 				});
 			}
@@ -267,45 +286,53 @@
 								<table class="table_common" summary="샘플의뢰서등록">
 									<caption>샘플의뢰서등록</caption>
 									<colgroup>
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 100px;" />
-										<col style="width: 250px;" />
-										<col style="width: 100px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="" />
+										<col style="width: 30px;" /><!--  V  -->
+										<col style="width: 65px;" />
+										<col style="width: 105px;" />
+										<col style="width: 255px;" />
+										<col style="width: 75px;" />
+										
+										<col style="width: 55px;" /><!--  포장단위B-->
+										<col style="width: 75px;" />
+										<col style="width: 55px;" />
+										<col style="width: 55px;" />
+										<col style="width: 55px;" />
+										
+										<col style="width: 45px;" /><!--  적용모델1-->
+										<col style="width: 45px;" />
+										<col style="width: 45px;" />
+										<col style="width: 45px;" />
+										<col style="width: 45px;" />
+
+										<col style="" /> <!--  적용모델1-->
 									</colgroup>
 									<thead>
 										<tr>
-											<th scope="col">순번</th>																
+											<th scope="col">V</th>																
 											<th scope="col">견본구분</th>		
 											<th scope="col">품목코드</th>
 											<th scope="col">품명</th>
-											<th scope="col">포장단위</th>
+											<th scope="col">포장단</th>
+
+											<th scope="col">위</th>
 											<th scope="col">포장수량</th>
 											<th scope="col">유무상</th>
 											<th scope="col">도편</th>
 											<th scope="col">진도상황</th>
+
 											<th scope="col">적용모델1</th>
 											<th scope="col">적용모델2</th>
 											<th scope="col">적용모델3</th>
 											<th scope="col">적용모델4</th>
 											<th scope="col">적용모델5</th>
+
 											<th scope="col">적용모델6</th>
 										</tr>
-										<tr>
+										<!--  <tr>
 											<th class="tbl_row_tit" scope="col" rowspan="" style="border-right:1px solid #606c79;">작성일</th>
 											<th class="tbl_row_tit" scope="col" colspan="" style="border-right:1px solid #606c79;">전표번호</th>
 											<th class="tbl_row_tit" scope="col" colspan="">사업장</th>
-										</tr>
+										</tr>-->
 									</thead>
 								</table>
 							</div>
@@ -314,44 +341,58 @@
 								<table class="table_common" id="table_item">
 									<caption>주문 리스트</caption>
 									<colgroup>
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 100px;" />
-										<col style="width: 250px;" />
-										<col style="width: 100px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="" />
+										<col style="width: 30px;" /><!--  V  -->
+										<col style="width: 65px;" />
+										<col style="width: 105px;" />
+										<col style="width: 255px;" />
+										<col style="width: 75px;" />
+										
+										<col style="width: 55px;" /><!--  포장단위B-->
+										<col style="width: 75px;" />
+										<col style="width: 55px;" />
+										<col style="width: 55px;" />
+										<col style="width: 55px;" />
+										
+										<col style="width: 45px;" /><!--  적용모델1-->
+										<col style="width: 45px;" />
+										<col style="width: 45px;" />
+										<col style="width: 45px;" />
+										<col style="width: 45px;" />
+
+										<col style="" /> <!--  적용모델1-->
 									</colgroup>
 									<tbody id="tbody_list">
 							          <c:forEach var="sampleRequestItem" items="${sampleRequestItemList}" varStatus="status">									
 										<tr id="tr_1">													
-											<td class="txt_center"  colspan="1">
-												<input type="text" id="sunbeon" name="sunbeon" 
-													value="${sampleRequestItem.sunbeon}" title="순번" req/>
-											</td>									
-											<td class="txt_center"  colspan="1">
-												<input type="text" id="gyeonbon_gubun" name="gyeonbon_gubun" title="견본구분" 
-													value="${sampleRequestItem.gyeonbon_gubun}"  req/>
-											</td>									
- 											<td class="txt_center"  colspan="1">
- 												<input type="text" id="pummog_code" name="pummog_code" title="품목코드" 
- 													value="${sampleRequestItem.pummog_code}"  req/>
- 											</td>									
-											<td class="pro_name" colspan="1">
-												<input type="text" style="width:100%" id="pummyeong" name="pummyeong" value="${sampleRequestItem.pummyeong}" 
-													maxlength="30" title="제품명" />
-											</td>	
+                                            <td class="txt_center">
+												<input type="hidden" id="hid_${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}"
+														name="hid_mappingCode" value="${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}" >
+												<input type="hidden" id="hid_item" name="hid_item" value="${sampleRequestItem.pummog_code}" >
+												<input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="${sampleRequestItem.panmae_danwi_a}" >
+												<input type="hidden" id="hid_u_m" name="hid_u_m" value="${sampleRequestItem.panmae_danwi_b}" >
+												<input type="hidden" id="hid_description" name="hid_description" value="${sampleRequestItem.pummyeong}" >
+													
+												<input class="blue_checkbox" type="checkbox" id="chkBox_${row.jepum_code}${row.panmae_danwi_a}${row.panmae_danwi_b}" name="chkBox" />
+												<label class="blue_label" for="chkBox_${row.jepum_code}${row.panmae_danwi_a}${row.panmae_danwi_b}"></label>
+											</td>		 
+											<td class="last">
+                                                <select class="select" style="width:50px;" title="견본구분" id="gyeonbon_gubun" name="gyeonbon_gubun">
+                                                    <c:if test="${fn:length(code4007) > 0}">
+                                                        <c:forEach items="${code4007}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequestItem.gyeonbon_gubun) == row.code}"> selected</c:if> >${row.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
+                                            <td class="pro_code" style="width:100px;"  id="td_item">${sampleRequestItem.pummog_code}</td>
+                                            <td class="pro_name"  style="width:250px;" id="td_description">${sampleRequestItem.pummyeong}</td>
 											<td class="txt_center" colspan="1">
 												<input type="text" class="entry_f" id="po_danwi_a" name="po_danwi_a"
 													value="${sampleRequestItem.po_danwi_a != null ? sampleRequestItem.po_danwi_a:0}" title="판매단위(수량)" req/>
+											</td>																															
+
+											<td class="txt_center" colspan="1">
 												<select class="select" title="포장단위" id="po_danwi_b" name="pojang_danwi_b">
 													<option value="LT" <c:if test="${'LT' == sampleRequestItem.po_danwi_b}"> selected</c:if>>LT</option>
 													<option value="KG" <c:if test="${'KG' == sampleRequestItem.po_danwi_b}"> selected</c:if>>KG</option>
@@ -361,7 +402,17 @@
 											<td class="txt_center"  colspan="1">
 												<input type="text" class="entry" id="po_su" name="po_su" title="주문수량" 
 													value="${sampleRequestItem.po_su != null ? sampleRequestItem.po_su : 0}" req/>
-											</td>									
+											</td>								
+										    <td class="last">
+                                                <select class="select" title="유상여부" id="price_yn" name="price_yn">
+                                                    <c:if test="${fn:length(code4030) > 0}">
+                                                        <c:forEach items="${code4030}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequestItem.price_yn) == row.code}"> selected</c:if> >${row.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>	
 											<td class="txt_center"  colspan="1">
 												<input type="text" class="entry" id="price_yn" name="price_yn" title="유상여부" 
 													value="${sampleRequestItem.price_yn}" />
@@ -374,6 +425,7 @@
 												<input type="text" class="entry" id="stat_nm" name="stat_nm" title="상태" 
 													value="${sampleRequestItem.stat_nm}" />
 											</td>									
+
 											<td class="txt_center"  colspan="1">
 												<input type="text" class="entry" id="model_1" name="model_1" title="모델1" 
 													value="${sampleRequestItem.model_1}" />
@@ -394,6 +446,7 @@
 												<input type="text" class="entry" id="model_5" name="model_5" title="모델5" 
 													value="${sampleRequestItem.model_5}" />
 											</td>									
+											
 											<td class="txt_center"  colspan="1">
 												<input type="text" class="entry" id="model_6" name="model_6" title="모델6" 
 													value="${sampleRequestItem.model_6}" />
@@ -438,18 +491,31 @@
 											  <input type="text" id="jeonpyo_no" name="jeonpyo_no" value="${sampleRequest.jeonpyo_no}"
 											           title="전표번호" />
 										  </td>
-											<th scope="row">품목분류</th>
+										  <th scope="row">품목분류</th>
 											<td class="last">
-  										  <input type="text" id="pummog_bunryu" name="pummog_bunryu" value="${sampleRequest.pummog_bunryu}"
-	    								         title="품목분류" />
-                      </td>
+                                                <select class="select" title="품목분류" style="width:150px;" id="pummog_bunryu" name="pummog_bunryu">
+                                                    <c:if test="${fn:length(code4901) > 0}">
+                                                        <c:forEach items="${code4901}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequest.pummog_bunryu) == row.code}"> selected</c:if> >${row.name}        </option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
 										</tr>
 										<tr>
 											<th scope="row">핸드폰분류</th>
-											<td class="last" colspan="1">
-											  <input type="text" id="hp_bunryu" name="hp_bunryu" value="${sampleRequest.hp_bunryu}"
-											           title="핸드폰분류" />
-										  </td>
+											<td class="last">
+                                                <select class="select" style="width:150px;" title="핸드폰분류" id="hp_bunryu" name="hp_bunryu">
+                                                    <c:if test="${fn:length(code4902) > 0}">
+                                                        <c:forEach items="${code4902}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequest.gyeonbon_gubun) == row.code}"> selected</c:if> >${row.name}        </option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
+										  
 											<!--<th scope="row">거래처코드</th>
 											<td class="last">
   										  <input type="text" id="geolaecheo_code" name="geolaecheo_code" value="${sampleRequest.geolaecheo_code}"
@@ -489,28 +555,52 @@
 										  </td>
 											<th scope="row">영업담당자</th>
 											<td class="last">
-  										  <input type="text" id="balsinja" name="balsinja" value="${sampleRequest.balsinja}"
-	    								         title="영업담당자" />
-                      </td>
+                                                <select class="select" title="영업담당자" id="balsinja" name="balsinja">
+                                                    <c:if test="${fn:length(codeBalsinja) > 0}">
+                                                        <c:forEach items="${codeBalsinja}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequest.balsinja) == row.code}"> selected</c:if> >${row.name}      </option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
 										</tr>
 										<tr>
 											<th scope="row">수신부서</th>
-											<td class="last" colspan="1">
-											  <input type="text" id="susin_buseo" name="susin_buseo" value="${sampleRequest.susin_buseo}"
-											           title="수신부서" />
-										  </td>
+											<td class="last">
+                                                <select class="select" title="수신부서" id="susin_buseo" name="susin_buseo">
+                                                    <c:if test="${fn:length(codeSusinBuseo) > 0}">
+                                                        <c:forEach items="${codeSusinBuseo}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequest.susin_buseo) == row.code}"> selected</c:if> >${row.name}      </option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
 											<th scope="row">수신자</th>
 											<td class="last">
-  										  <input type="text" id="susinja" name="susinja" value="${sampleRequest.susinja}"
-	    								         title="수신자" />
-                      </td>
+                                                <select class="select" title="수신자" id="susinja" name="susinja" width="200px">
+                                                    <c:if test="${fn:length(codeSusinja) > 0}">
+                                                        <c:forEach items="${codeSusinja}" var="row" varStatus="status">
+                                                             <option value="${row.code}">${row.name}      </option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
 										</tr>
 										<tr>
 											<th scope="row">입회자</th>
 											<td class="last" colspan="1">
-											  <input type="text" id="ibhoija" name="ibhoija" value="${sampleRequest.ibhoija}"
-											           title="입회자" />
-										  </td>
+                                                <select class="select" title="입회자" id="ibhoija" name="ibhoija">
+                                                    <c:if test="${fn:length(codeIbhoija) > 0}">
+                                                        <c:forEach items="${codeIbhoija}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequest.ibhoija) == row.code}"> selected</c:if> >${row.name}      </option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                                
+                                            </td>
 											<th scope="row">납품일자</th>
 											<td class="last">
   										  <input type="text" id="nabpum_ilja" name="nabpum_ilja" value="${sampleRequest.nabpum_ilja}"
@@ -621,9 +711,15 @@
 										  </td>
 											<th scope="row">결과등록기한</th>
 											<td class="last">
-  										  <input type="text" id="gyeolgwa_gihan" name="gyeolgwa_gihan" value="${sampleRequest.gyeolgwa_gihan}"
-	    								         title="결과등록기한" />
-                      </td>
+                                                <select class="select" title="결과등록기한" id="gyeolgwa_gihan" name="gyeolgwa_gihan">
+                                                    <c:if test="${fn:length(code4905) > 0}">
+                                                        <c:forEach items="${code4905}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequest.gyeolgwa_gihan) == row.code}"> selected</c:if> >${row.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+                                            </td>
 										</tr>
 									</tbody>
 								</table>					
@@ -657,81 +753,74 @@
 </body>
 
 <!-- 시판품 추가용 임시 테이블 -->
-<table id="hid_table1" class="table_common" style="display: none;">
-	<colgroup>
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 100px;" />
-										<col style="width: 250px;" />
-										<col style="width: 100px;" />
-										
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="width: 50px;" />
-										<col style="" />
-	</colgroup>
-	<tbody>
-		<tr>
-			<td class="txt_center">
-				<input type="hidden" id="hid_" name="hid_mappingCode" value="" >
-				<input type="hidden" id="hid_item" name="hid_item" value="" >
-				<input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="" >
-				<input type="hidden" id="hid_u_m" name="hid_u_m" value="" >
-			
-			 	<input class="blue_checkbox" type="checkbox" id="" name="chkBox" checked/>
-				<label class="blue_label" for=""></label>  
-			</td>
-			<td class="txt_center" colspan="1">
-				<input type="text" id="gyeonbon_gubun_1" name="gyeonbon_gubun" title="견본구분"  value=""  />
-			</td>									
-			<td class="pro_code" >
-				<input type="text" id="td_item" name="pummog_code" title="품목코드" value=""  />
-			</td>									
-			<td class="pro_name" >
-				<input type="text" id="td_description" name="pummyeong" value=""  title="제품명" />
-			</td>	
-			<td class="txt_center" colspan="1">
-				<input type="text" class="entry_f" id="td_u_m_a" name="po_danwi_a"
-					value="" title="판매단위(수량)" />
-			</td>																															
-			<td class="txt_center" colspan="1">
-				<select class="select" title="포장단위" id="td_um_b" name="po_danwi_b">
-					<option value="LT" <c:if test="${'LT' == sampleRequestItem.po_danwi_b}"> selected</c:if>>LT</option>
-					<option value="KG" <c:if test="${'KG' == sampleRequestItem.po_danwi_b}"> selected</c:if>>KG</option>
-					<option value="EA" <c:if test="${'EA' == sampleRequestItem.po_danwi_b}"> selected</c:if>>EA</option>
-				</select>
-			</td>																															
-			<td class="txt_center"  >
-				<input type="text" class="entry" id="td_po_su" name="po_su" title="주문수량" 
-					value=0 />
-			</td>									
-			<td class="txt_center">
-				<input type="text" class="entry" id="td_price_yn" name="price_yn" title="유상여부" 
-					value="" />
-			</td>									
-			<td class="txt_center" >
-				<input type="text" class="entry" id="td_dopyeon_yn" name="dopyeon_yn" title="도편여부" 
-					value="" />
-			</td>									
-			<td class="txt_center" >
-				<input type="text" class="entry" id="td_stat_nm" name="stat_nm" title="상태" 
-					value="" />
-			</td>									
-			<td class="txt_center" ><input type="text" class="entry" id="td_model_1" name="model_1" title="모델1" value="" /></td>									
-			<td class="txt_center" ><input type="text" class="entry" id="td_model_2" name="model_2" title="모델2" value="" /></td>									
-			<td class="txt_center" ><input type="text" class="entry" id="td_model_3" name="model_3" title="모델3" value="" /></td>									
-			<td class="txt_center" ><input type="text" class="entry" id="td_model_4" name="model_4" title="모델4" value="" /></td>									
-			<td class="txt_center" ><input type="text" class="entry" id="td_model_5" name="model_5" title="모델5" value="" /></td>									
-			<td class="txt_center" ><input type="text" class="entry" id="td_model_6" name="model_6" title="모델6" value="" /></td>									
-
-		</tr>
-	</tbody>
+<!--<table id="hid_table1" class="table_common" style="display: none;">-->
+<table id="hid_table1" class="table_common" >
+    <colgroup>
+        <col style="width: 30px;" />
+        <col style="width: 65px;" />
+        <col style="width: 105px;" />
+        <col style="width: 255px;" />
+        <col style="width: 75px;" />
+        <col style="width: 55px;" />
+        <col style="width: 75px;" />
+        <col style="width: 55px;" />
+        <col style="width: 55px;" />
+        <col style="width: 55px;" />
+        <col style="width: 45px;" />
+        <col style="width: 45px;" />
+        <col style="width: 45px;" />
+        <col style="width: 45px;" />
+        <col style="width: 45px;" />
+        <col style="" />
+    </colgroup>
+    <tbody>
+        <tr>
+            <td class="txt_center">
+                <input type="hidden" id="hid_mappingCode" name="hid_mappingCode"   value=""  />
+                <input type="hidden" id="hid_item"  name="hid_item"  value=""  />
+                <input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob"  value=""  />
+                <input type="hidden" id="hid_u_m"  name="hid_u_m"   value="" />
+                <input class="blue_checkbox" type="checkbox" name="chkBox" checked />
+                <label class="blue_label"></label>
+            </td>
+            <td>
+                                                <select class="select" style="width:50px;" title="견본구분" id="gyeonbon_gubun" name="gyeonbon_gubun">
+                                                    <c:if test="${fn:length(code4007) > 0}">
+                                                        <c:forEach items="${code4007}" var="row" varStatus="status">
+                                                            <option value="${row.code}"
+                                                            <c:if test="${fn:trim(sampleRequestItem.gyeonbon_gubun) == row.code}"> selected</c:if> >${row.name}</option>
+                                                        </c:forEach>
+                                                    </c:if>
+                                                </select>
+            </td>
+                        			
+            <td><input type="text" class="pro_code" id="td_item" style="width:105px" name="pummog_code" title="품목코드" /></td>
+            <td><input type="text" class="pro_name" id="td_description" style="width:255px" name="pummyeong" title="제품명" /></td>
+            <td><input type="text"  class="txt_rig" id="td_u_m" style="width:75px" class="entry_f" name="po_danwi_a" title="판매단" /></td>
+            <td><input type="text" style="width:55px" class="entry_f" name="po_danwi_b" title="위" /></td>
+            <td><input type="text" style="width:75px" class="entry" name="po_su" title="주문수량" value="0" /></td>
+            <td>
+                <select class="select" title="유상여부" name="price_yn">
+                    <select class="select" title="유상여부" id="price_yn" name="price_yn">
+                    <c:if test="${fn:length(code4030) > 0}">
+                    <c:forEach items="${code4030}" var="row" varStatus="status">
+                    <option value="${row.code}"
+                        <c:if test="${fn:trim(sampleRequestItem.price_yn) == row.code}"> selected</c:if> >${row.name}</option>
+                            </c:forEach>
+                        </c:if>
+                    </select>
+                </select>
+            </td>
+            <td><input type="text" style="width:55px" class="entry" id="td_dopyeon_yn" name="td_dopyeon_yn" title="도편여부" /></td>
+            <td><input type="text" style="width:55px" class="entry" id="td_stat_nm" name="td_stat_nm" title="상태" /></td>
+            <td><input type="text" style="width:45px" class="entry" id="td_model_1" name="td_model_1" title="모델1" /></td>
+            <td><input type="text" style="width:45px" class="entry" id="td_model_2" name="td_model_2" title="모델2" /></td>
+            <td><input type="text" style="width:45px" class="entry" id="td_model_3" name="td_model_3" title="모델3" /></td>
+            <td><input type="text" style="width:45px" class="entry" id="td_model_4" name="td_model_4" title="모델4" /></td>
+            <td><input type="text" style="width:45px" class="entry" id="td_model_5" name="td_model_5" title="모델5" /></td>
+            <td><input type="text"                   class="entry"  id="td_model_6" name="td_model_6" title="모델6" /></td>
+        </tr>
+    </tbody>
 </table>
+
 </html>

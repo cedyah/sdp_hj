@@ -83,7 +83,7 @@ $(document).ready(function() {
 	}
 
 	if (mobilecheck()) {
-		location = "https://biz.jevisco.com/sdm";		//모바일로 접속시 이동 경로
+		//location = "https://biz.jevisco.com/sdm";		//모바일로 접속시 이동 경로
 	}
 	//--모바일 체크
 	

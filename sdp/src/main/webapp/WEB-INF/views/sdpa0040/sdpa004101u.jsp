@@ -242,8 +242,8 @@
 
 						<!-- board_list_wrap (게시물 리스트) -->
 						<div class="searchlist_wrap_tit">
-							<table class="table_common" summary="주문서작성">
-								<caption>주문서작성</caption>
+							<table class="table_common" summary="제조의뢰등록">
+								<caption>제조의뢰등록</caption>
 								<colgroup>
 									<col style="width: 40px;" />
 									<col style="width: 100px;" />
@@ -251,7 +251,6 @@
 									<col style="width: 100px;" />
 									<col style="width: 80px;" />
 									
-									<col style="width: 80px;" />
 									<col style="width: 80px;" />
 									<col style="" />
 								</colgroup>
@@ -265,7 +264,7 @@
 										<th scope="col" rowspan="2">품명</th>
 										<th scope="col" rowspan="2">판매단위</th>
 
-										<th scope="col" colspan="3" class="tbl_col_tit">재고수량</th>
+										<th scope="col" colspan="2" class="tbl_col_tit">재고수량</th>
 										<th scope="col" rowspan="2">제조수량</th>
 									</tr>
 									<tr>
@@ -285,7 +284,6 @@
 									<col style="width: 100px;" />
 									<col style="width: 80px;" />
 									
-									<col style="width: 80px;" />
 									<col style="width: 80px;" />
 									<col style="" />
 								</colgroup>
@@ -308,10 +306,8 @@
 													<td class="pro_name" id="td_description">${row.pummyeong}</td>
 													<td class="txt_rig" id="td_u_m">${row.pojang_danwi_a}${row.pojang_danwi_b}</td>
 													<td class="txt_rig" id="td_qtyOnHand01">0</td>
-													
 													<td class="txt_rig" id="td_qtyOnHand02">0</td>
-													<td class="txt_rig" id="td_keepOnHand">0</td>
-													<td class="txt_center">
+      												<td class="txt_center">
 														<input type="text" class="entry" id="input_qty1" name="input_qty1" value="${row.pojang_sulyang}" title="제조수량"/>
 													</td>
 												</tr>
@@ -348,15 +344,14 @@
 								</colgroup>
 								<tbody>
 									<tr class="first">
-										<th scope="row">배달구분</th>
+										<th scope="row">판매구분</th>
 										<td class="last">
-											<select class="select" title="배달구분" id="baedal_gubun" name="baedal_gubun">
+											<select class="select" title="판매구분" id="panmae_gubun" name="panmae_gubun">
 												<c:if test="${fn:length(code10) > 0}">
 													<c:forEach items="${code10}" var="row" varStatus="status">
 														<option value="${row.code}"
-															<c:if test="${fn:trim(prodReqHeader.baedal_gubun) == row.code}"> selected</c:if> >${row.name}</option>
-													</c:forEach>
-													<option value="B">요청후출고 (11말 또는 44G/A 이상)</option>
+															<c:if test="${fn:trim(prodReqHeader.panmae_gubun) == row.code}"> selected</c:if> >${row.name}</option>
+													</c:forEach>													
 												</c:if>
 											</select>
 										</td>
@@ -364,25 +359,6 @@
 										<td class="last">
 											<input type="text" class="ico_cal datepicker_aftToday" id="euiloiil" name="euiloiil" value="${prodReqHeader.euiloiil}" readonly="readonly" 
 												title="완료요청일" req/>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row">배달장소</th>
-										<td class="last" colspan="3">
-											<input class="btn_del2" type="button" id="" value="주소 초기화" onclick="removeAddr();" />
-											<input type="button" class="order_zipnum" onclick="javascript:popup_searchAddress(); return false;"/>
-											<input type="text" class="order_zip readonly" id="zip" name="zip" onfocus="this.blur();" value="${prodReqHeader.zip}" title="주소" readonly/>
-											<input type="button" class="order_addlist" value="주소록" onclick="popup_manageAddr();"/>&nbsp;※ 사업장(점포) 소재지에서 인수할 경우 입력하지 마세요
-											<input type="text" class="order_add readonly" id="addr1"  name="addr1" onfocus="this.blur();" value="${prodReqHeader.addr1}" readonly/>
-											<input type="text" class="order_add2" id="addr2"  name="addr2" value="${prodReqHeader.addr2}" maxlength="50"/>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row">인수자</th>
-										<td class="last"><input type="text" id="insuja" name="insuja" maxlength="10" value="${prodReqHeader.insuja}" title="인수자"/></td>
-										<th scope="row">전화번호</th>
-										<td class="last">
-											<input type="text" class="phone" id="tel_no" name="tel_no" placeholder="예시 : 01012345678" value="${prodReqHeader.tel_no}" title="전화번호" req/>
 										</td>
 									</tr>
 									<tr>
@@ -435,8 +411,6 @@
 		<col style="width: 80px;" />
 		
 		<col style="width: 80px;" />
-		<col style="width: 80px;" />
-		<col style="width: 60px;" />
 		<col style="width: 60px;" />
 		<col style="" />
 	</colgroup>
@@ -457,7 +431,6 @@
 			<td class="txt_rig" id="td_qtyOnHand01">0</td>
 			
 			<td class="txt_rig" id="td_qtyOnHand02">0</td>
-			<td class="txt_rig" id="td_keepOnHand">0</td>
 			<td class="txt_center">
 				<input type="text" class="entry" id="input_qty1" name="input_qty1" value="0" title="제조수량"/>
 			</td>

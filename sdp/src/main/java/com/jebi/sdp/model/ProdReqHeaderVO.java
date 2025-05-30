@@ -29,7 +29,9 @@ public class ProdReqHeaderVO extends CustomerVO {
 	String addr2;               //주소_상세
 	String baedal_jangso;       //배달장소
 	String product_type;		//제조구분(신규, 일반)
+	String jepum_code;			//품명(ex: ??외 몇건 )
 	String pummyeong;			//품명(ex: ??외 몇건 )
+	String gubun;			    //품명(ex: ??외 몇건 )
 	
 	public String getPummyeong() {
 		return pummyeong == null ? "" : pummyeong;
@@ -168,5 +170,17 @@ public class ProdReqHeaderVO extends CustomerVO {
 	}
 	public void setBaedal_jangso(String baedal_jangso) {
 		this.baedal_jangso = baedal_jangso == null ? "" : baedal_jangso;
+	}
+	public String getJepum_code() {
+		return jepum_code;
+	}
+	public void setJepum_code(String jepum_code) {
+		this.jepum_code = jepum_code;
+	}
+	public String getGubun() {
+		return gubun;
+	}
+	public void setGubun(String gubun) {
+		this.gubun = gubun;
 	}
 }

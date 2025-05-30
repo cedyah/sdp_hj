@@ -167,12 +167,12 @@
 									<tr>
 										<th scope="row" alt="">제조번호</th>
 										<td class="last" >${prodReqHeader.jejo_jeonpyo_no}</td>
-										<th scope="row">배달구분</th>
-										<td class="last">${prodReqHeader.baedal_gubun_nm}</td>
-									</tr>
-									<tr>
 										<th scope="row">완료요청일</th>
 										<td class="last">${prodReqHeader.euiloiil}</td>
+									</tr>
+<!-- 									<tr>
+										<th scope="row">배달구분</th>
+										<td class="last">${prodReqHeader.baedal_gubun_nm}</td>
 										<th scope="row">전화번호</th>
 										<td class="last">${prodReqHeader.tel_no}</td>
 									</tr>
@@ -192,7 +192,7 @@
 												</c:when>
 											</c:choose>
 										</td>
-									</tr>
+									</tr> -->
 									<tr>
 										<th scope="row">비고</th>
 										<td class="last" colspan="3">${fn:replace(prodReqHeader.bigo, newLineChar, "<br>")}</td>

@@ -47,6 +47,11 @@ public class Sdpa0020Controller extends CommonUtil {
 	@RequestMapping(value = "sdpa002001d.do")		//주문서 상세 조회
 	public String detailCo(@ModelAttribute("coVO")CoVO coVO,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
+
+		    System.out.println(">>> [coVO] received: " + coVO);
+		    System.out.println(">>> [cust_num]: " + coVO.getCust_num());
+		    System.out.println(">>> [ord_dt]: " + coVO.getIlja());
+		    System.out.println(">>> [ord_no]: " + coVO.getJeonpyo_no());
 		//header 정보
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ARG_CUST_CD",     coVO.getCust_num());
@@ -65,7 +70,7 @@ public class Sdpa0020Controller extends CommonUtil {
 		    model.addAttribute("co", co);
 		} else {
 		    model.addAttribute("message", "해당 정보가 없습니다.");
-		    return "errorPage";
+		    return "templates/errorPage";
 		}
 		
 		//sub 정보
@@ -91,6 +96,9 @@ public class Sdpa0020Controller extends CommonUtil {
 		model.addAttribute("flag", flag);
 		HashMap<String, Object> map;
 		
+		
+		
+		
 		//종합 포인트 정보
 		CustomerVO customerVO = new CustomerVO();
 		customerVO = (CustomerVO) dao.select("sdpf0030.select_pointInfo", coVO);
@@ -101,9 +109,22 @@ public class Sdpa0020Controller extends CommonUtil {
 		
 		//배달구분 코드목록
 		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "425");
+		map.put("ARG_MAJOR_CD", "4020");
 		dao.update("common.procedure_selectCode", map);
 		model.addAttribute("code10", map.get("OUT_PARAM"));
+
+		//판매구분 코드목록
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "4069");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code11", map.get("OUT_PARAM"));
+
+		//화폐코드 코드목록
+		map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "4115");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code12", map.get("OUT_PARAM"));
+
 		
 		if("insert".equals(flag)) {
 			//화면에서 넘겨준 아이템들이 있을경우 JSONarray를 ArryaList로 변환하여 전달
@@ -173,7 +194,7 @@ public class Sdpa0020Controller extends CommonUtil {
 			//전표번호 가져오기
 			map = new HashMap<String, Object>();
 			map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-			map.put("ARG_SLIP_TYPE", "01");		//주문서 전표 번호는 01
+			map.put("ARG_SLIP_TYPE", "W1");		//주문서 전표 번호는 01
 			map.put("ARG_DT", getExpDateString(coVO.getIlja()));
 			map.put("OUT_PARAM", null);
 			
@@ -189,18 +210,17 @@ public class Sdpa0020Controller extends CommonUtil {
 			map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
 			map.put("ARG_CUST_CD", coVO.getCust_num());
 			
-			map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
+			map.put("ARG_PANMAE_GUBUN", coVO.getPanmae_gubun());
+			map.put("ARG_HWAPYE_CODE", coVO.getHwapye_code());
+			map.put("ARG_CODE_1","");
+			map.put("ARG_CODE_2","");
 			map.put("ARG_DELY_DT", getExpDateString(coVO.getYocheongil()));
-			map.put("ARG_DELY_PLACE", "");
+
+			map.put("ARG_DELY_PLACE", coVO.getBaedal_jangso());
 			map.put("ARG_RECVER", coVO.getInsuja());
 			map.put("ARG_TEL_NO", coVO.getTel_no());
 			
 			map.put("ARG_RMK", coVO.getBigo());
-			map.put("ARG_TAKSONG_POINT_YN", coVO.getTaksong_point_yn());
-			map.put("ARG_ZIP", coVO.getZip());
-			map.put("ARG_ADDR1", coVO.getAddr1());
-			map.put("ARG_ADDR2", coVO.getAddr2());
-			
 			map.put("OUT_PARAM", "");
 			
 			dao.select("sdpa0020.procedure_insertOrderHeader", map);
@@ -211,7 +231,7 @@ public class Sdpa0020Controller extends CommonUtil {
 				dao.endTransaction();
 				return "templates/error";
 			}
-			
+			System.out.println(">>> jsonList.length = " + jsonList.length());
 			//sub 입력
 			if(jsonList.length() > 0) {
 				JSONObject obj = new JSONObject();
@@ -219,24 +239,36 @@ public class Sdpa0020Controller extends CommonUtil {
 				for(int i=0; i < jsonList.length(); i++) {
 					obj = (JSONObject) jsonList.get(i);
 
+					System.out.println(">>> item JSON[" + i + "] = " + obj.toString());
 					map = new HashMap<String, Object>();
 					map.put("ARG_FLAG", "insert");
 					map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
 					map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
 					map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
 					map.put("ARG_SEQ", Integer.toString(i + 1));
+					
 					map.put("ARG_CUST_CD", coVO.getCust_num());
 					map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
 					map.put("ARG_ITEM_CD", obj.getString("item"));
 					map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));
 					map.put("ARG_SALE_UNIT_B", obj.getString("u_m"));
+					
 					map.put("ARG_QTY", obj.getString("qty_input1"));
-					map.put("ARG_QTY_BO", obj.getString("qty_input2"));
-					map.put("ARG_QTY_BO_C", "0");
 					map.put("ARG_RMK", obj.getString("bigo"));
+					map.put("ARG_GUBUN", "N");
+					map.put("ARG_NABPUM", "1");
+					map.put("ARG_SAMSUNG_YN", "N");
+					
 					map.put("OUT_PARAM", "");
 					
+					System.out.println(">>> calling procedure_insertOrderSub");
+					try{
+						
 					dao.select("sdpa0020.procedure_insertOrderSub", map);
+					}
+					catch(Exception e){
+						System.out.println(">>> ERROR calling procedure_insertOrderSub: " + e.getMessage());
+					}
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
@@ -349,15 +381,19 @@ public class Sdpa0020Controller extends CommonUtil {
 					map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
 					map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
 					map.put("ARG_SEQ", Integer.toString(i + 1));
+					
 					map.put("ARG_CUST_CD", coVO.getCust_num());
 					map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
 					map.put("ARG_ITEM_CD", obj.getString("item"));
 					map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));
 					map.put("ARG_SALE_UNIT_B", obj.getString("u_m"));
+					
 					map.put("ARG_QTY", obj.getString("qty_input1"));
-					map.put("ARG_QTY_BO", obj.getString("qty_input2"));
-					map.put("ARG_QTY_BO_C", "0");
 					map.put("ARG_RMK", obj.getString("bigo"));
+					map.put("ARG_GUBUN", obj.getString("gubun"));
+					map.put("ARG_NABPUM", obj.getString("nabpum_gubun"));
+					map.put("ARG_SAMSUNG_YN", obj.getString("samsung_yno"));
+					
 					map.put("OUT_PARAM", "");
 					
 					dao.select("sdpa0020.procedure_insertOrderSub", map);
