@@ -121,9 +121,9 @@ public class Sdpa0020Controller extends CommonUtil {
 
 		//화폐코드 코드목록
 		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "4115");
+		map.put("ARG_MAJOR_CD", "4900");
 		dao.update("common.procedure_selectCode", map);
-		model.addAttribute("code12", map.get("OUT_PARAM"));
+		model.addAttribute("code4900", map.get("OUT_PARAM"));
 
 		
 		if("insert".equals(flag)) {
@@ -153,6 +153,7 @@ public class Sdpa0020Controller extends CommonUtil {
 			map.put("ARG_CUST_CD", 		coVO.getCust_num());
 			map.put("ARG_ORD_DT", 		getExpDateString(coVO.getIlja()));
 			map.put("ARG_ORD_NO", 		coVO.getJeonpyo_no());
+			map.put("ARG_GUBUN", 		"인터넷");
 			map.put("OUT_PARAM", 		null);
 			dao.update("sdpa0020.procedure_selectOrderHeader", map);
 			
@@ -216,7 +217,8 @@ public class Sdpa0020Controller extends CommonUtil {
 			map.put("ARG_CODE_2","");
 			map.put("ARG_DELY_DT", getExpDateString(coVO.getYocheongil()));
 
-			map.put("ARG_DELY_PLACE", coVO.getBaedal_jangso());
+			//map.put("ARG_DELY_PLACE", coVO.getBaedal_jangso());
+			map.put("ARG_DELY_PLACE", coVO.getAddr1() + ' ' + coVO.getAddr2());
 			map.put("ARG_RECVER", coVO.getInsuja());
 			map.put("ARG_TEL_NO", coVO.getTel_no());
 			
@@ -248,7 +250,7 @@ public class Sdpa0020Controller extends CommonUtil {
 					map.put("ARG_SEQ", Integer.toString(i + 1));
 					
 					map.put("ARG_CUST_CD", coVO.getCust_num());
-					map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
+					map.put("ARG_PANMAE_GUBUN", coVO.getPanmae_gubun());
 					map.put("ARG_ITEM_CD", obj.getString("item"));
 					map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));
 					map.put("ARG_SALE_UNIT_B", obj.getString("u_m"));
@@ -261,7 +263,7 @@ public class Sdpa0020Controller extends CommonUtil {
 					
 					map.put("OUT_PARAM", "");
 					
-					System.out.println(">>> calling procedure_insertOrderSub");
+   				     System.out.println(">>> calling procedure_insertOrderSub");
 					try{
 						
 					dao.select("sdpa0020.procedure_insertOrderSub", map);

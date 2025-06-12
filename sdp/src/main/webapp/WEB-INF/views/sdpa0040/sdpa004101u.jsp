@@ -113,11 +113,13 @@
 		}
 		
 		//인수자와 전화번호 체크
-		if(!addrCheck()) {
-			c_alert("주소가 입력된 경우 인수자와 전화번호를 반드시 입력해야 합니다");
-			return;
-		}
+		//if(!addrCheck()) {
+		//	c_alert("주소가 입력된 경우 인수자와 전화번호를 반드시 입력해야 합니다");
+		//	return;
+		//}
 		
+		
+
 		//데이터 검증
 // 		if(!doFormValidate(document.frm)){
 // 			return;
@@ -126,6 +128,7 @@
 		//주재 수량 검사
 		for(var i=0; i < li_chkBox.length; i++) {
 			checkQty = Number($(li_chkBox[i]).parent().parent().find("#input_qty1").val());
+
 			if(checkQty < 1) {
 				c_alert("수량을 입력해 주십시오<br>품명 : " + $(li_chkBox[i]).parent().parent().find("#td_description").html());
 				return;
@@ -134,7 +137,8 @@
 		
 		//주재 및 부재를 모두 배열에 담음
 		for(var i=0; i < li_hidItem.length; i++) {
-// 			console.log($(li_hidItem[i]).val());
+		//	//c_alert("cc" + i.toString());
+ 			console.log($(li_hidItem[i]).val());
 			item = {
 				item : $(li_hidItem[i]).val()
 				, qty_allocjob : $(li_hidItem[i]).parent().parent().find("#hid_qty_allocjob").val() 
@@ -142,47 +146,52 @@
 				, description : $(li_hidItem[i]).parent().parent().find("#td_description").html()
 				, qty_input1 : $(li_hidItem[i]).parent().parent().find("#input_qty1").val()
 			}
-// 			console.log(item);
+ 			console.log(item);
 			jsonList.push(item);
 		}
 		
 		$("#jsonList").val(JSON.stringify(jsonList));
-		
+
+		//alert("zz");
 		//주소 미입력시 알림
-		if(($("#addr1").val().length + $("#addr2").val().length) < 1) {
-			c_confirm("주소가 입력되지 않았습니다. 계속 하시겠습니까?").then(function(result) { //커스텀 confirm
-				if (result) { //yes Click
+		//if(($("#addr1").val().length + $("#addr2").val().length) < 1) {
+		//	alert("zz11");
+		//	c_confirm("주소가 입력되지 않았습니다. 계속 하시겠습니까?").then(function(result) { //커스텀 confirm
+		//		if (result) { //yes Click
 					if("${flag}" == "insert") {
 						c_submit("frm", "sdpa004101u_insert.do");
 					
 					} else {
 						c_submit("frm", "sdpa004101u_update.do");
 					}
-				} else { //no Click
-					return;
-				}
-			});
+		//		} else { //no Click
+		//			return;
+		//		}
+		//	});
 			
-		} else {
-			if("${flag}" == "insert") {
-				c_confirm("제조의뢰를 등록 하시겠습니까?").then(function(result) { //커스텀 confirm
-					if (result) { //yes Click
-						c_submit("frm", "sdpa004101u_insert.do");
-					} else { //no Click
-						return;
-					}
-				});
+		//} else {
+// 			alert("zz22");
+// 			if("${flag}" == "insert") {
+// 				c_confirm("제조의뢰를 등록 하시겠습니까?").then(function(result) { //커스텀 confirm
+// 					if (result) { //yes Click
+// 						c_submit("frm", "sdpa004101u_insert.do");
+// 					} else { //no Click
+// 						return;
+// 					}
+// 				});
 
-			} else {
-				c_confirm("제조의뢰를 수정 하시겠습니까?").then(function(result) { //커스텀 confirm
-					if (result) { //yes Click
-						c_submit("frm", "sdpa004101u_update.do");
-					} else { //no Click
-						return;
-					}
-				});
-			}
-		}
+// 			} else {
+// 				c_confirm("제조의뢰를 수정 하시겠습니까?").then(function(result) { //커스텀 confirm
+// 					if (result) { //yes Click
+// 						c_submit("frm", "sdpa004101u_update.do");
+// 					} else { //no Click
+// 						return;
+// 					}
+// 				});
+// 			}
+
+		//	alert("zz33");
+		//}
 	}
 	
 	/* 
@@ -323,7 +332,8 @@
 
 						<div class="bottom_btn_wrap">
 							<div class="right_btn_area">
-								<input class="btn_add" type="button" id="" value="품목 추가" onclick="popup_itemList_01('multiple');" />
+								<input class="btn_add" type="button" id="" value="품목 추가" onclick="popup_itemList('multiple');" />
+								<!-- <input class="btn_add" type="button" id="" value="품목 추가" onclick="popup_itemList_01('multiple');" /> -->
 								<input class="btn_del2" type="button" id="" value="품목 삭제" onclick="removeItem();" />
 							</div>
 						</div>

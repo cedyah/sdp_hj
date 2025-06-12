@@ -69,67 +69,122 @@
 	
 	//팝업창에서 추가한 아이템들을 주문서 목록에 추가
 	function addItem(text) {
-
-		var jsonList = text;
-		var obj;
-		var li_mappingCode = $("#table_item input[name='hid_mappingCode']");	//화면에 mapping 코드를 object로 불러와 추가할 아이템 목록과 비교하여 중복을 방지하기 위함
-		var li_mappingCodeVal = [];		//mapping의 value값을 저장하기 위한 배열
-		var li_duplChk = [];		//기존에 이미 추가 되어 있는 아이템들 목록을 alert으로 뿌리기 위해 배열로 저장
-		console.log("▶ parent.addItem called:", "aaa");
-		console.log("▶ parent.addItem called:", jsonList);
-		debugger;
+		  console.log("=== addItem 함수 시작 ===");
+		    console.log("전달받은 데이터:", text);
+		    console.log("데이터 타입:", typeof text);
+		    console.log("배열 길이:", text.length);
+		    
+		    if (text.length > 0) {
+		        console.log("첫 번째 아이템:", text[0]);
+		        console.log("첫 번째 아이템의 item 값:", text[0].item);
+		    }
 		
-		for(var i=0; i < li_mappingCode.length; i++) {
-			li_mappingCodeVal.push($(li_mappingCode[i]).val());
-		}
 		
-		for(var i=0; i < jsonList.length; i++) {
-		
-			//기존에 추가 되어 있는 아이템인지 검색 if:행추가X else:행추가O
-			if(li_mappingCodeVal.indexOf(jsonList[i].item + jsonList[i].qty_allocjob + jsonList[i].u_m) >= 0) {
-				li_duplChk.push(jsonList[i].description);
-
-			} else {
-				$("#hid_table1").find("input[name='chkBox']").attr("id", "chkBox_" + jsonList[i].item + jsonList[i].qty_allocjob + jsonList[i].u_m);
-				$("#hid_table1").find("input[name='hid_mappingCode']").attr("id", "hid_" + jsonList[i].item + jsonList[i].qty_allocjob + jsonList[i].u_m);
-				$("#hid_table1").find("input[name='hid_mappingCode']").val(jsonList[i].item + jsonList[i].qty_allocjob + jsonList[i].u_m);
-				$("#hid_table1").find("label").attr("for", "chkBox_" + jsonList[i].item + jsonList[i].qty_allocjob + jsonList[i].u_m);
-				$("#hid_table1").find("input[name='hid_item']").val(jsonList[i].item );
-				$("#hid_table1").find("input[name='hid_qty_allocjob']").val(jsonList[i].qty_allocjob);
-				$("#hid_table1").find("input[name='hid_u_m']").val(jsonList[i].u_m);
-				$("#hid_table1").find("input[name='hid_description']").val(jsonList[i].item );
-				$("#hid_table1").find("#td_item").html(jsonList[i].item);
-				
-				$("#hid_table1").find("#td_description").html(jsonList[i].description);
-				$("#hid_table1").find("#td_model_1").html("9");
-				$("#hid_table1").find("#td_model_2").html("9");
-				$("#hid_table1").find("#td_model_3").html("9");
-				$("#hid_table1").find("#td_model_4").html("9");
-				$("#hid_table1").find("#td_model_5").html("9");
-				//$("#hid_table1").find("#td_u_m").html(jsonList[i].qty_allocjob + jsonList[i].u_m);
-				//$("#hid_table1").find("input[name='pummog_code']").val(jsonList[i].item);
-				//$("#hid_table1").find("#pummog_code").val(jsonList[i].item);
-				//$("#hid_table1").find("#pummyeong").val(jsonList[i].description);
-				//$("#hid_table1").find("#po_danwi_a").val(jsonList[i].u_m);
-				//$("#hid_table1").find("#pummog_code").val(jsonList[i].qty_allocjob);
-				console.log(jsonList[i].item);         // 품목코드
-				console.log("jsonList[i].item");         // 품목코드
-				//$("#hid_table1").find("#hid_item").html(jsonList[i].item);
-				
-				$("#tbody_list").append($("#hid_table1 tbody").html());
-				$("#tr_empty").remove();			//빈칸용 tr 삭제
-			}
-		}
-		
-		var trList = $("#table_item tbody tr");
-		$("#p_listCnt").html("주문상품 : <strong>" + $("#tbody_list tr").length + "</strong>건");		//행 갯수 갱신
-		
-		console.log("▶ ajaxRefreshQty_all:", trList);
-		
-		ajaxRefreshQty_all();
-
-		console.log("▶ ajaxRefreshQty_all:", "new");
-
+	    var jsonList = text;
+	    var obj;
+	    var li_mappingCode = $("#table_item input[name='hid_mappingCode']");
+	    var li_mappingCodeVal = [];
+	    var li_duplChk = [];
+	    
+	    console.log("▶ parent.addItem called1:", jsonList);
+	    
+	    // 기존 매핑 코드 수집
+	    for(var i=0; i < li_mappingCode.length; i++) {
+	        li_mappingCodeVal.push($(li_mappingCode[i]).val());
+	    }
+	    
+	    for(var i=0; i < jsonList.length; i++) {
+	        console.log("▶ parent.addItem called:2", i.toString());
+	        
+	        var mappingKey = jsonList[i].item + jsonList[i].qty_allocjob + jsonList[i].u_m;
+	        
+	        // 중복 체크
+	        if(li_mappingCodeVal.indexOf(mappingKey) >= 0) {
+	            li_duplChk.push(jsonList[i].description);
+	            console.log("▶ 중복 품목:", jsonList[i].description);
+	        } else {
+	            // 템플릿 복사 (clone 사용으로 개선)
+	            var newRow = $("#hid_table1 tbody tr").clone();
+	            
+	            // 고유 ID 생성을 위한 타임스탬프 추가
+	            var uniqueId = "item_" + Date.now() + "_" + i;
+	            
+	            // hidden 필드들 설정
+	            newRow.find("input[name='hid_mappingCode']")
+	                .attr("id", "hid_" + mappingKey)
+	                .val(mappingKey);
+	            
+	            newRow.find("input[name='hid_item']")
+	                .attr("id", "hid_item_" + uniqueId)
+	                .val(jsonList[i].item);
+	            
+	            newRow.find("input[name='hid_qty_allocjob']")
+	                .attr("id", "hid_qty_allocjob_" + uniqueId)
+	                .val(jsonList[i].qty_allocjob);
+	            
+	            newRow.find("input[name='hid_u_m']")
+	                .attr("id", "hid_u_m_" + uniqueId)
+	                .val(jsonList[i].u_m);
+	            
+	            newRow.find("input[name='hid_description']")
+	                .attr("id", "hid_description_" + uniqueId)
+	                .val(jsonList[i].description);
+	            
+	            // 체크박스 설정
+	            newRow.find("input[name='chkBox']")
+	                .attr("id", "chkBox_" + mappingKey);
+	            
+	            newRow.find("label")
+	                .attr("for", "chkBox_" + mappingKey);
+	            
+	            // 화면에 표시되는 데이터 설정
+	            newRow.find(".pro_code").text(jsonList[i].item);
+	            newRow.find(".pro_name").text(jsonList[i].description);
+	            
+	            // td 요소에 직접 값 설정하는 부분들 수정
+	            newRow.find("td").each(function() {
+	                var $td = $(this);
+	                if ($td.hasClass("pro_code")) {
+	                    $td.text(jsonList[i].item);
+	                } else if ($td.hasClass("pro_name")) {
+	                    $td.text(jsonList[i].description);
+	                }
+	            });
+	            
+	            // 다른 필드들도 기본값 설정
+	            newRow.find("input[name='td_model_1']").val("9");
+	            newRow.find("input[name='td_model_2']").val("9");
+	            newRow.find("input[name='td_model_3']").val("9");
+	            newRow.find("input[name='td_model_4']").val("9");
+	            newRow.find("input[name='td_model_5']").val("9");
+	            
+	            console.log("▶ 추가되는 품목코드:", jsonList[i].item);
+	            console.log("▶ 추가되는 품목명:", jsonList[i].description);
+	            
+	            // 테이블에 행 추가
+	            $("#tbody_list").append(newRow);
+	            $("#tr_empty").remove(); // 빈칸용 tr 삭제
+	        }
+	    }
+	    
+	    console.log("loop end");
+	    
+	    // 행 갯수 갱신
+	    var trCount = $("#tbody_list tr").length;
+	    $("#p_listCnt").html("주문상품 : <strong>" + trCount + "</strong>건");
+	    
+	    // 중복 품목이 있다면 알림
+	    if(li_duplChk.length > 0) {
+	        c_alert("이미 추가된 품목입니다:<br>" + li_duplChk.join("<br>"));
+	    }
+	    
+	    console.log("▶ ajaxRefreshQty_all 호출 전");
+	    
+	    // 수량 새로고침 함수가 있다면 호출
+	    if(typeof ajaxRefreshQty_all === 'function') {
+	        ajaxRefreshQty_all();
+	    }
+	    
 		return li_duplChk;
 	}
 	
@@ -367,7 +422,7 @@
                                             <td class="txt_center">
 												<input type="hidden" id="hid_${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}"
 														name="hid_mappingCode" value="${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}" >
-												<input type="hidden" id="hid_item" name="hid_item" value="${sampleRequestItem.pummog_code}" >
+												<input  id="hid_item" name="hid_item" value="${sampleRequestItem.pummog_code}" >
 												<input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="${sampleRequestItem.panmae_danwi_a}" >
 												<input type="hidden" id="hid_u_m" name="hid_u_m" value="${sampleRequestItem.panmae_danwi_b}" >
 												<input type="hidden" id="hid_description" name="hid_description" value="${sampleRequestItem.pummyeong}" >
@@ -385,7 +440,7 @@
                                                     </c:if>
                                                 </select>
                                             </td>
-                                            <td class="pro_code" style="width:100px;"  id="td_item">${sampleRequestItem.pummog_code}</td>
+                                            <td class="pro_code" style="width:100px;"  id="td_item" >${sampleRequestItem.pummog_code}</td>
                                             <td class="pro_name"  style="width:250px;" id="td_description">${sampleRequestItem.pummyeong}</td>
 											<td class="txt_center" colspan="1">
 												<input type="text" class="entry_f" id="po_danwi_a" name="po_danwi_a"
@@ -752,9 +807,7 @@
 </form>
 </body>
 
-<!-- 시판품 추가용 임시 테이블 -->
-<!--<table id="hid_table1" class="table_common" style="display: none;">-->
-<table id="hid_table1" class="table_common" >
+<table id="hid_table1" class="table_common" style="display: none;">
     <colgroup>
         <col style="width: 30px;" />
         <col style="width: 65px;" />
@@ -776,49 +829,55 @@
     <tbody>
         <tr>
             <td class="txt_center">
-                <input type="hidden" id="hid_mappingCode" name="hid_mappingCode"   value=""  />
-                <input type="hidden" id="hid_item"  name="hid_item"  value=""  />
-                <input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob"  value=""  />
-                <input type="hidden" id="hid_u_m"  name="hid_u_m"   value="" />
+                <input type="hidden" name="hid_mappingCode" value="" />
+                <input type="hidden" name="hid_item" value="" />
+                <input type="hidden" name="hid_qty_allocjob" value="" />
+                <input type="hidden" name="hid_u_m" value="" />
+                <input type="hidden" name="hid_description" value="" />
                 <input class="blue_checkbox" type="checkbox" name="chkBox" checked />
                 <label class="blue_label"></label>
             </td>
             <td>
-                                                <select class="select" style="width:50px;" title="견본구분" id="gyeonbon_gubun" name="gyeonbon_gubun">
-                                                    <c:if test="${fn:length(code4007) > 0}">
-                                                        <c:forEach items="${code4007}" var="row" varStatus="status">
-                                                            <option value="${row.code}"
-                                                            <c:if test="${fn:trim(sampleRequestItem.gyeonbon_gubun) == row.code}"> selected</c:if> >${row.name}</option>
-                                                        </c:forEach>
-                                                    </c:if>
-                                                </select>
-            </td>
-                        			
-            <td><input type="text" class="pro_code" id="td_item" style="width:105px" name="pummog_code" title="품목코드" /></td>
-            <td><input type="text" class="pro_name" id="td_description" style="width:255px" name="pummyeong" title="제품명" /></td>
-            <td><input type="text"  class="txt_rig" id="td_u_m" style="width:75px" class="entry_f" name="po_danwi_a" title="판매단" /></td>
-            <td><input type="text" style="width:55px" class="entry_f" name="po_danwi_b" title="위" /></td>
-            <td><input type="text" style="width:75px" class="entry" name="po_su" title="주문수량" value="0" /></td>
-            <td>
-                <select class="select" title="유상여부" name="price_yn">
-                    <select class="select" title="유상여부" id="price_yn" name="price_yn">
-                    <c:if test="${fn:length(code4030) > 0}">
-                    <c:forEach items="${code4030}" var="row" varStatus="status">
-                    <option value="${row.code}"
-                        <c:if test="${fn:trim(sampleRequestItem.price_yn) == row.code}"> selected</c:if> >${row.name}</option>
-                            </c:forEach>
-                        </c:if>
-                    </select>
+                <select class="select" style="width:50px;" title="견본구분" name="gyeonbon_gubun">
+                    <c:if test="${fn:length(code4007) > 0}">
+                        <c:forEach items="${code4007}" var="row" varStatus="status">
+                            <option value="${row.code}">${row.name}</option>
+                        </c:forEach>
+                    </c:if>
                 </select>
             </td>
-            <td><input type="text" style="width:55px" class="entry" id="td_dopyeon_yn" name="td_dopyeon_yn" title="도편여부" /></td>
-            <td><input type="text" style="width:55px" class="entry" id="td_stat_nm" name="td_stat_nm" title="상태" /></td>
-            <td><input type="text" style="width:45px" class="entry" id="td_model_1" name="td_model_1" title="모델1" /></td>
-            <td><input type="text" style="width:45px" class="entry" id="td_model_2" name="td_model_2" title="모델2" /></td>
-            <td><input type="text" style="width:45px" class="entry" id="td_model_3" name="td_model_3" title="모델3" /></td>
-            <td><input type="text" style="width:45px" class="entry" id="td_model_4" name="td_model_4" title="모델4" /></td>
-            <td><input type="text" style="width:45px" class="entry" id="td_model_5" name="td_model_5" title="모델5" /></td>
-            <td><input type="text"                   class="entry"  id="td_model_6" name="td_model_6" title="모델6" /></td>
+            <td class="pro_code" style="width:105px;"></td>
+            <td class="pro_name" style="width:255px;"></td>
+            <td class="txt_rig" style="width:75px;">
+                <input type="text" class="entry" name="po_danwi_a" title="판매단위" style="width:70px;" />
+            </td>
+            <td class="txt_center" style="width:55px;">
+                <select class="select" title="포장단위" name="po_danwi_b" style="width:50px;">
+                    <option value="LT">LT</option>
+                    <option value="KG">KG</option>
+                    <option value="EA">EA</option>
+                </select>
+            </td>
+            <td class="txt_center" style="width:75px;">
+                <input type="text" class="entry" name="po_su" title="주문수량" style="width:70px;" />
+            </td>
+            <td>
+                <select class="select" title="유상여부" name="price_yn" style="width:50px;">
+                    <c:if test="${fn:length(code4030) > 0}">
+                        <c:forEach items="${code4030}" var="row" varStatus="status">
+                            <option value="${row.code}">${row.name}</option>
+                        </c:forEach>
+                    </c:if>
+                </select>
+            </td>
+            <td><input type="text" style="width:50px;" class="entry" name="dopyeon_yn" title="도편여부" /></td>
+            <td><input type="text" style="width:50px;" class="entry" name="stat_nm" title="상태" /></td>
+            <td><input type="text" style="width:40px;" class="entry" name="td_model_1" title="모델1" /></td>
+            <td><input type="text" style="width:40px;" class="entry" name="td_model_2" title="모델2" /></td>
+            <td><input type="text" style="width:40px;" class="entry" name="td_model_3" title="모델3" /></td>
+            <td><input type="text" style="width:40px;" class="entry" name="td_model_4" title="모델4" /></td>
+            <td><input type="text" style="width:40px;" class="entry" name="td_model_5" title="모델5" /></td>
+            <td><input type="text" class="entry" name="td_model_6" title="모델6" /></td>
         </tr>
     </tbody>
 </table>

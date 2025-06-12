@@ -63,6 +63,8 @@ public class Sdpa0040Controller extends CommonUtil {
 	    System.out.println(">>> [ord_no]: " + prVO.getJeonpyo_no());
 	    System.out.println(">>> [product_type()]: " + prVO.getProduct_type());
 
+	    prVO.setProduct_type("인터넷");
+	    
 		//제조의뢰 헤더 불러오기
 		map = new HashMap<String, Object>();
 		//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
@@ -157,10 +159,15 @@ public class Sdpa0040Controller extends CommonUtil {
 			map.put("ARG_DT", getExpDateString(prVO.getIlja()));
 			map.put("OUT_PARAM", null);
 			
+			System.out.println(">>> sdpa0040.procedure_selectJeonpyoNoPre");
 			dao.select("sdpa0040.procedure_selectJeonpyoNo", map);
 			List<ProdReqHeaderVO> list = (List<ProdReqHeaderVO>) map.get("OUT_PARAM");
 			prVO.setJeonpyo_no(((ProdReqHeaderVO) list.get(0)).getJeonpyo_no());
 			
+    	     System.out.println(">>> calling procedure_insertOrderSub");
+			System.out.println((String) prVO.getJeonpyo_no());
+			System.out.println(">>> sdpa0040.procedure_selectJeonpyoNoPost");
+
 			//header 입력
 			map = new HashMap<String, Object>();
 			map.put("ARG_FLAG", "insert");
@@ -186,7 +193,8 @@ public class Sdpa0040Controller extends CommonUtil {
 				dao.endTransaction();
 				return "templates/error";
 			}
-			
+			System.out.println(">>> jsonList.length = " + jsonList.length());
+
 			//sub 입력
 			if(jsonList.length() > 0) {
 				JSONObject obj = new JSONObject();

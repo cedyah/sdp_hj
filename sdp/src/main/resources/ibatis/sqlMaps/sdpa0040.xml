@@ -119,7 +119,7 @@
 	</parameterMap>
 	
 	<resultMap class="prHeaderVO" id="result_selectJeonpyoNo">
-		<result property="jeonpyo_no" column="V_SLIP_NO"/>
+		<result property="jeonpyo_no" column="SLIP_NO"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">

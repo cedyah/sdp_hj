@@ -37,7 +37,8 @@
 	
 	//주문수정, 취소 막음
 	function ignoreAlert() {
-		c_alert("처리된 주문서는 수정, 취소가 불가합니다");
+		//c_alert("처리된 주문서는 수정, 취소가 불가합니다");
+		alterCo();
 	}
 </script>
 <title>한진화학 주문관리 시스템</title>

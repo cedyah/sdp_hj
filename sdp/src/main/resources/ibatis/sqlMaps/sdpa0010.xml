@@ -84,7 +84,7 @@
 	
 	<procedure id="procedure_selectItemList_menu" parameterMap="param_selectItemList_menu">
 		<![CDATA[
-			{CALL PKG_SDP_ORDER_POPUP_HANJIN.Q_POPUP_ITEM_S_4(
+		     {CALL PKG_SDP_ORDER_POPUP_HANJIN.Q_POPUP_ITEM_S_4(
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?,
 				?, ?, ?, ?, ?
@@ -186,34 +186,12 @@
 		SELECT JEPUM_CODE AS ITEM,
 		       PANMAE_DANWI_A AS QTY_ALLOCJOB,
 		       PANMAE_DANWI_B AS U_M,
-			<isEqual property="workplace" compareValue="1"><!-- 부산 -->
-				SUM(S_JAEGO_1) AS QTY_ON_HAND01,
-		    	SUM(S_JAEGO_6) AS QTY_ON_HAND02,
-		    </isEqual>
-			<isEqual property="workplace" compareValue="2"><!-- 서울 -->
+     			SUM(S_JAEGO_1) AS QTY_ON_HAND01,
+		    	SUM(S_JAEGO_3) AS QTY_ON_HAND02,
+		<!--  	<isEqual property="workplace" compareValue="2"> 서울
 				SUM(S_JAEGO_3) AS QTY_ON_HAND01,
 		    	'0' AS QTY_ON_HAND02,
-		    </isEqual>
-			<isEqual property="workplace" compareValue="3"><!-- 안양 -->
-				SUM(S_JAEGO_3) AS QTY_ON_HAND01,
-		    	'0' AS QTY_ON_HAND02,
-		    </isEqual>
-			<isEqual property="workplace" compareValue="4"><!-- 호남 -->
-				SUM(S_JAEGO_4) AS QTY_ON_HAND01,
-		    	SUM(S_JAEGO_3) AS QTY_ON_HAND02,
-		    </isEqual>
-			<isEqual property="workplace" compareValue="5"><!-- 중부 -->
-				SUM(S_JAEGO_5) AS QTY_ON_HAND01,
-		    	SUM(S_JAEGO_3) AS QTY_ON_HAND02,
-		    </isEqual>
-			<isEqual property="workplace" compareValue="6"><!-- 함안 -->
-				SUM(S_JAEGO_6) AS QTY_ON_HAND01,
-		    	'0' AS QTY_ON_HAND02,
-		    </isEqual>
-			<isEqual property="workplace" compareValue="7"><!-- 대구 -->
-				SUM(S_JAEGO_7) AS QTY_ON_HAND01,
-		    	SUM(S_JAEGO_6) AS QTY_ON_HAND02,
-		    </isEqual>
+		    </isEqual> -->
 		       SUM(JAEGO_B) AS KEEP_ON_HAND
 		  FROM SDP_JAEGO_ILBAN_HANJIN
 		  WHERE 1=1

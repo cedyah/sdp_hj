@@ -430,10 +430,10 @@
 										<td class="last">
 											<input type="text" class="ico_cal datepicker_aftToday" id="yocheongil" name="yocheongil" readonly="readonly" 
 												value="${co.yocheongil}" title="배달요청일" req/>
-											<input type="text" id="yocheong_hh" name="yocheong_hh"  
-												value="${co.yocheong_hh}" title="배달요청시" req/>
-											<input type="text" id="yocheong_mm" name="yocheong_hh"  
-												value="${co.yocheong_mm}" title="배달요청분" req/>
+											<input type="text" id="yocheong_hh" name="yocheong_hh"  style="width:40px"
+												value="${co.yocheong_hh}" title="배달요청시" req/>시
+											<input type="text" id="yocheong_mm" name="yocheong_hh"   style="width:40px"
+												value="${co.yocheong_mm}" title="배달요청분" req/>분
 										</td>
 									</tr>
 									<tr>
@@ -450,9 +450,9 @@
 										</td>
 										<th scope="row">화폐코드</th>
 										<td class="last">
-											<select class="select" title="화폐코드" id="hwapye_code" name="v">
-												<c:if test="${fn:length(code12) > 0}">
-													<c:forEach items="${code12}" var="row" varStatus="status">
+											<select class="select" title="화폐코드" id="hwapye_code" name="hwapye_code">
+												<c:if test="${fn:length(code4900) > 0}">
+													<c:forEach items="${code4900}" var="row" varStatus="status">
 														<option value="${row.code}"
 															<c:if test="${fn:trim(co.hwapye_code) == row.code}"> selected</c:if> >${row.name}</option>
 													</c:forEach>

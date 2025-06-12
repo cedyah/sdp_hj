@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- link -->
-<link rel="shortcut icon" type="image/x-icon" href="img/web_icon.ico" />
+<link rel="shortcut icon" type="image/x-icon" href="img/web_icon.ico?v=20250605" />
 
 <!-- CSS -->
 <link rel="stylesheet" type="text/css" href="css/common.css" />
