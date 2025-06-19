@@ -169,7 +169,7 @@
 	
 	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
 		<![CDATA[
-			{CALL PKG_ORDER_POPUP.Q_SLIP_NO(?, ?, ?, ?)}
+			{CALL PKG_ORDER_POPUP.Q_SLIP_NO(?, ?, ?, ?)}      
 		]]>
 	</procedure>
 	<!-- //샘플출고 전표번호 생성 -->
