@@ -117,15 +117,13 @@
 	            newRow.find("input[name='hid_item']")
 	                .attr("id", "hid_item_" + uniqueId)
 	                .val(jsonList[i].item);
-	            
 	            newRow.find("input[name='hid_qty_allocjob']")
 	                .attr("id", "hid_qty_allocjob_" + uniqueId)
 	                .val(jsonList[i].qty_allocjob);
-	            
 	            newRow.find("input[name='hid_u_m']")
 	                .attr("id", "hid_u_m_" + uniqueId)
 	                .val(jsonList[i].u_m);
-	            
+            
 	            newRow.find("input[name='hid_description']")
 	                .attr("id", "hid_description_" + uniqueId)
 	                .val(jsonList[i].description);
@@ -151,6 +149,8 @@
 	                }
 	            });
 	            
+	            newRow.find("td#td_u_m").text(jsonList[i].qty_allocjob + jsonList[i].u_m);
+
 	            // 다른 필드들도 기본값 설정
 	            newRow.find("input[name='td_model_1']").val("9");
 	            newRow.find("input[name='td_model_2']").val("9");
@@ -160,7 +160,7 @@
 	            
 	            console.log("▶ 추가되는 품목코드:", jsonList[i].item);
 	            console.log("▶ 추가되는 품목명:", jsonList[i].description);
-	            
+
 	            // 테이블에 행 추가
 	            $("#tbody_list").append(newRow);
 	            $("#tr_empty").remove(); // 빈칸용 tr 삭제
@@ -216,7 +216,8 @@
 		//	c_alert("주소가 입력된 경우 인수자와 전화번호를 반드시 입력해야 합니다");
 		//	return;
 		//}
-		
+		console.log("▶ confirmSampleRequest1");
+	
 		//데이터 검증
 // 		if(!doFormValidate(document.frm)){
 // 			return;
@@ -248,40 +249,41 @@
 		$("#jsonList").val(JSON.stringify(jsonList));
 		
 		//주소 미입력시 알림
-		if(($("#addr1").val().length + $("#addr2").val().length) < 1) {
-			c_confirm("주소가 입력되지 않았습니다. 계속 하시겠습니까?").then(function(result) { //커스텀 confirm
-				if (result) { //yes Click
-					if("${flag}" == "insert") {
-						c_submit("frm", "sdpa004101u_insert.do");
+// 		if(($("#addr1").val().length + $("#addr2").val().length) < -1) {
+// 			c_confirm("주소가 입력되지 않았습니다. 계속 하시겠습니까?").then(
+// 		   function(result) { //커스텀 confirm
+// 				if (result) { //yes Click
+// 					if("${flag}" == "insert") {
+// 						c_submit("frm", "sdpa004101u_insert.do");
 					
-					} else {
-						c_submit("frm", "sdpa004101u_update.do");
-					}
-				} else { //no Click
-					return;
-				}
-			});
+// 					} else {
+// 						c_submit("frm", "sdpa004101u_update.do");
+// 					}
+// 				} else { //no Click
+// 					return;
+// 				}
+// 			});
 			
-		} else {
-			if("${flag}" == "insert") {
-				c_confirm("제조의뢰를 등록 하시겠습니까?").then(function(result) { //커스텀 confirm
-					if (result) { //yes Click
-						c_submit("frm", "sdpa004101u_insert.do");
-					} else { //no Click
-						return;
-					}
-				});
+//  		} else {
+ 			if("${flag}" == "insert") {
+ 				c_confirm("샘플출고의뢰를 등록 하시겠습니까?").then(function(result) { //커스텀 confirm
+ 					if (result) { //yes Click
+ 						c_submit("frm", "sdph005001u_insert.do");
+ 					} else { //no Click
+ 						return;
+ 					}
+ 				});
 
-			} else {
-				c_confirm("제조의뢰를 수정 하시겠습니까?").then(function(result) { //커스텀 confirm
-					if (result) { //yes Click
-						c_submit("frm", "sdpa004101u_update.do");
-					} else { //no Click
-						return; 
-					}
-				});
-			}
-		}
+ 			} else {
+ 				c_confirm("샘플출고의뢰를 수정 하시겠습니까?").then(function(result) { //커스텀 confirm
+ 					if (result) { //yes Click
+ 						c_submit("frm", "sdpa005001u_update.do");
+ 					} else { //no Click
+ 						return; 
+ 					}
+ 				});
+ 			}
+ 		//}
 	}
 	//샘플의뢰등록 수정(db update)
 // 	function updateSmplRequest() {
@@ -419,19 +421,19 @@
 									<tbody id="tbody_list">
 							          <c:forEach var="sampleRequestItem" items="${sampleRequestItemList}" varStatus="status">									
 										<tr id="tr_1">													
-                                            <td class="txt_center">
+                                            <td class="txt_center" style="width:30px;" >
 												<input type="hidden" id="hid_${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}"
 														name="hid_mappingCode" value="${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}" >
 												<input  id="hid_item" name="hid_item" value="${sampleRequestItem.pummog_code}" >
-												<input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="${sampleRequestItem.panmae_danwi_a}" >
-												<input type="hidden" id="hid_u_m" name="hid_u_m" value="${sampleRequestItem.panmae_danwi_b}" >
+												<input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="${sampleRequestItem.po_danwi_a}" >
+												<input type="hidden" id="hid_u_m" name="hid_u_m" value="${sampleRequestItem.po_danwi_b}" >
 												<input type="hidden" id="hid_description" name="hid_description" value="${sampleRequestItem.pummyeong}" >
 													
-												<input class="blue_checkbox" type="checkbox" id="chkBox_${row.jepum_code}${row.panmae_danwi_a}${row.panmae_danwi_b}" name="chkBox" />
+												<input class="blue_checkbox" type="checkbox"   id="chkBox_${row.jepum_code}${row.panmae_danwi_a}${row.panmae_danwi_b}" name="chkBox" />
 												<label class="blue_label" for="chkBox_${row.jepum_code}${row.panmae_danwi_a}${row.panmae_danwi_b}"></label>
 											</td>		 
 											<td class="last">
-                                                <select class="select" style="width:50px;" title="견본구분" id="gyeonbon_gubun" name="gyeonbon_gubun">
+                                                <select class="select" style="width:65px;" title="견본구분" id="gyeonbon_gubun" name="gyeonbon_gubun">
                                                     <c:if test="${fn:length(code4007) > 0}">
                                                         <c:forEach items="${code4007}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -440,26 +442,16 @@
                                                     </c:if>
                                                 </select>
                                             </td>
-                                            <td class="pro_code" style="width:100px;"  id="td_item" >${sampleRequestItem.pummog_code}</td>
-                                            <td class="pro_name"  style="width:250px;" id="td_description">${sampleRequestItem.pummyeong}</td>
-											<td class="txt_center" colspan="1">
-												<input type="text" class="entry_f" id="po_danwi_a" name="po_danwi_a"
-													value="${sampleRequestItem.po_danwi_a != null ? sampleRequestItem.po_danwi_a:0}" title="판매단위(수량)" req/>
-											</td>																															
-
-											<td class="txt_center" colspan="1">
-												<select class="select" title="포장단위" id="po_danwi_b" name="pojang_danwi_b">
-													<option value="LT" <c:if test="${'LT' == sampleRequestItem.po_danwi_b}"> selected</c:if>>LT</option>
-													<option value="KG" <c:if test="${'KG' == sampleRequestItem.po_danwi_b}"> selected</c:if>>KG</option>
-													<option value="EA" <c:if test="${'EA' == sampleRequestItem.po_danwi_b}"> selected</c:if>>EA</option>
-												</select>
-											</td>																															
+                                            <td class="pro_code" style="width:105px;"  id="td_item" >${sampleRequestItem.pummog_code}</td>
+                                            <td class="pro_name"  style="width:255px;" id="td_description">${sampleRequestItem.pummyeong}</td>
+											<td class="txt_center" colspan="1"  style="width:75px;" >
+         									<td class="txt_rig" id="td_u_m">${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}</td>
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="po_su" name="po_su" title="주문수량" 
+												<input type="text" class="entry" id="po_su" name="po_su" title="주문수량"  style="width:75px;" 
 													value="${sampleRequestItem.po_su != null ? sampleRequestItem.po_su : 0}" req/>
 											</td>								
 										    <td class="last">
-                                                <select class="select" title="유상여부" id="price_yn" name="price_yn">
+                                                <select class="select" title="유상여부" id="price_yn" name="price_yn"  style="width:55px;">
                                                     <c:if test="${fn:length(code4030) > 0}">
                                                         <c:forEach items="${code4030}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -469,41 +461,41 @@
                                                 </select>
                                             </td>	
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="price_yn" name="price_yn" title="유상여부" 
+												<input type="text" class="entry" id="price_yn" name="price_yn" title="유상여부"  style="width:55px;"
 													value="${sampleRequestItem.price_yn}" />
 											</td>									
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="dopyeon_yn" name="dopyeon_yn" title="도편여부" 
+												<input type="text" class="entry" id="dopyeon_yn" name="dopyeon_yn" title="도편여부"  style="width:55px;" style="width:55px;"
 													value="${sampleRequestItem.dopyeon_yn}" req/>
 											</td>									
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="stat_nm" name="stat_nm" title="상태" 
+												<input type="text" class="entry" id="stat_nm" name="stat_nm" title="상태"  style="width:45px;"
 													value="${sampleRequestItem.stat_nm}" />
 											</td>									
 
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="model_1" name="model_1" title="모델1" 
+												<input type="text" class="entry" id="model_1" name="model_1" title="모델1"  style="width:45px;"
 													value="${sampleRequestItem.model_1}" />
 											</td>									
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="model_2" name="model_2" title="모델2" 
+												<input type="text" class="entry" id="model_2" name="model_2" title="모델2"  style="width:45px;"
 													value="${sampleRequestItem.model_2}" />
 											</td>									
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="model_3" name="model_3" title="모델3" 
+												<input type="text" class="entry" id="model_3" name="model_3" title="모델3"  style="width:45px;"
 													value="${sampleRequestItem.model_3}" />
 											</td>									
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="model_4" name="model_4" title="모델4" 
+												<input type="text" class="entry" id="model_4" name="model_4" title="모델4"  style="width:45px;"
 													value="${sampleRequestItem.model_4}" />
 											</td>									
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="model_5" name="model_5" title="모델5" 
+												<input type="text" class="entry" id="model_5" name="model_5" title="모델5"  style="width:45px;"
 													value="${sampleRequestItem.model_5}" />
 											</td>									
 											
 											<td class="txt_center"  colspan="1">
-												<input type="text" class="entry" id="model_6" name="model_6" title="모델6" 
+												<input type="text" class="entry" id="model_6" name="model_6" title="모델6"  style="width:45px;"
 													value="${sampleRequestItem.model_6}" />
 											</td>									
 										  </tr>
@@ -513,7 +505,8 @@
 							</div>
 							<div class="bottom_btn_wrap">
 							    <div class="right_btn_area">
-    								<input class="btn_add" type="button" id="" value="품목 추가" onclick="popup_itemList_01('multiple');" />
+    							<!-- 	<input class="btn_add" type="button" id="" value="품목 추가" onclick="popup_itemList_01('multiple');" /> -->
+    							    <input class="btn_add" type="button" id="" value="품목 추가" onclick="popup_itemList('multiple');" /> 
 								    <input class="btn_del2" type="button" id="" value="품목 삭제" onclick="removeItem();" />
      							</div>
 						    </div>
@@ -831,8 +824,9 @@
             <td class="txt_center">
                 <input type="hidden" name="hid_mappingCode" value="" />
                 <input type="hidden" name="hid_item" value="" />
-                <input type="hidden" name="hid_qty_allocjob" value="" />
-                <input type="hidden" name="hid_u_m" value="" />
+                <input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="" >
+				<input type="hidden" id="hid_u_m" name="hid_u_m" value="" >
+                
                 <input type="hidden" name="hid_description" value="" />
                 <input class="blue_checkbox" type="checkbox" name="chkBox" checked />
                 <label class="blue_label"></label>
@@ -848,16 +842,7 @@
             </td>
             <td class="pro_code" style="width:105px;"></td>
             <td class="pro_name" style="width:255px;"></td>
-            <td class="txt_rig" style="width:75px;">
-                <input type="text" class="entry" name="po_danwi_a" title="판매단위" style="width:70px;" />
-            </td>
-            <td class="txt_center" style="width:55px;">
-                <select class="select" title="포장단위" name="po_danwi_b" style="width:50px;">
-                    <option value="LT">LT</option>
-                    <option value="KG">KG</option>
-                    <option value="EA">EA</option>
-                </select>
-            </td>
+			<td class="txt_rig" id="td_u_m"></td>
             <td class="txt_center" style="width:75px;">
                 <input type="text" class="entry" name="po_su" title="주문수량" style="width:70px;" />
             </td>

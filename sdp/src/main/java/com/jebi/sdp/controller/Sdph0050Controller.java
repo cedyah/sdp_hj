@@ -201,13 +201,17 @@ public class Sdph0050Controller extends CommonUtil {
 		return "sdph0050/sdph005001u";
 	}
 	
-	
-	
-	@RequestMapping(value = "sdph005001u_insert.do")		//샘플출고요청 작성 (db insert)
+	@RequestMapping(value = "sdph005001u_insert.do")		//주문서 등록 (db insert)
+	public String sdpa002001u_insert(@ModelAttribute("sampleRequestVO")SampleRequestVO sampleRequestVO, RedirectAttributes redirectAttr,
+			@RequestParam(value="pageCheck", required=false) String pageCheck,
+			@RequestParam(value="jsonList", required=false) JSONArray jsonList,
+			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
+	/*@RequestMapping(value = "sdph005001u_insert.do")		//샘플출고요청 작성 (db insert)
 	public String sdph005001u_insert(@ModelAttribute("sampleRequestVO") SampleRequestVO sampleRequestVO,@ModelAttribute("sampleRequestItemVO") SampleRequestItemVO sampleRequestItemVO,
 			@RequestParam(value="jsonList")JSONArray jsonList, RedirectAttributes redirectAttr,
-			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
-		
+			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {*/
+		    System.out.println(">>> [sdph005001u_insert] ");
+	    
 		try {
 			HashMap<String, Object> map;
 			
@@ -223,13 +227,23 @@ public class Sdph0050Controller extends CommonUtil {
 			//전표번호 가져오기
 			map = new HashMap<String, Object>();
 			map.put("ARG_BIZ_AREA_CD", sampleRequestVO.getWorkplace());
-			map.put("ARG_SLIP_TYPE", "02");		//일반제조는 02
+			map.put("ARG_SLIP_TYPE", "90");		//WEB 출고
 			map.put("ARG_DT", getExpDateString(sampleRequestVO.getIlja()));
 			map.put("OUT_PARAM", null);
 			
 			dao.select("sdph0051.procedure_selectJeonpyoNo", map);
 			List<SampleRequestVO> list = (List<SampleRequestVO>) map.get("OUT_PARAM");
 			sampleRequestVO.setJeonpyo_no(((SampleRequestVO) list.get(0)).getJeonpyo_no());
+			
+		    System.out.println(">>> [sampleRequestVO.getWorkplace] received: " + sampleRequestVO.getWorkplace());
+		    System.out.println(">>> [sampleRequestVO.getIlja]: " + getExpDateString(sampleRequestVO.getIlja()));
+		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no]: " + ((SampleRequestVO) list.get(0)).getJeonpyo_no().toString());
+		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no] is null? " + (sampleRequestVO.getJeonpyo_no() == null));
+		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no] is empty? " + ("".equals(sampleRequestVO.getJeonpyo_no())));
+		    System.out.println(">>> OUT_PARAM from jeonpyoNo proc: " + map.get("OUT_PARAM"));
+
+		    
+
 			
 			//header 입력
 			map = new HashMap<String, Object>();
@@ -280,41 +294,47 @@ public class Sdph0050Controller extends CommonUtil {
 				dao.endTransaction();
 				return "templates/error";
 			}
-			
+			System.out.println(">>> jsonList.length = " + jsonList.length());
 			//sub 입력
 			if(jsonList.length() > 0) {
 				JSONObject obj = new JSONObject();
-				
+
 				for(int i=0; i < jsonList.length(); i++) {
 					obj = (JSONObject) jsonList.get(i);
-
+					System.out.println(">>> item JSON[" + i + "] = " + obj.toString());
 					map = new HashMap<String, Object>();
-          map.put("ARG_FLAG"                           ,    "insert"                                     );     
-          map.put("ARG_BIZ_AREA_CD"                    ,    sampleRequestItemVO.getSaeobjang            ());   
-          map.put("ARG_ORD_DT"                         ,    sampleRequestItemVO.getIlja                 ());   
-          map.put("ARG_ORD_NO"                         ,    sampleRequestItemVO.getJeonpyo_no            ());   
+          map.put("ARG_FLAG"                           ,    "insert"                                     );    
+
+
+			map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));			
+          map.put("ARG_BIZ_AREA_CD"                    ,    sampleRequestVO.getSaeobjang            ());   
+          map.put("ARG_ORD_DT"                         ,    sampleRequestVO.getIlja                 ());   
+          map.put("ARG_ORD_NO"                         ,    sampleRequestVO.getJeonpyo_no            ());   
           map.put("ARG_SEQ"                            ,    Integer.toString(i + 1)                        );   
           map.put("ARG_SEQ_1"                          ,    Integer.toString(i + 1)                      );     
-          map.put("ARG_SIL_GEOLAECHEO"                 ,    sampleRequestItemVO.getSil_geolaecheo        ());   
-          map.put("ARG_GYEONBON_GUBUN"                 ,    sampleRequestItemVO.getGyeonbon_gubun        ());   
-          map.put("ARG_PUMMOG_BUNRYU"                  ,    sampleRequestItemVO.getPummog_bunryu         ());   
-          map.put("ARG_GEOLAECHEO_CODE1"               ,    sampleRequestItemVO.getGeolaecheo_code      ());   
+          map.put("ARG_SIL_GEOLAECHEO"                 ,    sampleRequestVO.getSil_geolaecheo        ());   
+          map.put("ARG_GYEONBON_GUBUN"                 ,    sampleRequestVO.getGyeonbon_gubun        ());   
+          map.put("ARG_PUMMOG_BUNRYU"                  ,    sampleRequestVO.getPummog_bunryu         ());   
+          map.put("ARG_GEOLAECHEO_CODE1"               ,    sampleRequestVO.getGeolaecheo_code      ());   
                                                             
-          map.put("ARG_SANGHO1"                        ,    sampleRequestItemVO.getSangho               ());   
-          map.put("ARG_GEOLAECHEO_CODE2"               ,    sampleRequestItemVO.getGeolaecheo_code_2      ());   
-          map.put("ARG_SANGHO2"                        ,    sampleRequestItemVO.getSangho_2               ());   
-          map.put("ARG_PUMMOG_CODE"                    ,    sampleRequestItemVO.getPummog_code           ());   
-          map.put("ARG_PUMMYEONG"                      ,    sampleRequestItemVO.getPummyeong             ());   
-          map.put("ARG_PO_DANWI_A"                     ,    sampleRequestItemVO.getPo_danwi_a            ());   
-          map.put("ARG_PO_DANWI_B"                     ,    sampleRequestItemVO.getPo_danwi_b            ());   
-          map.put("ARG_PO_SU"                          ,    sampleRequestItemVO.getPo_su                 ());   
-          map.put("ARG_PRICE_YN"                       ,    sampleRequestItemVO.getPrice_yn              ());   
-          map.put("ARG_DOPYEON_YN"                     ,    sampleRequestItemVO.getDopyeon_yn            ());   
-                                                            
-          map.put("ARG_MODEL_CODE"                     ,    sampleRequestItemVO.getModel_code            ());   
-          map.put("ARG_BALHAENGIL"                     ,    sampleRequestItemVO.getBalhaengil            ());   
-          map.put("ARG_BALHAENG_BUSEO"                 ,    sampleRequestItemVO.getBalhaeng_buseo        ());   
-          map.put("ARG_BALHAENGJA"                     ,    sampleRequestItemVO.getBalhaengja            ());   
+          map.put("ARG_SANGHO1"                        ,    sampleRequestVO.getSangho               ());   
+          map.put("ARG_GEOLAECHEO_CODE2"               ,    sampleRequestVO.getGeolaecheo_code_2      ());   
+          map.put("ARG_SANGHO2"                        ,    sampleRequestVO.getSangho_2               ());   
+          map.put("ARG_PUMMOG_CODE"                    ,    obj.getString("pummog_code"));   
+          map.put("ARG_PUMMYEONG"                      ,    obj.getString("pummyeong"));
+          
+          map.put("ARG_PO_DANWI_A"                     ,    obj.getString("po_danwi_a"));   
+          map.put("ARG_PO_DANWI_B"                     ,    obj.getString("po_danwi_b"));   
+          map.put("ARG_PO_SU"                          ,    obj.getString("po_su"));   
+          map.put("ARG_PRICE_YN"                       ,    obj.getString("price_yn"));   
+          map.put("ARG_DOPYEON_YN"                     ,    obj.getString("dopyeon_yn"));   
+
+          map.put("ARG_MODEL_CODE"                     ,    obj.getString("model_code"));   
+          map.put("ARG_BALHAENGIL"                     ,    obj.getString("balhaengil"));   
+          map.put("ARG_BALHAENG_BUSEO"                 ,    obj.getString("balhaeng_buseo"));   
+          map.put("ARG_BALHAENGJA"                     ,    obj.getString("balhaengja"));   
+
+          
           map.put("OUT_PARAM"                          ,    ""                                             );   
 
 

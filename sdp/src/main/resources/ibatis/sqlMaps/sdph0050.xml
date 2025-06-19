@@ -162,9 +162,9 @@
 		<parameter property="ARG_DT" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
 		<parameter property="OUT_PARAM" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectJeonpyoNo" mode="OUT"/>
 	</parameterMap>
-	
+		
 	<resultMap class="sampleRequestVO" id="result_selectJeonpyoNo">
-		<result property="jeonpyo_no" column="V_SLIP_NO"/>
+		<result property="jeonpyo_no" column="SLIP_NO"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">

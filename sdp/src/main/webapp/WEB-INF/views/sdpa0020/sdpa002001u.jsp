@@ -201,6 +201,7 @@
 	
 	//팝업창에서 추가한 아이템들을 주문서 목록에 추가
 	function addItem(text) {
+		
 		var jsonList = text;
 		var obj;
 		var li_mappingCode = $("#table_item input[name='hid_mappingCode']");	//화면에 mapping 코드를 object로 불러와 추가할 아이템 목록과 비교하여 중복을 방지하기 위함
