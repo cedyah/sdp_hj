@@ -164,7 +164,7 @@
 	</parameterMap>
 		
 	<resultMap class="sampleRequestVO" id="result_selectJeonpyoNo">
-		<result property="jeonpyo_no" column="SLIP_NO"/>
+		<result property="jeonpyo_no" column="SLIP_NO"/>  
 	</resultMap>
 	
 	<procedure id="procedure_selectJeonpyoNo" parameterMap="param_selectJeonpyoNo">
