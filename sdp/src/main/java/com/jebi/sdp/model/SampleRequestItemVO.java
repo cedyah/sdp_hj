@@ -33,17 +33,6 @@ public class SampleRequestItemVO extends ItemVO{
     String euiloi_sunbeon    ;
     String dopyeon_yn        ;
     String jindo_code        ;
-    String model_1        ;
-    String model_2        ;
-    String model_3        ;
-    String model_4        ;
-    String model_5        ;
-    String model_6        ;
-    String sunbeon_1      ;
-    String stat_nm        ;
-    String  balhaengil    ;
-    String  balhaeng_buseo;
-    String  balhaengja    ;
     
     public String getSaeobjang() {
 		return saeobjang == null ? "" : saeobjang;
@@ -201,71 +190,6 @@ public class SampleRequestItemVO extends ItemVO{
 	public void setJindo_code(String jindo_code) {
 		this.jindo_code = jindo_code == null ? "" : jindo_code;
 	}
-	public String getModel_1() {
-		return model_1 == null ? "" : model_1;
-	}
-	public void setModel_1(String model_1) {
-		this.model_1 = model_1 == null ? "" : model_1;
-	}
-	public String getModel_2() {
-		return model_2 == null ? "" : model_2;
-	}
-	public void setModel_2(String model_2) {
-		this.model_2 = model_2 == null ? "" : model_2;
-	}
-	public String getModel_3() {
-		return model_3 == null ? "" : model_3;
-	}
-	public void setModel_3(String model_3) {
-		this.model_3 = model_3 == null ? "" : model_3;
-	}
-	public String getModel_4() {
-		return model_4 == null ? "" : model_4;
-	}
-	public void setModel_4(String model_4) {
-		this.model_4 = model_4 == null ? "" : model_4;
-	}
-	public String getModel_5() {
-		return model_5 == null ? "" : model_5;
-	}
-	public void setModel_5(String model_5) {
-		this.model_5 = model_5 == null ? "" : model_5;
-	}
-	public String getModel_6() {
-		return model_6 == null ? "" : model_6;
-	}
-	public void setModel_6(String model_6) {
-		this.model_6 = model_6 == null ? "" : model_6;
-	}
-	public String getSunbeon_1() {
-		return sunbeon_1;
-	}
-	public void setSunbeon_1(String sunbeon_1) {
-		this.sunbeon_1 = sunbeon_1;
-	}
-	public String getStat_nm() {
-		return stat_nm;
-	}
-	public void setStat_nm(String stat_nm) {
-		this.stat_nm = stat_nm;
-	}
-	public String getBalhaengil() {
-		return balhaengil;
-	}
-	public void setBalhaengil(String balhaengil) {
-		this.balhaengil = balhaengil;
-	}
-	public String getBalhaeng_buseo() {
-		return balhaeng_buseo;
-	}
-	public void setBalhaeng_buseo(String balhaeng_buseo) {
-		this.balhaeng_buseo = balhaeng_buseo;
-	}
-	public String getBalhaengja() {
-		return balhaengja;
-	}
-	public void setBalhaengja(String balhaengja) {
-		this.balhaengja = balhaengja;
-	}
+ 
 
 }

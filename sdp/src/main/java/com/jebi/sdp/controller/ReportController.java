@@ -64,7 +64,7 @@ public class ReportController extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		//화면에서 가져온 값들을 map에 setting
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("url", url);
+	//	map.put("url", url);
 		map.put("ARG_CUST_NUM", purchaseVO.getCust_num());
 		map.put("ARG_CUST_NM", purchaseVO.getCust_nm());
 		map.put("ARG_BIZ_AREA_CD", purchaseVO.getWorkplace());
@@ -94,7 +94,7 @@ public class ReportController extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("url", url);
+		//	map.put("url", url);
 		map.put("ARG_CUST_NM",coVO.getCust_nm());
 		
 		map.put("ARG_CUST_CD", coVO.getCust_num());
@@ -111,7 +111,7 @@ public class ReportController extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("url", url);
+		//	map.put("url", url);
 		map.put("ARG_CUST_NM",testReportVO.getCust_nm());
 		
 		map.put("ARG_BIZ_AREA_CD", "");		//현재는 사업장 코드를 보내주지 않아도 결과 나옴
@@ -132,7 +132,7 @@ public class ReportController extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("url", url);
+//		map.put("url", url);
 		map.put("ARG_BIZ_AREA_CD", msdsSVO.getSaeobjang());
 		map.put("ARG_ITEM_CD", msdsSVO.getItem_cd());
 		model.addAttribute("map", map);

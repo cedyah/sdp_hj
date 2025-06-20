@@ -94,6 +94,15 @@ public class Sdph0050Controller extends CommonUtil {
 		HashMap<String, Object> map;
 		model.addAttribute("flag", flag);
 		
+		//사업장(본사,대구, 신제품:0031)
+		sampleRequestVO.setSaeobjang(sampleRequestVO.getWorkplace());
+	    System.out.println(">>> [sampleRequestVO.setSaeobjang1] " + sampleRequestVO.getSaeobjang());
+	    map = new HashMap<String, Object>();
+		map.put("ARG_MAJOR_CD", "0031");
+		dao.update("common.procedure_selectCode", map);
+		model.addAttribute("code0031", map.get("OUT_PARAM"));
+	    System.out.println(">>> [sampleRequestVO.setSaeobjang2] " + sampleRequestVO.getSaeobjang());
+        
 		//견본구분(기존품, 신제품:4007)
 		map = new HashMap<String, Object>();
 		map.put("ARG_MAJOR_CD", "4007");
@@ -231,18 +240,18 @@ public class Sdph0050Controller extends CommonUtil {
 			map.put("ARG_DT", getExpDateString(sampleRequestVO.getIlja()));
 			map.put("OUT_PARAM", null);
 			
-			dao.select("sdph0051.procedure_selectJeonpyoNo", map);
+			dao.select("sdph0050.procedure_selectJeonpyoNo", map);
 			List<SampleRequestVO> list = (List<SampleRequestVO>) map.get("OUT_PARAM");
 			sampleRequestVO.setJeonpyo_no(((SampleRequestVO) list.get(0)).getJeonpyo_no());
-			
+
+		    System.out.println(">>> list.get(0)).getJeonpyo_no proc: " + ((SampleRequestVO) list.get(0)).getJeonpyo_no());
 		    System.out.println(">>> [sampleRequestVO.getWorkplace] received: " + sampleRequestVO.getWorkplace());
 		    System.out.println(">>> [sampleRequestVO.getIlja]: " + getExpDateString(sampleRequestVO.getIlja()));
 		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no]: " + ((SampleRequestVO) list.get(0)).getJeonpyo_no().toString());
 		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no] is null? " + (sampleRequestVO.getJeonpyo_no() == null));
 		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no] is empty? " + ("".equals(sampleRequestVO.getJeonpyo_no())));
 		    System.out.println(">>> OUT_PARAM from jeonpyoNo proc: " + map.get("OUT_PARAM"));
-
-		    
+  
 
 			
 			//header 입력
@@ -286,8 +295,8 @@ public class Sdph0050Controller extends CommonUtil {
       map.put("ARG_GYEOLGWA_GIHAN"             , sampleRequestVO.getGyeolgwa_gihan    ());			
       map.put("OUT_PARAM"                      ,  ""                                    );
 			
-			dao.select("sdph0051.procedure_updateSampleRequest", map);
-			
+			dao.select("sdph0050.procedure_updateSampleRequest", map);
+
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
 				System.out.println((String) map.get("OUT_PARAM"));
@@ -339,7 +348,7 @@ public class Sdph0050Controller extends CommonUtil {
 
 
 
-					dao.select("sdph0051.procedure_updateSampleRequestItem", map);
+					dao.select("sdph0050.procedure_updateSampleRequestItem", map);
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
@@ -418,7 +427,7 @@ public class Sdph0050Controller extends CommonUtil {
       map.put("ARG_GYEOLGWA_GIHAN"             , sampleRequestVO.getGyeolgwa_gihan    ());			
 			map.put("OUT_PARAM", "");
 			
-			dao.select("sdph0051.procedure_updateSampleRequest", map);
+			dao.select("sdph0050.procedure_updateSampleRequest", map);
 			
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
@@ -437,7 +446,7 @@ public class Sdph0050Controller extends CommonUtil {
 				map.put("ARG_REQ_NO", sampleRequestVO.getJeonpyo_no());
 				map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
 				map.put("OUT_PARAM", "");
-				dao.select("sdph0051.procedure_updateSampleRequestItem", map);
+				dao.select("sdph0050.procedure_updateSampleRequestItem", map);
 				
 				if(!map.get("OUT_PARAM").equals("OK")) {
 					//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
@@ -476,14 +485,14 @@ public class Sdph0050Controller extends CommonUtil {
 				          map.put("ARG_DOPYEON_YN"                     ,    sampleRequestItemVO.getDopyeon_yn            ());   
 
 				          map.put("ARG_MODEL_CODE"                     ,    sampleRequestItemVO.getModel_code            ());   
-				          map.put("ARG_BALHAENGIL"                     ,    sampleRequestItemVO.getBalhaengil            ());   
-				          map.put("ARG_BALHAENG_BUSEO"                 ,    sampleRequestItemVO.getBalhaeng_buseo        ());   
-				          map.put("ARG_BALHAENGJA"                     ,    sampleRequestItemVO.getBalhaengja            ());   
+				          map.put("ARG_BALHAENGIL"                     ,    ""                                              );   
+				          map.put("ARG_BALHAENG_BUSEO"                 ,    ""                                             );   
+				          map.put("ARG_BALHAENGJA"                     ,    ""                                             );   
 				          map.put("OUT_PARAM"                          ,    ""                                             );   
  
 
 
-					dao.select("sdph0051.procedure_updateSampleRequestItem", map);
+					dao.select("sdph0050.procedure_updateSampleRequestItem", map);
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
@@ -523,7 +532,7 @@ public class Sdph0050Controller extends CommonUtil {
 		map.put("ARG_CUST_CD", sampleRequestVO.getCust_num());
 		map.put("OUT_PARAM", "");
 		
-		dao.select("sdph0051.procedure_updateSampleRequest", map);
+		dao.select("sdph0050.procedure_updateSampleRequest", map);
 		
 		if(!map.get("OUT_PARAM").equals("OK")) {
 			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동

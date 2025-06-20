@@ -138,14 +138,6 @@
         <result property="po_su"           column="PO_SU"/>
         <result property="price_yn"        column="PRICE_YN"/>
         <result property="dopyeon_yn"      column="DOPYEON_YN"/>
-        <result property="stat_nm"         column="STAT_NM"/>
-        <result property="model_1"         column="MODEL_1"/>
-        <result property="model_2"         column="MODEL_2"/>
-        <result property="model_3"         column="MODEL_3"/>
-        <result property="model_4"         column="MODEL_4"/>
-        <result property="model_5"         column="MODEL_5"/>
-        <result property="model_6"         column="MODEL_6"/>
-        <result property="sunbeon_1"       column="SUNBEON_1"/>
 	</resultMap>
 	
 	<procedure id="procedure_selectSampleRequestItem" parameterMap="param_selectSampleRequestItem">
@@ -214,7 +206,7 @@
         <parameter property="ARG_BIGO2"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>
         <parameter property="ARG_BIGO3"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>  
         <parameter property="ARG_GYEOLGWA_GIHAN"             jdbcType="VARCHAR2" javaType="java.lang.String" mode="IN"/>				
-        <parameter property="OUT_PARAM"                      jdbcType="VARCHAR2" javaType="java.lang.String" mode="OUT"/>
+        <parameter property="OUT_PARAM"                      jdbcType="VARCHAR" javaType="java.lang.String" mode="INOUT"/>
 	</parameterMap>
 	
 	<procedure id="procedure_updateSampleRequest" parameterMap="param_updateSampleRequest">
