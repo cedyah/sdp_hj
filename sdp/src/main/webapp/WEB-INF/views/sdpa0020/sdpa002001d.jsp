@@ -37,8 +37,8 @@
 	
 	//주문수정, 취소 막음
 	function ignoreAlert() {
-		//c_alert("처리된 주문서는 수정, 취소가 불가합니다");
-		alterCo();
+		c_alert("처리된 주문서는 수정, 취소가 불가합니다");
+		//alterCo();
 	}
 </script>
 <title>한진화학 주문관리 시스템</title>
@@ -208,14 +208,13 @@
 								<div class="right_btn_area">
 									<c:choose>
 										<c:when test="${co.jindo_code == 'S'}">
-											<input class="btn_move" type="button" value="출력" onclick="javascript:popup_report('sdpa002001d_report.do');">
-											<input class="btn_modify" type="button" id="" value="수정" onclick="javascript:alterCo();" />
-											<input class="btn_ord_cancel" type="button" id="" value="주문 취소" onclick="javascript:cancelCo();" />
+											<input class="btn_modify" type="button" id="" value="수  정${co.jindo_code}" onclick="javascript:alterCo();" />
+											<input class="btn_ord_cancel" type="button" id="" value="취소" onclick="javascript:cancelCo();" />
 										</c:when>
 										<c:otherwise>
-											<input class="btn_move" type="button" value="출력" onclick="javascript:popup_report('sdpa002001d_report.do');">
-											<input class="btn_modify" type="button" id="" value="수정" onclick="javascript:ignoreAlert();" />
-											<input class="btn_ord_cancel" type="button" id="" value="주문 취소" onclick="javascript:ignoreAlert();" />
+											
+											<input class="btn_modify" type="button" id="" value="수정${co.jindo_code}" onclick="javascript:ignoreAlert();" />
+											<input class="btn_ord_cancel" type="button" id="" value="취  소" onclick="javascript:ignoreAlert();" />
 										</c:otherwise>
 									</c:choose>
 								</div>

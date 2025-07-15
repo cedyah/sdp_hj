@@ -225,7 +225,7 @@
 				<div class="sub_contents">
 					<div class="local_nav_wrap">
 						<c:choose>
-							<c:when test="${fn:length(coList) > 0}">
+							<c:when test="${fn:length(prodReqSubList) > 0}">
 								<h3 class="sub_tit">제조의뢰 수정</h3>
 							</c:when>
 							<c:otherwise>

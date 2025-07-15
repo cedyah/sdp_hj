@@ -52,7 +52,11 @@ public class SampleRequestVO extends CustomerVO {
     String balsinja           ;
     String saeobjang_nm       ;
     String gubun              ;
-    
+    String chk                ;
+    String gyeolgwa_1         ;
+    String prod_req_dt        ;
+    String prod_req_no         ;
+           
 	public String getSaeobjang() {
 		return saeobjang == null ? "" : saeobjang;
 	}
@@ -329,6 +333,30 @@ public class SampleRequestVO extends CustomerVO {
 
     public void setGubun(String gubun) {
             this.gubun = gubun;
-            }    
+            }
+	public String getChk() {
+		return chk;
+	}
+	public void setChk(String chk) {
+		this.chk = chk;
+	}
+	public String getGyeolgwa_1() {
+		return gyeolgwa_1;
+	}
+	public void setGyeolgwa_1(String gyeolgwa_1) {
+		this.gyeolgwa_1 = gyeolgwa_1;
+	}
+	public String getProd_req_dt() {
+		return prod_req_dt;
+	}
+	public void setProd_req_dt(String prod_req_dt) {
+		this.prod_req_dt = prod_req_dt;
+	}
+	public String getProd_req_no() {
+		return prod_req_no;
+	}
+	public void setProd_req_no(String prod_req_no) {
+		this.prod_req_no = prod_req_no;
+	}    
  
 }

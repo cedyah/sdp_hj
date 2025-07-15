@@ -32,6 +32,7 @@ public class ProdReqHeaderVO extends CustomerVO {
 	String jepum_code;			//품명(ex: ??외 몇건 )
 	String pummyeong;			//품명(ex: ??외 몇건 )
 	String gubun;			    //품명(ex: ??외 몇건 )
+	String panmae_gubun;        //판매구분_코드
 	
 	public String getPummyeong() {
 		return pummyeong == null ? "" : pummyeong;
@@ -182,5 +183,11 @@ public class ProdReqHeaderVO extends CustomerVO {
 	}
 	public void setGubun(String gubun) {
 		this.gubun = gubun;
+	}
+	public String getPanmae_gubun() {
+		return panmae_gubun == null ? "" : panmae_gubun;
+	}
+	public void setPanmae_gubun(String panmae_gubun) {
+		this.panmae_gubun = panmae_gubun == null ? "" : panmae_gubun;
 	}
 }

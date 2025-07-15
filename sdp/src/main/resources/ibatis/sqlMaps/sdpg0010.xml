@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="sdpg0010">
+	<typeAlias alias="ContrastHVO" type="com.jebi.sdp.model.ContrastHeaderVO"/>
+	<typeAlias alias="ContrastSVO" type="com.jebi.sdp.model.ContrastSubVO"/>
+	
+	<!-- 경화제/신나대비표 헤더 조회// -->
+	<parameterMap class="map" id="param_selectContrastHeader">
+		<parameter property="ARG_ITEM_CD" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="ARG_ITEM_NM" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectContrastHeader" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="ContrastHVO" id="result_selectContrastHeader">
+		<result property="no" column="NO"/>
+		<result property="pummog" column="PUMMOG"/>
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="aeg" column="AEG"/>
+		<result property="biyul" column="BIYUL"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectContrastHeader" parameterMap="param_selectContrastHeader">
+		<![CDATA[
+			{CALL PKG_ORDER_RB.Q_RB090M_S(?, ?, ?)}
+		]]>
+	</procedure>
+	<!-- //경화제/신나대비표 헤더 조회 -->
+	
+	<!-- 경화제/신나대비표 서브 조회// -->
+	<parameterMap class="map" id="param_selectContrastSub">
+		<parameter property="arg_pummog" jdbcType="varchar2" javaType="java.lang.String" mode="IN"/>
+		<parameter property="out_param" jdbcType="ORACLECURSOR" javaType="java.sql.ResultSet" resultMap="result_selectContrastSub" mode="OUT"/>
+	</parameterMap>
+	
+	<resultMap class="ContrastSVO" id="result_selectContrastSub">
+		<result property="pummyeong" column="PUMMYEONG"/>
+		<result property="pa_danwi" column="PA_DANWI"/>
+		<result property="po_danwi" column="PO_DANWI"/>
+		<result property="aeg1_myeong" column="AEG1_MYEONG"/>
+		<result property="aeg1_danwi" column="AEG1_DANWI"/>
+		<result property="aeg2_myeong" column="AEG2_MYEONG"/>
+		<result property="aeg2_danwi" column="AEG2_DANWI"/>
+		<result property="sinna" column="SINNA"/>
+	</resultMap>
+	
+	<procedure id="procedure_selectContrastSub" parameterMap="param_selectContrastSub">
+		<![CDATA[
+			{CALL PKG_ORDER_RB.Q_RB090D_S(?, ?)}
+		]]>
+	</procedure>
+	<!-- //경화제/신나대비표 서브 조회 -->
+	
+	
+</sqlMap>

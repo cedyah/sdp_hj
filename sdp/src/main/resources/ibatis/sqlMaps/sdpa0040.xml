@@ -53,9 +53,10 @@
 		<result property="saeobjang" column="SAEOBJANG"/>
 		<result property="ilja" column="ILJA"/>
 		<result property="jeonpyo_no" column="JEONPYO_NO"/>
-		<result property="geolaecheo_code" column="GEOLAECHEO_CODE"/>
 		<result property="euiloiil" column="EUILOIIL"/>
+		<result property="panmae_gubun" column="PANMAE_GUBUN"/>
 		<result property="bigo" column="BIGO"/>
+		<result property="geolaecheo_code" column="GEOLAECHEO_CODE"/>
 		<result property="jejo_saeobjang" column="JEJO_SAEOBJANG"/>
 		<result property="jejo_ilja" column="JEJO_ILJA"/>
 		<result property="jejo_jeonpyo_no" column="JEJO_JEONPYO_NO"/>

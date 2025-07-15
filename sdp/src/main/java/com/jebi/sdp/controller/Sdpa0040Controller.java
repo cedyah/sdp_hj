@@ -106,9 +106,9 @@ public class Sdpa0040Controller extends CommonUtil {
 		model.addAttribute("code10", map.get("OUT_PARAM"));
 
 		if(flag != null && flag.equals("update")) {
-			//제조의뢰 헤더 불러오기
+		    //제조의뢰 헤더 불러오기
+		    prVO.setProduct_type("인터넷");
 			map = new HashMap<String, Object>();
-			//map.put("ARG_BIZ_AREA_CD", prVO.getWorkplace());
 			map.put("ARG_CUST_CD", prVO.getCust_num());
 			map.put("ARG_REQ_DT", getExpDateString(prVO.getIlja()));
 			map.put("ARG_REQ_NO", prVO.getJeonpyo_no());
@@ -131,7 +131,7 @@ public class Sdpa0040Controller extends CommonUtil {
 			List<ProdReqSubVO> prodReqSubList = (List<ProdReqSubVO>) map.get("OUT_PARAM");
 			model.addAttribute("prodReqSubList", prodReqSubList);
 		}
-				
+	
 		return "sdpa0040/sdpa004101u";
 	}
 	
@@ -164,7 +164,7 @@ public class Sdpa0040Controller extends CommonUtil {
 			List<ProdReqHeaderVO> list = (List<ProdReqHeaderVO>) map.get("OUT_PARAM");
 			prVO.setJeonpyo_no(((ProdReqHeaderVO) list.get(0)).getJeonpyo_no());
 			
-    	     System.out.println(">>> calling procedure_insertOrderSub");
+    	    System.out.println(">>> calling procedure_insertOrderSub");
 			System.out.println((String) prVO.getJeonpyo_no());
 			System.out.println(">>> sdpa0040.procedure_selectJeonpyoNoPost");
 
@@ -176,13 +176,8 @@ public class Sdpa0040Controller extends CommonUtil {
 			map.put("ARG_REQ_NO",prVO.getJeonpyo_no());
 			map.put("ARG_CUST_CD", prVO.getCust_num());
 			map.put("ARG_DELY_DT", getExpDateString(prVO.getEuiloiil()));
-			map.put("ARG_DELY_TYPE", prVO.getBaedal_gubun());
+			map.put("ARG_PANMAE_GUBUN", prVO.getPanmae_gubun());
 			map.put("ARG_RMK", prVO.getBigo());
-			map.put("ARG_RECVER", prVO.getInsuja());
-			map.put("ARG_TEL_NO", prVO.getTel_no());
-			map.put("ARG_ZIP", prVO.getZip());
-			map.put("ARG_ADDR1", prVO.getAddr1());
-			map.put("ARG_ADDR2", prVO.getAddr2());
 			map.put("OUT_PARAM", "");
 			
 			dao.select("sdpa0040.procedure_updateProdReqHeader", map);
@@ -208,6 +203,7 @@ public class Sdpa0040Controller extends CommonUtil {
 					map.put("ARG_REQ_DT", getExpDateString(prVO.getIlja()));
 					map.put("ARG_REQ_NO", prVO.getJeonpyo_no());
 					map.put("ARG_SEQ", Integer.toString(i + 1));
+					map.put("ARG_PANMAE_GUBUN", prVO.getPanmae_gubun());
 					map.put("ARG_CUST_CD", prVO.getCust_num());
 					map.put("ARG_ITEM_CD", obj.getString("item"));
 					map.put("ARG_UNIT_A", obj.getString("qty_allocjob"));

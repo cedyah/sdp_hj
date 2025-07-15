@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.Session;
-import org.apache.tomcat.websocket.CaseInsensitiveKeyMap;
+//import org.apache.tomcat.websocket.CaseInsensitiveKeyMap;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -23,9 +23,9 @@
 										<li><a href="sdpa003001l.do">출하정보</a></li>
 										<li><a href="sdpa004001l.do">제조의뢰서 등록</a></li>
 										<li><a href="sdpa006001l.do">생산진도조회</a></li>
-										<li><a href="sdph005001l.do">샘플의뢰서등록</a></li>
+										<li><a href="sdph005001u.insert.do">샘플의뢰서등록</a></li>
 										<li><a href="sdph005001l.do">샘플진도조회</a></li>
-										<li><a href="sdpa006001u.do">샘플결과등록</a></li>
+										<li><a href="sdph005201l.do">샘플결과등록</a></li>
 										<!--<li><a href="sdpa007001l.do">가격조회</a></li>-->
 									</ul>
 								</div>
@@ -71,7 +71,7 @@
 										<li><a href="sdpf002001l.do">장바구니조회</a></li>
 										<li><a href="sdpf003002l.do">포인트관리</a></li> -->
 										<li><a href="sdpf004001u.do">사용자관리<br>(비밀번호변경)</a></li>
-										<li><a href="sdph004001u.do">경화제/신나대비표<br>조회</a></li>
+										<li><a href="sdpg001001l.do">경화제/신나대비표<br>조회</a></li>
 										<!--<li><a href="sdpf006001l.do">문자수신조회</a></li>-->
 									</ul>
 								</div>

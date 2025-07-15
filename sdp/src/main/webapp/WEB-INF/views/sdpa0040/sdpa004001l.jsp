@@ -98,7 +98,7 @@
 									<col style="width: 40px;" />
 									<col style="width: 100px;" />
 									<col style="width: 60px;" />
-									<col style="width: 60px;" />
+									<col style="width: 100px;" />
 									<col style="" />
 								</colgroup>
 								<thead>
@@ -107,7 +107,7 @@
 										<th scope="col">일자</th>
 										<th scope="col">의뢰번호</th>
 										<th scope="col">유형</th>
-										<th scope="col">의뢰품목</th>
+										<th scope="col">의뢰품명</th>
 										
 									</tr>
 								</thead>
@@ -120,7 +120,7 @@
 									<col style="width: 40px;" />
 									<col style="width: 100px;" />
 									<col style="width: 60px;" />
-									<col style="width: 60px;" />
+									<col style="width: 100px;" />
 									<col style="" />
 								</colgroup>
 								<tbody>

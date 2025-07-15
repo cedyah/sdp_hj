@@ -197,7 +197,7 @@
 		}
 	}
 	
-	//제조의뢰 등록 & 수정
+	//샘플출고의뢰 등록 & 수정
 	function confirmSampleRequest() {
 		var li_chkBox = $("#table_item input[name='chkBox']");		//주재 수량 체크를 위한 배열. 체크박스 배열
 		var li_hidItem = $("#table_item input[name='hid_item']");		//전체 item을 배열에 담음. controller로 보내기 위함
@@ -234,15 +234,15 @@
 		
 		//주재 및 부재를 모두 배열에 담음
 		for(var i=0; i < li_hidItem.length; i++) {
-// 			console.log($(li_hidItem[i]).val());
-			item = {
-				item : $(li_hidItem[i]).val()
-				, qty_allocjob : $(li_hidItem[i]).parent().parent().find("#hid_qty_allocjob").val() 
-				, u_m : $(li_hidItem[i]).parent().parent().find("#hid_u_m").val()
-				, description : $(li_hidItem[i]).parent().parent().find("#td_description").html()
-				, qty_input1 : $(li_hidItem[i]).parent().parent().find("#input_qty1").val()
-			}
-// 			console.log(item);
+ 			console.log($(li_hidItem[i]).val());
+ 			item = {
+ 					  item : $(li_hidItem[i]).val(),
+ 					  qty_allocjob : $(li_hidItem[i]).closest('tr').find("input[name='hid_qty_allocjob']").val(),
+ 					  u_m : $(li_hidItem[i]).closest('tr').find("input[name='hid_u_m']").val(),
+ 					  description : $(li_hidItem[i]).closest('tr').find("input[name='hid_description']").val(),
+ 					  qty_input1 : $(li_hidItem[i]).closest('tr').find("input[name='po_su']").val()
+ 					}
+ 			console.log(item);
 			jsonList.push(item);
 		}
 		
@@ -277,7 +277,7 @@
  			} else {
  				c_confirm("샘플출고의뢰를 수정 하시겠습니까?").then(function(result) { //커스텀 confirm
  					if (result) { //yes Click
- 						c_submit("frm", "sdpa005001u_update.do");
+ 						c_submit("frm", "sdph005001u_update.do");
  					} else { //no Click
  						return; 
  					}
@@ -313,8 +313,13 @@
 
 <body>
 <form id="frm" name="frm">
-<input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="${sampleRequestVO.jeonpyo_no}" />
-<input type="hidden" id="ilja" name="ilja" value="${sampleRequestVO.ilja}" />
+
+    <input type="hidden" id="paramList" name="paramList" value="">
+	<input type="hidden" id="jsonList" name="jsonList" value="${jsonList}">
+	<input type="hidden" id="pageCheck" name="pageCheck" value="${pageCheck}">
+	
+<!-- <input type="hidden" id="jeonpyo_no" name="jeonpyo_no" value="${sampleRequestVO.jeonpyo_no}" /> -->
+<!-- <input type="hidden" id="ilja" name="ilja" value="${sampleRequestVO.ilja}" />-->
 
 <input type="hidden" id="searchDiv" name="searchDiv" value="${sampleRequestVO.searchDiv}" />
 <input type="hidden" id="searchDate_from" name="searchDate_from" value="${sampleRequestVO.searchDate_from}" />
@@ -344,15 +349,18 @@
 									<caption>샘플의뢰서등록</caption>
 									<colgroup>
 										<col style="width: 5%;" /><!--  V  -->
+										<col style="width: 5%;" />
 										<col style="width: 10%;" />
+										<col style="width: 20%;" />
 										<col style="width: 10%;" />
-										<col style="width: 30%;" />
-										<col style="width: 15%;" />
 										
 										<col style="width: 10%;" /><!--  수량-->
-										<col style="width: 10%;" />
-										<col style="width: 10%;" />
-										<col style="" /> <!--  적용모델1-->
+										<col style="width: 5%;" /><!--  유무상-->
+										<col style="width: 5%;" /><!--  도편-->
+										<col style="width: 10%;" /><!--  진도상황-->
+										<col style="width: 10%;" /><!--  적용모델1-->
+										
+										<col style="width: 10%;" /> <!--  적용모델2-->
 									</colgroup>
 									<thead>
 										<tr>
@@ -365,6 +373,10 @@
 											<th scope="col">포장수량</th>
 											<th scope="col">유무상</th>
 											<th scope="col">도편</th>
+											<th scope="col">진도</th>
+											<th scope="col">적용모델1</th>
+											
+											<th scope="col">적용모델2</th>
 										</tr>
 									</thead>
 								</table>
@@ -375,14 +387,18 @@
 									<caption>주문 리스트</caption>
 									<colgroup>
 									    <col style="width: 5%;" /><!--  V  -->
-										<col style="width: 10%;" />
-										<col style="width: 10%;" />
-										<col style="width: 30%;" />
-										<col style="width: 15%;" />
+										<col style="width: 5%;" /><!--  견본구분  -->
+										<col style="width: 10%;" /><!--  품목코드   -->
+										<col style="width: 20%;" /><!--  품명  -->
+										<col style="width: 10%;" /><!--  포장단위 -->
 										
-										<col style="width: 10%;" /><!--  수량-->
-										<col style="width: 10%;" />
-										<col style="width: 10%;" />
+										<col style="width: 10%;" /><!--  포장수량-->
+										<col style="width: 5%;" /><!--  유무상-->
+										<col style="width: 5%;" /><!--  도편-->
+										<col style="width: 10%;" /><!--  진도상황-->
+										<col style="width: 10%;" /><!--  적용모덿1-->
+										
+										<col style="width: 10%;" /><!--  적용모덿2-->
 									</colgroup>
 									<tbody id="tbody_list">
 							          <c:forEach var="sampleRequestItem" items="${sampleRequestItemList}" varStatus="status">									
@@ -390,7 +406,7 @@
                                             <td class="txt_center"   >
 												<input type="hidden" id="hid_${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}"
 														name="hid_mappingCode" value="${sampleRequestItem.pummog_code}${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}" >
-												<input  id="hid_item" name="hid_item" value="${sampleRequestItem.pummog_code}" >
+												<input type="hidden" id="hid_item" name="hid_item" value="${sampleRequestItem.pummog_code}" >
 												<input type="hidden" id="hid_qty_allocjob" name="hid_qty_allocjob" value="${sampleRequestItem.po_danwi_a}" >
 												<input type="hidden" id="hid_u_m" name="hid_u_m" value="${sampleRequestItem.po_danwi_b}" >
 												<input type="hidden" id="hid_description" name="hid_description" value="${sampleRequestItem.pummyeong}" >
@@ -400,6 +416,7 @@
 											</td>		 
 											<td class="last">
                                                 <select class="select" style="width:100%;" title="견본구분" id="gyeonbon_gubun" name="gyeonbon_gubun">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(code4007) > 0}">
                                                         <c:forEach items="${code4007}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -410,15 +427,14 @@
                                             </td>
                                             <td class="pro_code"    id="td_item" >${sampleRequestItem.pummog_code}</td>
                                             <td class="pro_name"    id="td_description">${sampleRequestItem.pummyeong}</td>
-											<td class="txt_center" colspan="1"    >
-											
-         									<td class="txt_rig" id="td_u_m">${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}</td>
+											<td class="txt_rig" id="td_u_m">${sampleRequestItem.po_danwi_a}${sampleRequestItem.po_danwi_b}</td>
 											<td class="txt_center"  colspan="1">
 												<input type="text" class="entry" id="po_su" name="po_su" title="주문수량"  style="width:100%;" 
 													value="${sampleRequestItem.po_su != null ? sampleRequestItem.po_su : 0}" req/>
 											</td>								
 										    <td class="last">
                                                 <select class="select" title="유상여부" id="price_yn" name="price_yn"  style="width:100%;">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(code4030) > 0}">
                                                         <c:forEach items="${code4030}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -431,8 +447,20 @@
 												<input type="text" class="entry" id="dopyeon_yn" name="dopyeon_yn" title="도편여부"  style="width:100%;" 
 													value="${sampleRequestItem.dopyeon_yn}" req/>
 											</td>									
+											<td class="txt_center"  colspan="1">
+												<input type="text" class="entry" id="stat_nm" name="stat_nm" title="진도상황"  style="width:100%;" 
+													value="${sampleRequestItem.stat_nm}" req/>
+											</td>									
+											<td class="txt_center"  colspan="1">
+												<input type="text" class="entry" id="model_1" name="model_1" title="적용모델명1"  style="width:100%;" 
+													value="${sampleRequestItem.model_1}"    />
+											</td>									
+											<td class="txt_center"  colspan="1">
+												<input type="text" class="entry" id="model_2" name="model_2" title="적용모델명2"  style="width:100%;" 
+													value="${sampleRequestItem.model_2}"    />
+											</td>									
 											
-																					  </tr>
+											</tr>
 										</c:forEach>
 									</tbody>
 								</table>	
@@ -461,7 +489,7 @@
 										<tr class="first">
 											<th scope="row">사업장명</th>
 											<td class="last">
-												<select class="select" style="width:100%;" title="사업장명" id="saeobjang_nm" name="saeobjang_nm">
+												<select class="select" style="width:100%;" title="사업장명" id="saeobjang" name="saeobjang">
                                                     <c:if test="${fn:length(code0031) > 0}">
                                                         <c:forEach items="${code0031}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -485,6 +513,7 @@
 										  <th scope="row">품목분류</th>
 											<td class="last">
                                                 <select class="select" title="품목분류" style="width:150px;" id="pummog_bunryu" name="pummog_bunryu">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(code4901) > 0}">
                                                         <c:forEach items="${code4901}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -498,10 +527,11 @@
 											<th scope="row">핸드폰분류</th>
 											<td class="last">
                                                 <select class="select" style="width:150px;" title="핸드폰분류" id="hp_bunryu" name="hp_bunryu">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(code4902) > 0}">
                                                         <c:forEach items="${code4902}" var="row" varStatus="status">
                                                             <option value="${row.code}"
-                                                            <c:if test="${fn:trim(sampleRequestVO.gyeonbon_gubun) == row.code}"> selected</c:if> >${row.name}        </option>
+                                                            <c:if test="${fn:trim(sampleRequestVO.hp_bunryu) == row.code}"> selected</c:if> >${row.name}        </option>
                                                         </c:forEach>
                                                     </c:if>
                                                 </select>
@@ -547,6 +577,7 @@
 											<th scope="row">영업담당자</th>
 											<td class="last">
                                                 <select class="select" title="영업담당자" id="balsinja" name="balsinja">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(codeBalsinja) > 0}">
                                                         <c:forEach items="${codeBalsinja}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -560,6 +591,7 @@
 											<th scope="row">수신부서</th>
 											<td class="last">
                                                 <select class="select" title="수신부서" id="susin_buseo" name="susin_buseo">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(codeSusinBuseo) > 0}">
                                                         <c:forEach items="${codeSusinBuseo}" var="row" varStatus="status">
                                                             <option value="${row.code}"
@@ -571,9 +603,13 @@
 											<th scope="row">수신자</th>
 											<td class="last">
                                                 <select class="select" title="수신자" id="susinja" name="susinja" width="200px">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(codeSusinja) > 0}">
                                                         <c:forEach items="${codeSusinja}" var="row" varStatus="status">
-                                                             <option value="${row.code}">${row.name}      </option>
+                                                             <option value="${row.code}"
+                                                                 <c:if test="${fn:trim(sampleRequestVO.susinja) == row.code}"> selected</c:if>>
+                                                                 ${row.name}
+                                                             </option>
                                                         </c:forEach>
                                                     </c:if>
                                                 </select>
@@ -583,9 +619,13 @@
 											<th scope="row">입회자</th>
 											<td class="last" colspan="1">
                                                 <select class="select" title="입회자" id="ibhoija" name="ibhoija">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(codeIbhoija) > 0}">
                                                         <c:forEach items="${codeIbhoija}" var="row" varStatus="status">
-                                                            <option value="${row.code}">${row.name}      </option>
+                                                            <option value="${row.code}" 
+                                                                <c:if test="${fn:trim(sampleRequestVO.ibhoija) == row.code}"> selected</c:if>>
+                                                                ${row.name}
+                                                            </option>
                                                         </c:forEach>
                                                     </c:if>
                                                 </select>
@@ -700,6 +740,7 @@
 											<th scope="row">결과등록기한</th>
 											<td class="last">
                                                 <select class="select" title="결과등록기한" id="gyeolgwa_gihan" name="gyeolgwa_gihan">
+                                                    <option value="">-- 선택하세요 --</option>
                                                     <c:if test="${fn:length(code4905) > 0}">
                                                         <c:forEach items="${code4905}" var="row" varStatus="status">
                                                             <option value="${row.code}"

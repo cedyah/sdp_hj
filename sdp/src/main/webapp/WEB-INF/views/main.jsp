@@ -264,7 +264,7 @@
 
 					<div class="boardArea">
 						<div class="noticeArea">
-							<h2>공지사항</h2>
+							<h2>공지사항(20250711)</h2>
 							<a href="sdpy001001l.do" class="more"><img src="img/notice_blit.png"></a>
 							<ul>
 								<c:choose>

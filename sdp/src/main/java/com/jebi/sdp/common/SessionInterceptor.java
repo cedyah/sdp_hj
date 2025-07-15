@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -12,7 +12,7 @@ import com.jebi.sdp.model.*;
 
 @Service
 public class SessionInterceptor extends HandlerInterceptorAdapter{
-	private static final Logger logger = Logger.getLogger(SessionInterceptor.class);
+//	private static final Logger logger = Logger.getLogger(SessionInterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception{

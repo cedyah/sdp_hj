@@ -162,9 +162,8 @@
 						<col style="width:100px;" />
 						<col style="width:280px;" />
 						<col style="width:60px;" />
-						<col style="width:90px;" />
+						<col style="width:120px;" />
 						
-						<col style="width:80px;" />
 						<col style="" />
 					</colgroup>
 					<thead>
@@ -179,7 +178,7 @@
 							<th scope="col" rowspan="2">품명</th>
 							<th scope="col" rowspan="2">판매단위</th>
 							
-							<th scope="col" colspan="3" class="tbl_col_tit">재고</th>
+							<th scope="col" colspan="2" class="tbl_col_tit">재고</th>
 						</tr>
 						<tr>
 							<jsp:directive.include file="/WEB-INF/views/templates/include_itemTitle.jsp" />
@@ -195,9 +194,8 @@
 						<col style="width:100px;" />
 						<col style="width:280px;" />
 						<col style="width:60px;" />
-						<col style="width:90px;" />
+						<col style="width:120px;" />
 						
-						<col style="width:80px;" />
 						<col style="" />
 					</colgroup>
 					<tbody id="tbody_list">
@@ -223,7 +221,6 @@
 										<td class="txt_rig ft_grey" id="td_qtyOnHand01">0</td>
 										
 										<td class="txt_rig ft_grey" id="td_qtyOnHand02">0</td>
-										<td class="txt_rig ft_grey" id="td_keepOnHand">0</td>
 									</tr>
 								</c:forEach>
 							</c:when>

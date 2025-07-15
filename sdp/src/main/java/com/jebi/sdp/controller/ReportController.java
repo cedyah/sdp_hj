@@ -37,7 +37,7 @@ import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.ibatis.common.util.PaginatedList;
+//import com.ibatis.common.util.PaginatedList;
 import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapSession;
 import com.ibatis.sqlmap.client.event.RowHandler;

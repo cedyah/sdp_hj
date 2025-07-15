@@ -204,7 +204,7 @@
 						<div class="bottom_btn_wrap">
 							<div class="right_btn_area">
 								<c:choose>
-									<c:when test="${prodReqHeader.wanlyo_yn == 'A'}">
+									<c:when test="${prodReqHeader.wanlyo_yn == 'S'}">
 										<input class="btn_modify" type="button" id="" value="수정" onclick="javascript:alertNprodReq();" />
 										<input class="btn_ord_cancel" type="button" id="" value="제조의뢰 취소" onclick="javascript:cancelCo();" />
 									</c:when>

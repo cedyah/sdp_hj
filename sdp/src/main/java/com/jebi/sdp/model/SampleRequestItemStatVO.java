@@ -1,10 +1,27 @@
 package com.jebi.sdp.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class SampleRequestItemStatVO extends CustomerVO{
 
 	public SampleRequestItemStatVO() throws Exception {
 		super();
 		// TODO Auto-generated constructor stub
+		//검색조건이 없을시 기본 900개월 셋팅
+		//		Date dt = new Date();
+		//		SimpleDateFormat smt = new SimpleDateFormat("yyyy.MM.dd");
+
+		//Calendar cal = Calendar.getInstance();
+        //cal.setTime(dt);
+//        cal.add(Calendar.DATE, -3);		//3일 전
+        //cal.add(Calendar.MONTH, -900);		//1달 전
+
+		//setSearchDate_from(smt.format(cal.getTime()));
+		//setSearchDate_to(smt.format(cal.getTime()));
+		System.out.println("searchDate_from = " + getSearchDate_from());
+		System.out.println("searchDate_to = " + getSearchDate_to());
 	}
 	//BSET091_WEB
 	String saeobjang          ;
@@ -21,6 +38,7 @@ public class SampleRequestItemStatVO extends CustomerVO{
     String rmk_2             ;
     String rmk_3             ;
     String gubun             ;
+    String gyeolgwa_1        ;
     
 	public String getSaeobjang() {
 		return saeobjang;
@@ -105,6 +123,12 @@ public class SampleRequestItemStatVO extends CustomerVO{
 	}
 	public void setGubun(String gubun) {
 		this.gubun = gubun;
+	}
+	public String getGyeolgwa_1() {
+		return gyeolgwa_1;
+	}
+	public void setGyeolgwa_1(String gyeolgwa_1) {
+		this.gyeolgwa_1 = gyeolgwa_1;
 	}
      
 }

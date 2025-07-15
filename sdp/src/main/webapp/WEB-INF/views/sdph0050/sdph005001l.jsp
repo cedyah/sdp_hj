@@ -68,7 +68,6 @@
 								</div>
 								<!-- left_num_count -->
 	                    <div class="search_btn_wrap">
-							<p class="result_num">샘플요청 : ${fn:length(sampleRequestItemStat)}건</p>
 							<div class="search_btn_area">
 								<input class="btn_sample" id="" type="button" value="샘플출고 요청" onclick="c_submit('frm','sdph005001u.insert.do');">
 							</div>

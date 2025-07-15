@@ -77,8 +77,8 @@
 		<result property="insuja" column="INSUJA"/>
 		<result property="tel_no" column="TEL_NO"/>
 		<result property="bigo" column="BIGO"/>
-<!--		<result property="jindo_code" column="JINDO_CODE"/>
-		<result property="jindo_code_nm" column="JINDO_CODE_NM"/>
+		<result property="jindo_code" column="JINDO_CODE"/>
+<!--		<result property="jindo_code_nm" column="JINDO_CODE_NM"/>
  		<result property="taksong_point_yn" column="TAKSONG_POINT_YN"/>
 		<result property="zip" column="ZIP"/>
 		<result property="addr1" column="ADDR1"/>
@@ -91,7 +91,7 @@
 	
 	<procedure id="procedure_selectOrderHeader" parameterMap="param_selectOrderHeader">
 		<![CDATA[
-			{CALL PKG_ORDER_RCE.Q_RC010F_S(?, ?, ?, ?, ?)}
+			{CALL PKG_ORDER_RCE.Q_RC010F_S2(?, ?, ?, ?, ?)}
 		]]>
 	</procedure>
 	<!-- //주문서 header 조회 -->

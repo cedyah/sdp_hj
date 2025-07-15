@@ -68,7 +68,7 @@
 	       				<!--local_nav_wrap-->	
 	         			<div class="sub_cont">		            
 							<div class="search_btn_wrap" style="">
-<%-- 								<p class="result_num">제조의뢰품목 : ${fn:length(coItemList)} 건</p> --%>
+<%-- 								<p class="result_num">샘플출고의뢰품목 : ${fn:length(coItemList)} 건</p> --%>
 								<div class="search_btn_area">
 									<input class="btn_newmake" id="" type="button" value="목록" onclick="javascript:goList();">
 								</div>
@@ -278,14 +278,15 @@
 							
 							<div class="bottom_btn_wrap">
 								<div class="right_btn_area">
+								    <c:set var="sampleRequestItem" value="${sampleRequestItemList[0]}" />
 									<c:choose>
-										<c:when test="${nprodReqSub.jindo == 'S'}">
-											<input class="btn_modify" type="button" id="" value="수정" onclick="alterRequest();" />
+										<c:when test="${sampleRequestItem.stat_nm eq '대리점발행'}">
+											<input class="btn_modify" type="button" id="" value="수  정" onclick="alterRequest();" />
 											<input class="btn_ord_cancel" type="button" id="" value="요청취소" onclick="cancelRequest();" />
 										</c:when>
 										<c:otherwise>
-											<input class="btn_modify" type="button" id="" value="수정" onclick="javascript:ignoreAlert();" />
-											<input class="btn_ord_cancel" type="button" id="" value="제조의뢰 취소" onclick="javascript:ignoreAlert();" />
+											<input class="btn_modify" type="button" id="" value="정  정" onclick="javascript:ignoreAlert();" />
+											<input class="btn_ord_cancel" type="button" id="" value="샘플출고의뢰 취소" onclick="javascript:ignoreAlert();" />
 										</c:otherwise>
 									</c:choose>
 								</div>

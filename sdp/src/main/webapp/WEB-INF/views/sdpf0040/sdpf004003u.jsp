@@ -80,7 +80,6 @@
 						<div class="mypage_tab_wrap">
 							<ul>
 								<li><a href="sdpf004001u.do">검색조건관리</a></li>
-								<li><a href="sdpf004002u.do">알림 관리</a></li>
 								<li class="on"><a href="#">비밀번호 변경</a></li>
 							</ul>
 						</div>
