@@ -14,24 +14,7 @@ import com.jebi.sdp.model.EmailVO;
 public class MailService {
 	@Autowired
     private MailSender mailSender;
-     
-    @Autowired
-    private SimpleMailMessage preConfiguredMessage;
 
-	/**
-	 * 메일 발송
-	 * @return boolean
-	 */
-    public void sendMail(String from, String[] to, String subject, String contents) throws Exception {
-		SimpleMailMessage message = new SimpleMailMessage();
-
-		message.setFrom(from);
-		message.setTo(to);
-		message.setSubject(subject);
-		message.setText(contents);
-		mailSender.send(message);
-	}
-    
     public void sendMail(EmailVO mailVO) throws Exception {
     	SimpleMailMessage message = new SimpleMailMessage();
     	
@@ -49,14 +32,5 @@ public class MailService {
     	message.setSubject(mailVO.getSubject());
     	message.setText(mailVO.getContents());
     	mailSender.send(message);
-    }
-    
-    /**
-     * This method will send a pre-configured message
-     * */
-    public void sendPreConfiguredMail(String message) throws Exception {
-        SimpleMailMessage mailMessage = new SimpleMailMessage(preConfiguredMessage);
-        mailMessage.setText(message);
-        mailSender.send(mailMessage);
     }
 }
