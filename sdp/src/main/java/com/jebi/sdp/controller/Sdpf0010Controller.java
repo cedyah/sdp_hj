@@ -20,13 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpf0010Controller extends CommonUtil {
+public class Sdpf0010Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpf0010Controller.class);
 
 	@Autowired

@@ -15,13 +15,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.jebi.sdp.common.CommonUtil;
+import com.jebi.sdp.common.FileService;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 
 @Controller
-public class Sdpy0010Controller extends CommonUtil {
+public class Sdpy0010Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpy0010Controller.class);
+
+	@Autowired
+	private FileService fileService;
 
 	@Autowired
 	private CmmnDao dao;
@@ -99,7 +102,7 @@ public class Sdpy0010Controller extends CommonUtil {
 					
 					fileVO.setFile_nm(dao.insert_return("common.insert_file", fileVO));		//insert와 동시에 fileVO에 생성된 파일 이름 저장
 					
-					uploadFile(mFile, fileVO);		//생성된 파일 이름으로 실제로 서버에 파일 저장
+					fileService.uploadFile(mFile, fileVO);		//생성된 파일 이름으로 실제로 서버에 파일 저장
 				}
 			}
 			//첨부파일 종료
@@ -153,7 +156,7 @@ public class Sdpy0010Controller extends CommonUtil {
 						
 						fileVO.setFile_nm(dao.insert_return("common.insert_file", fileVO));		//insert와 동시에 fileVO에 생성된 파일 이름 저장
 						
-						uploadFile(mFile, fileVO);		//생성된 파일 이름으로 실제로 서버에 파일 저장
+						fileService.uploadFile(mFile, fileVO);		//생성된 파일 이름으로 실제로 서버에 파일 저장
 					}
 					
 				} else if("old_".equals(flag)) {	//기존것을 변경하거나 혹은 변경이 없는경우
@@ -165,14 +168,14 @@ public class Sdpy0010Controller extends CommonUtil {
 						fileVO.setFile_size(Long.toString(mFile.getSize()));
 						
 						dao.update("common.update_file", fileVO);		//DB 업데이트
-						uploadFile(mFile, fileVO);		//생성된 파일 이름으로 실제로 서버에 파일 저장
+						fileService.uploadFile(mFile, fileVO);		//생성된 파일 이름으로 실제로 서버에 파일 저장
 					}
 					
 				} else if("del_".equals(flag)) {	//기존것 삭제
 					fileVO.setDoc_num(noticeVO.getNotice_num());
 					fileVO.setFile_nm(file_nm);
 					dao.delete("common.delete_file", fileVO);		//DB에서 파일정보 삭제
-					deleteFile(fileVO);		//서버에서 파일 삭제
+					fileService.deleteFile(fileVO);		//서버에서 파일 삭제
 				}
 			}
 			//첨부파일 종료
@@ -236,7 +239,7 @@ public class Sdpy0010Controller extends CommonUtil {
 			List<FileVO> fileList = (List<FileVO>) dao.selectList("common.select_file", fileVO);
 			for(int i=0; i < fileList.size(); i++) {
 				fileVO = (FileVO) fileList.get(i);
-				deleteFile(fileVO);		//서버에서 파일 삭제
+				fileService.deleteFile(fileVO);		//서버에서 파일 삭제
 			}
 			
 			//DB에서 파일정보 삭제

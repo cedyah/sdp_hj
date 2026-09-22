@@ -1,5 +1,7 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.FormatUtil.getExpDateString;
+
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jebi.sdp.common.CommonUtil;
+import com.jebi.sdp.common.MailService;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpe0010Controller extends CommonUtil {
+public class Sdpe0010Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpe0010Controller.class);
+
+	@Autowired
+	private MailService mailService;
 
 	@Autowired
 	private CmmnDao dao;
@@ -243,7 +248,7 @@ public class Sdpe0010Controller extends CommonUtil {
 			
 			//li에 저장해 놓은 이메일 객체들을 일괄 발송후 커밋
 			for(int i=0; i < li_sendMail.size(); i ++) {
-				sendMail( (EmailVO) li_sendMail.get(i));
+				mailService.sendMail( (EmailVO) li_sendMail.get(i));
 			}
 			
 			dao.commit();
@@ -396,7 +401,7 @@ public class Sdpe0010Controller extends CommonUtil {
 			
 			//li에 저장해 놓은 이메일 객체들을 일괄 발송후 커밋
 			for(int i=0; i < li_sendMail.size(); i ++) {
-				sendMail( (EmailVO) li_sendMail.get(i));
+				mailService.sendMail( (EmailVO) li_sendMail.get(i));
 			}
 			
 			dao.commit();

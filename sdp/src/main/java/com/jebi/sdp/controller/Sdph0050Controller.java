@@ -1,5 +1,7 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.FormatUtil.getExpDateString;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
@@ -22,7 +24,7 @@ import com.jebi.sdp.model.*;
 import com.sun.mail.imap.protocol.Item;
 
 @Controller
-public class Sdph0050Controller extends CommonUtil {
+public class Sdph0050Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdph0050Controller.class);
 
 	@Autowired

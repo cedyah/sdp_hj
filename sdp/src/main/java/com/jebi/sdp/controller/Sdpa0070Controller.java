@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpa0070Controller extends CommonUtil {
+public class Sdpa0070Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpa0070Controller.class);
 
 	@Autowired

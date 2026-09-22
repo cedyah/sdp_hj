@@ -1,5 +1,7 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.FormatUtil.getExpDateString;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -26,7 +28,7 @@ import com.jebi.sdp.service.*;
 
 
 @Controller
-public class Sdpa0020Controller extends CommonUtil {
+public class Sdpa0020Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpa0020Controller.class);
 
 	@Autowired

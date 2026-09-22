@@ -1,5 +1,7 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.StringUtil.nvl;
+
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 
 @Controller
-public class Sdpf0020Controller extends CommonUtil {
+public class Sdpf0020Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpf0020Controller.class);
 
 	@Autowired

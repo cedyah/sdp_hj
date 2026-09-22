@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class CommonController extends CommonUtil {
+public class CommonController {
 	private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
 
 	@Autowired

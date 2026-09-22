@@ -22,13 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpz0009Controller extends CommonUtil {
+public class Sdpz0009Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpz0009Controller.class);
 
 	@Autowired
