@@ -23,6 +23,9 @@ public class UtilTest {
 		assertEquals("20250102", FormatUtil.getExpDateString(" 2025-01/02 "));
 		assertEquals("202501", FormatUtil.getExpDateString("2025.01,"));
 		assertEquals("1234567.5", FormatUtil.getExpNumString(" 1,234,567.5 "));
+		// VO 게터들이 null 대신 "" 를 주지만, 직접 호출하는 경우를 대비한다
+		assertEquals("", FormatUtil.getExpDateString(null));
+		assertEquals("", FormatUtil.getExpNumString(null));
 	}
 
 	@Test

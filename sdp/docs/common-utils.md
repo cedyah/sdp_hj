@@ -31,8 +31,8 @@
 ### 동작 참고 (기존 동작 그대로 유지)
 
 - `nvl`: `null` 또는 문자열 `"null"`이면 `""`를 반환한다. 그 외에는 앞뒤 공백을 제거하고, `"` `'` `<` `>`를 전각 문자나 HTML 엔티티로 바꾼다.
-- `getExpDateString`: 앞뒤 공백을 제거하고 `-` `,` `.` `/`를 지운다(`" 2025-01/02 "` → `"20250102"`). **인자가 `null`이면 NPE가 발생한다.**
-- `getExpNumString`: 앞뒤 공백을 제거하고 `,`를 지운다. 이것도 `null`이면 NPE가 발생한다.
+- `getExpDateString`: 앞뒤 공백을 제거하고 `-` `,` `.` `/`를 지운다(`" 2025-01/02 "` → `"20250102"`). 인자가 `null`이면 `""`를 반환한다.
+- `getExpNumString`: 앞뒤 공백을 제거하고 `,`를 지운다. 이것도 `null`이면 `""`를 반환한다.
 - `sendMail(EmailVO)`: `to`가 빈 문자열이면 `li_to` 목록으로 보낸다. `to`가 `null`이면 NPE가 발생한다.
 - `uploadFile`: `file_path` 폴더가 없으면 만들고, `file_path + file_nm`에 저장한다. 빈 파일이면 저장하지 않고 `false`를 반환한다.
 
@@ -95,25 +95,17 @@ git show e6a1788:sdp/src/main/java/com/jebi/sdp/common/CryptoUtil.java
 
 ## 6. 빌드와 테스트
 
-### 알려진 빌드 문제 (리팩토링 이전부터 있던 문제)
-
-- `ojdbc14` 저장소가 HTTP 주소로 되어 있어 최근 Maven이 차단한다. `sdp/ojdbc14-10.2.0.4.jar`를 로컬 Maven 캐시(`~/.m2`)에 설치하면 된다.
-- `ReportController`에 쓰지 않는 `com.sun.javafx` import가 있다. 그래서 JavaFX가 없는 JDK(11 이상)에서는 컴파일되지 않는다.
-
-### `mvn` 이 실패할 때 javac 로 검증하는 방법
-
 ```bash
 cd sdp
-mvn -o dependency:build-classpath -Dmdep.outputFile=/tmp/cp.txt
+mvn test       # 컴파일 + 테스트
+mvn package    # target/sdp-1.0.1.war 생성
 ```
 
-소스를 임시 폴더에 복사한다. 복사본의 `ReportController.java`에서 `import com.sun.javafx...` 줄을 지우고 아래처럼 컴파일한다.
+`ojdbc14`는 공개 저장소에서 받을 수 없어 jar를 저장소에 함께 보관한다. `sdp/lib/`가 Maven 저장소 구조(`groupId/artifactId/version`)를 그대로 따르고, `pom.xml`이 이 폴더를 `file://` 저장소로 참조한다. 따라서 각자 `~/.m2`에 수동 설치할 필요가 없다.
 
-```bash
-javac -encoding UTF-8 --release 8 -cp "$(cat /tmp/cp.txt)" -d out @main-sources.txt
-```
+> 예전에는 `ojdbc14`를 HTTP 저장소에서 받도록 되어 있어(최근 Maven이 차단) `ReportController`의 javafx import와 함께 `mvn` 빌드가 실패했다. 커밋 `c94e09d`에서 고쳤다.
 
-테스트는 `org.junit.runner.JUnitCore`로 실행한다.
+테스트 내용은 다음과 같다.
 
 - `UtilTest`: `nvl`, `getExpDateString`, `getExpNumString`, `getYYYY`의 기존 출력을 고정한다.
 - `ServiceWiringTest`: Spring 컨텍스트에서 `@Autowired`로 받은 `MailService`와 `FileService`가 실제로 메일을 만들고 파일을 저장·삭제하는지 확인한다.
@@ -131,5 +123,6 @@ Tomcat에서 실제로 띄워 확인하지 않았다. 배포 전 아래 화면�
 
 ## 7. 남은 정리 거리
 
-- `servlet-context.xml`의 `preConfiguredMessage` 빈은 이제 아무도 주입받지 않는다. 지워도 동작에는 영향이 없다.
-- `getExpDateString` 등의 `null` 처리: 지금은 기존 동작대로 NPE가 난다. 검색 조건이 비어 있는 요청에서 오류가 나는지 확인이 필요하다.
+(1~5단계 이후 정리한 항목은 `c94e09d`, `3396291`, 아래 `null` 처리 커밋에서 마무리했다.)
+
+- `CommonUtil` 다음으로 큰 파일: `common_bak2.js`(1,239줄) 등 JavaScript 정리는 아직 하지 않았다.
