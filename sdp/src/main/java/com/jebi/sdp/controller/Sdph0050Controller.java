@@ -98,9 +98,6 @@ public class Sdph0050Controller {
 		List<SampleRequestItemVO> sampleRequestItemList = (List<SampleRequestItemVO>) map.get("OUT_PARAM");
 		model.addAttribute("sampleRequestItemList", sampleRequestItemList);
 		//logger.debug("jindo_code param: {}", sampleRequestItemList.get(0).getJindo_code());
-		System.out.println(">>> [sampleRequestItemList.getJindo_code param: ] " + sampleRequestItemList.get(0).getJindo_code());
-		System.out.println(">>> [sampleRequestItemList.getStat_nm param: ] " + sampleRequestItemList.get(0).getStat_nm());
-		System.out.println(">>> [sampleRequestItemList.getPummyeong param: ] " + sampleRequestItemList.get(0).getPummyeong());
 		
 		return "sdph0050/sdph005001d";
 	}
@@ -114,12 +111,10 @@ public class Sdph0050Controller {
 		
 		//사업장(본사,대구, 신제품:0031)
 		sampleRequestVO.setSaeobjang(sampleRequestVO.getWorkplace());
-	    System.out.println(">>> [sampleRequestVO.setSaeobjang1] " + sampleRequestVO.getSaeobjang());
 	    map = new HashMap<String, Object>();
 		map.put("ARG_MAJOR_CD", "0031");
 		dao.update("common.procedure_selectCode", map);
 		model.addAttribute("code0031", map.get("OUT_PARAM"));
-	    System.out.println(">>> [sampleRequestVO.setSaeobjang2] " + sampleRequestVO.getSaeobjang());
         
 		//견본구분(기존품, 신제품:4007)
 		map = new HashMap<String, Object>();
@@ -224,7 +219,6 @@ public class Sdph0050Controller {
 			dao.select("sdph0050.procedure_selectSampleRequestItem", map);
 			List<SampleRequestItemVO> sampleRequestItemList = (List<SampleRequestItemVO>) map.get("OUT_PARAM");
 			model.addAttribute("sampleRequestItemList", sampleRequestItemList);
-			System.out.println(">>> [sampleRequestItemList.getStat_nm param: ] " + sampleRequestItemList.get(0).getStat_nm());
 			
 			
 		}
@@ -241,7 +235,6 @@ public class Sdph0050Controller {
 	public String sdph005001u_insert(@ModelAttribute("sampleRequestVO") SampleRequestVO sampleRequestVO,@ModelAttribute("sampleRequestItemVO") SampleRequestItemVO sampleRequestItemVO,
 			@RequestParam(value="jsonList")JSONArray jsonList, RedirectAttributes redirectAttr,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {*/
-		    System.out.println(">>> [sdph005001u_insert] ");
 
 		    
 		try {
@@ -270,87 +263,31 @@ public class Sdph0050Controller {
 			List<SampleRequestVO> list = (List<SampleRequestVO>) map.get("OUT_PARAM");
 			sampleRequestVO.setJeonpyo_no(((SampleRequestVO) list.get(0)).getJeonpyo_no());
 
-		    System.out.println(">>> list.get(0)).getJeonpyo_no proc: " + ((SampleRequestVO) list.get(0)).getJeonpyo_no());
-		    System.out.println(">>> [sampleRequestVO.getWorkplace] received: " + sampleRequestVO.getWorkplace());
-		    System.out.println(">>> [sampleRequestVO.getIlja]: " + getExpDateString(sampleRequestVO.getIlja()));
-		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no]: " + ((SampleRequestVO) list.get(0)).getJeonpyo_no().toString());
-		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no] is null? " + (sampleRequestVO.getJeonpyo_no() == null));
-		    System.out.println(">>> [sampleRequestVO.getJeonpyo_no] is empty? " + ("".equals(sampleRequestVO.getJeonpyo_no())));
-		    System.out.println(">>> OUT_PARAM from jeonpyoNo proc: " + map.get("OUT_PARAM"));
   
 
 			
 			//header 입력
-			map = new HashMap<String, Object>();
-			map.put("ARG_FLAG", "INSERT");
-      map.put("ARG_SAEOBJANG"                  , sampleRequestVO.getSaeobjang         ());
-      map.put("ARG_ILJA"                       , getExpDateString(sampleRequestVO.getIlja()));
-      map.put("ARG_JEONPYO_NO"                 , sampleRequestVO.getJeonpyo_no        ());
-      map.put("ARG_SIL_GEOLAECHEO"             , sampleRequestVO.getSil_geolaecheo    ());
-      map.put("ARG_GYEONBON_GUBUN"             , sampleRequestVO.getGyeonbon_gubun    ());
-      map.put("ARG_PUMMOG_BUNRYU"              , sampleRequestVO.getPummog_bunryu     ());
-      map.put("ARG_HP_BUNRYU"                  , sampleRequestVO.getHp_bunryu         ());
-      map.put("ARG_GEOLAECHEO_CODE1"           , sampleRequestVO.getGeolaecheo_code  ());
-      map.put("ARG_SANGHO1"                    , sampleRequestVO.getSangho           ());
+			map = SampleRequestParams.forInsert(sampleRequestVO);
 
-      map.put("ARG_GEOLAECHEO_CODE2"           , sampleRequestVO.getGeolaecheo_code_2  ());
-      map.put("ARG_SANGHO2"                    , sampleRequestVO.getSangho_2           ());
-      map.put("ARG_GOGAEG_MYEONG"              , sampleRequestVO.getGogaeg_myeong     ());
-      map.put("ARG_BALSINJA"                   , sampleRequestVO.getBalsinja          ());
-      map.put("ARG_SUSIN_BUSEO"                , sampleRequestVO.getSusin_buseo       ());
-      map.put("ARG_SUSINJA"                    , sampleRequestVO.getSusinja           ());
-      map.put("ARG_IBHOIJA"                    , sampleRequestVO.getIbhoija           ());
-      map.put("ARG_NABPUM_ILJA"                , getExpDateString(sampleRequestVO.getNabpum_ilja()));
-      map.put("ARG_YESANG_GEUMAEG"             , sampleRequestVO.getYesang_geumaeg    ());
-      map.put("ARG_SAYONG_GEUMAEG"             , sampleRequestVO.getSayong_geumaeg    ());
-
-      map.put("ARG_HIMANG_GAGYEOG"             , sampleRequestVO.getHimang_gagyeog    ());
-      map.put("ARG_EX_GEOLAECHEO"              , sampleRequestVO.getEx_geolaecheo     ());
-      map.put("ARG_EX_GYEONBON_YN"             , sampleRequestVO.getEx_gyeonbon_yn    ());
-      map.put("ARG_DOJANG_BANGBEOB"            , sampleRequestVO.getDojang_bangbeob   ());
-      map.put("ARG_DOJANG_GONGJEONG"           , sampleRequestVO.getDojang_gongjeong  ());
-      map.put("ARG_GEONJO_BANGBEOB"            , sampleRequestVO.getGeonjo_bangbeob   ());
-      map.put("ARG_DORYO_TYPE"                 , sampleRequestVO.getDoryo_type        ());
-      map.put("ARG_SOJAE_JONGLYU"              , sampleRequestVO.getSojae_jonglyu     ());
-      map.put("ARG_GITA_YOGU6"                 , sampleRequestVO.getGita_yogu6        ());
-      map.put("ARG_GITA_YOGU3"                 , sampleRequestVO.getGita_yogu3        ());
-
-      map.put("ARG_BIGO1"                      , sampleRequestVO.getBigo_1             ());
-      map.put("ARG_BIGO2"                      , sampleRequestVO.getBigo_2             ());
-      map.put("ARG_BIGO3"                      , sampleRequestVO.getBigo_3             ()); 
-      map.put("ARG_GYEOLGWA_GIHAN"             , sampleRequestVO.getGyeolgwa_gihan    ());			
-      map.put("OUT_PARAM"                      ,  ""                                    );
-			
 			dao.select("sdph0050.procedure_updateSampleRequest", map);
 
-			System.out.println("Pre M Transaction");
 
 			if(!map.get("OUT_PARAM").equals("OK")) {
-				System.out.println("M Transaction NOT OK");
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 		
 			}
 			else
 			{
-				System.out.println("M Transaction OK");
 
 			}
-			System.out.println("M Transaction After");
-			System.out.println(jsonList);
-			System.out.println(">>> jsonList.length = " + jsonList.length());
 			//sub 입력
 			if(jsonList.length() > 0) {
 				JSONObject obj = new JSONObject();
 
 				for(int i=0; i < jsonList.length(); i++) {
 					obj = (JSONObject) jsonList.get(i);
-					System.out.println(">>> item JSON[" + i + "] = " + obj.toString());
-					System.out.println(">>> item sampleRequestVO.getCust_num[" + i + "] = " + sampleRequestVO.getCust_num());
-					System.out.println(">>> item sampleRequestVO.getGyeonbon_gubun[" + i + "] = " + sampleRequestVO.getGyeonbon_gubun());
-					System.out.println(">>> item sampleRequestVO.getPummog_bunryu[" + i + "] = " + sampleRequestVO.getPummog_bunryu());
 
 					map = new HashMap<String, Object>();
                     map.put("ARG_FLAG"                           ,    "INSERT"                                     );    
@@ -382,47 +319,35 @@ public class Sdph0050Controller {
                     map.put("OUT_PARAM"                          ,    ""                                             );   
 
 
-					System.out.println(">>> Before dao select!!!" );
 
 					dao.select("sdph0050.procedure_updateSampleRequestItem", map);
 
-					System.out.println(">>> After dao select!!!" );
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println(">>> D Transaction Not OK!!!" );
-						System.out.println((String) map.get("OUT_PARAM"));
 						dao.endTransaction();
 						return "templates/error";
 					}
 					else
 					{
-						System.out.println(">>> D Transaction OK!!!" );
 					}
-					System.out.println(">>> D Transaction After!!!" );
 					
 				}
 			}
 			
 			dao.executeBatch();
 			dao.commit();
-			System.out.println(">>> Transaction Commit!!!" );
 			
 			redirectAttr.addFlashAttribute("sampleRequestVO", sampleRequestVO);
 
-			System.out.println(">>> Before reutn redirect:sdph005001d!!!" );
 			return "redirect:/sdph005001d.do";
 
 		} catch (Exception e) {
-			System.out.println(">>> Catch Exceptiom e!!!" );
-			e.printStackTrace(); // 전체 스택 트레이스 콘솔에 출력
-		    System.out.println(">>> Exception Message: " + e.getMessage()); // 에러 메시지만 출력
+			logger.error("샘플의뢰 처리 중 오류", e);
 			return "templates/error";
 			
 		} finally {
-			System.out.println(">>> Before EndTransaction!!!" );
 			dao.endTransaction();
-			System.out.println(">>> After EndTransaction!!!" );
 		}
 		
 	}
@@ -438,71 +363,20 @@ public class Sdph0050Controller {
 			dao.startBatch();
 			
 			
-			System.out.println("sampleRequestVO.getSaeobjang" + sampleRequestVO.getSaeobjang        ());
-			System.out.println("sampleRequestVO.getIlja" + sampleRequestVO.getIlja        ());
-			System.out.println("sampleRequestVO.getJeonpyo_no" + sampleRequestVO.getJeonpyo_no        ());
-			System.out.println("sampleRequestVO.getSil_geolaecheo" + sampleRequestVO.getSil_geolaecheo        ());
-			System.out.println("sampleRequestVO.getGyeonbon_gubun" + sampleRequestVO.getGyeonbon_gubun        ());
-			System.out.println("sampleRequestVO.getPummog_bunryu" + sampleRequestVO.getPummog_bunryu        ());
-			System.out.println("sampleRequestVO.getHp_bunryu" + sampleRequestVO.getHp_bunryu        ());
-			System.out.println("sampleRequestVO.getGeolaecheo_code1" + sampleRequestVO.getGeolaecheo_code        ());
 			//header 입력
-            map = new HashMap<String, Object>();
-            map.put("ARG_FLAG", "update");
-            map.put("ARG_SAEOBJANG"                  , sampleRequestVO.getSaeobjang         ());      
-            map.put("ARG_ILJA"                       , sampleRequestVO.getIlja              ());      
-            map.put("ARG_JEONPYO_NO"                 , sampleRequestVO.getJeonpyo_no        ());      
-            map.put("ARG_SIL_GEOLAECHEO"             , sampleRequestVO.getSil_geolaecheo    ());      
-            map.put("ARG_GYEONBON_GUBUN"             , sampleRequestVO.getGyeonbon_gubun    ());      
-            map.put("ARG_PUMMOG_BUNRYU"              , sampleRequestVO.getPummog_bunryu     ());      
-            map.put("ARG_HP_BUNRYU"                  , sampleRequestVO.getHp_bunryu         ());      
-            map.put("ARG_GEOLAECHEO_CODE1"           , sampleRequestVO.getGeolaecheo_code  ());      
-            map.put("ARG_SANGHO1"                    , sampleRequestVO.getSangho           ());      
-                                                                                                    
-            map.put("ARG_GEOLAECHEO_CODE2"           , sampleRequestVO.getGeolaecheo_code_2  ());      
-            map.put("ARG_SANGHO2"                    , sampleRequestVO.getSangho_2           ());      
-            map.put("ARG_GOGAEG_MYEONG"              , sampleRequestVO.getGogaeg_myeong     ());      
-            map.put("ARG_BALSINJA"                   , sampleRequestVO.getBalsinja          ());      
-            map.put("ARG_SUSIN_BUSEO"                , sampleRequestVO.getSusin_buseo       ());      
-            map.put("ARG_SUSINJA"                    , sampleRequestVO.getSusinja           ());      
-            map.put("ARG_IBHOIJA"                    , sampleRequestVO.getIbhoija           ());      
-            map.put("ARG_NABPUM_ILJA"                , sampleRequestVO.getNabpum_ilja       ());      
-            map.put("ARG_YESANG_GEUMAEG"             , sampleRequestVO.getYesang_geumaeg    ());      
-            map.put("ARG_SAYONG_GEUMAEG"             , sampleRequestVO.getSayong_geumaeg    ());      
-                                                                                                    
-            map.put("ARG_HIMANG_GAGYEOG"             , sampleRequestVO.getHimang_gagyeog    ());      
-            map.put("ARG_EX_GEOLAECHEO"              , sampleRequestVO.getEx_geolaecheo     ());      
-            map.put("ARG_EX_GYEONBON_YN"             , sampleRequestVO.getEx_gyeonbon_yn    ());      
-            map.put("ARG_DOJANG_BANGBEOB"            , sampleRequestVO.getDojang_bangbeob   ());      
-            map.put("ARG_DOJANG_GONGJEONG"           , sampleRequestVO.getDojang_gongjeong  ());      
-            map.put("ARG_GEONJO_BANGBEOB"            , sampleRequestVO.getGeonjo_bangbeob   ());      
-            map.put("ARG_DORYO_TYPE"                 , sampleRequestVO.getDoryo_type        ());      
-            map.put("ARG_SOJAE_JONGLYU"              , sampleRequestVO.getSojae_jonglyu     ());      
-            map.put("ARG_GITA_YOGU6"                 , sampleRequestVO.getGita_yogu6        ());      
-            map.put("ARG_GITA_YOGU3"                 , sampleRequestVO.getGita_yogu3        ());      
-                                                                                                    
-            map.put("ARG_BIGO1"                      , sampleRequestVO.getBigo_1             ());      
-            map.put("ARG_BIGO2"                      , sampleRequestVO.getBigo_2             ());      
-            map.put("ARG_BIGO3"                      , sampleRequestVO.getBigo_3             ());      
-            map.put("ARG_GYEOLGWA_GIHAN"             , sampleRequestVO.getGyeolgwa_gihan    ()); 
-			map.put("OUT_PARAM", "");
-			
+            map = SampleRequestParams.forUpdate(sampleRequestVO);
+
 			dao.select("sdph0050.procedure_updateSampleRequest", map);
 
-			System.out.println("AAA111");
 
 			if(!map.get("OUT_PARAM").equals("OK")) {
-				System.out.println("AAA222");
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 			}
-			System.out.println("AAA333");
 
 			//sub 입력
 			if(jsonList.length() > 0) {
-				System.out.println("AAA444");
 				//기존 sub 품목 전체 삭제
 				map = new HashMap<String, Object>();
 				map.put("ARG_FLAG", "delete");
@@ -515,7 +389,6 @@ public class Sdph0050Controller {
 				
 				if(!map.get("OUT_PARAM").equals("OK")) {
 					//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-					System.out.println((String) map.get("OUT_PARAM"));
 					dao.endTransaction();
 					return "templates/error";
 				}
@@ -561,7 +434,6 @@ public class Sdph0050Controller {
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println((String) map.get("OUT_PARAM"));
 						dao.endTransaction();
 						return "templates/error";
 					}
@@ -570,9 +442,7 @@ public class Sdph0050Controller {
 			}
 			else
 			{
-				System.out.println("BBB444");
 			}
-			System.out.println("BBB555");
 			
 			dao.executeBatch();
 			dao.commit();
@@ -606,7 +476,6 @@ public class Sdph0050Controller {
 		
 		if(!map.get("OUT_PARAM").equals("OK")) {
 			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-			System.out.println((String) map.get("OUT_PARAM"));
 			dao.endTransaction();
 			return "templates/error";
 		}
