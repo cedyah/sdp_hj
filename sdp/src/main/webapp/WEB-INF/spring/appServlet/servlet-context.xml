@@ -51,12 +51,6 @@
         </beans:property>
     </beans:bean>
         
-	<beans:bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
-        <beans:property name="to" value="hjg2223@naver.com"></beans:property>
-        <beans:property name="from" value="hjg2223@naver.com"></beans:property>
-        <beans:property name="subject" value="FATAL - Application crash. Save your job !!"/>
-    </beans:bean>
-	
 	<context:component-scan base-package="com.jebi.sdp" />
 
 	<!-- MultipartResolver 설정 -->
