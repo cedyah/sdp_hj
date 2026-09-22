@@ -134,6 +134,32 @@ DB 가 필요한 화면 동작은 테스트로 덮지 못한다. 컨트롤러를
 
 > 테스트 실행 시 로그 설정의 Windows 경로 때문에 작업 폴더에 `C:\logs\error\error.log` 파일이 생길 수 있다. 커밋하지 말고 지운다.
 
+### 로컬에서 띄워 보기
+
+Tomcat 을 설치하지 않고 Maven 플러그인으로 띄울 수 있다.
+
+```bash
+cd sdp
+mvn org.apache.tomcat.maven:tomcat7-maven-plugin:2.2:run -Dmaven.tomcat.port=8080 -Dmaven.tomcat.path=/sdp
+```
+
+주의할 점이 두 가지 있다.
+
+- `web.xml` 의 `security-constraint`(`CONFIDENTIAL`)가 모든 요청을 `https://호스트/...` 로 돌린다.
+  로컬에서 HTTP 로 보려면 이 블록을 잠시 주석 처리하거나, HTTPS 커넥터에 인증서를 붙여야 한다.
+  **주석 처리했다면 반드시 되돌릴 것.**
+- 화면 대부분은 DB(`192.168.14.50`, 사내망)가 필요하다. 사내망 밖에서는 로그인 화면까지만 뜬다.
+
+2026-09-23 에 여기까지 확인했다(사내망 밖).
+
+| 확인 | 결과 |
+|---|---|
+| 앱 기동(Spring 컨텍스트) | 성공. 기동 로그에 예외 없음 → 새로 추가한 `ProdReqService`·`MailService`·`FileService` 주입도 정상 |
+| 로그인 화면(`sdpz000901u.do`) | HTTP 200, 정상 렌더링 |
+| 로그인 전 보호 화면(`sdpa004001l.do` 등) | 로그인 화면으로 302 (세션 인터셉터 정상) |
+| 삭제한 JavaScript(`common_bak2.js` 등) | 404. 남긴 `common.js`·`common_ui.js` 는 200 |
+| **로그인 후 화면 동작** | **확인 못 함(DB 미접속)** |
+
 ### 배포 전 수동 확인 항목
 
 Tomcat에서 실제로 띄워 확인하지 않았다. 배포 전 아래 화면을 확인한다.
