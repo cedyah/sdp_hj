@@ -37,6 +37,12 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 						response.sendRedirect(rootPath);
 						return false;
 					}
+
+					//관리자 전용 기능은 서버에서도 권한 확인
+					if(isAdminOnlyURL(request) && !"M".equals(((CustomerVO)session.getAttribute("user")).getAuth())){
+						response.sendError(HttpServletResponse.SC_FORBIDDEN);
+						return false;
+					}
 				} else {
 					response.sendRedirect("sdpz000901u.do");
 					return false;
@@ -51,6 +57,13 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		return result;
+	}
+	
+	// 관리자(auth=M) 전용 페이지 확인 — 공지사항 작성/수정/삭제
+	private boolean isAdminOnlyURL(HttpServletRequest request){
+		String path = request.getRequestURI().substring(request.getContextPath().length());
+		return path.startsWith("/sdpy001001u")
+				|| path.equals("/sdpy001001d_delete.do");
 	}
 	
 	// 제외할 페이지 확인.

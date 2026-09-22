@@ -100,7 +100,9 @@ public class Sdpf0040Controller extends CommonUtil {
 		ModelAndView mv = new ModelAndView();
 		MappingJacksonJsonView jsonView = new MappingJacksonJsonView();
 		
-		CustomerVO cvo = (CustomerVO) dao.select("sdpf0040.select_user", customerVO);
+		//현재 비밀번호가 비어 있으면 select_user 의 비밀번호 조건이 빠지므로 반드시 검사
+		boolean inputValid = !"".equals(customerVO.getPassword()) && newPassword != null && !"".equals(newPassword.trim());
+		CustomerVO cvo = inputValid ? (CustomerVO) dao.select("sdpf0040.select_user", customerVO) : null;
 		
 		if(cvo != null) {
 			customerVO.setPassword(newPassword);
