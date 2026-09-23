@@ -24,6 +24,7 @@ import com.jebi.sdp.model.NprodReqHeaderVO;
 import com.jebi.sdp.model.NprodReqSubVO;
 import com.jebi.sdp.model.ProdReqHeaderVO;
 import com.jebi.sdp.model.ProdReqSubVO;
+import com.jebi.sdp.service.CodeService;
 import com.jebi.sdp.service.ProdReqService;
 
 /**
@@ -42,6 +43,9 @@ public class Sdpa0040Controller {
 
 	@Autowired
 	private ProdReqService prodReqService;
+
+	@Autowired
+	private CodeService codeService;
 
 	// ---- 제조의뢰 ----
 
@@ -69,7 +73,7 @@ public class Sdpa0040Controller {
 		model.addAttribute("flag", flag);
 
 		//판매구분 코드목록
-		model.addAttribute("code10", prodReqService.selectCodeList("4069"));
+		model.addAttribute("code10", codeService.selectCodeList("4069"));
 
 		if(flag != null && flag.equals("update")) {
 			prVO.setProduct_type("인터넷");
@@ -214,7 +218,7 @@ public class Sdpa0040Controller {
 		model.addAttribute("flag", flag);
 
 		//배달구분 코드목록
-		model.addAttribute("code10", prodReqService.selectCodeList("425"));
+		model.addAttribute("code10", codeService.selectCodeList("425"));
 
 		if(flag != null && flag.equals("update")) {
 			addNprodReqDetail(nprVO, model);

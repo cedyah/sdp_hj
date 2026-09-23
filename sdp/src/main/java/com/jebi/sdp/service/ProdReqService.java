@@ -52,14 +52,6 @@ public class ProdReqService {
 
 	// ---- 공통 ----
 
-	/** 공통코드 목록 */
-	public Object selectCodeList(String majorCd) throws Exception {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", majorCd);
-		dao.update("common.procedure_selectCode", map);
-		return map.get("OUT_PARAM");
-	}
-
 	/** 새 전표번호. slipType 은 제조의뢰 "W2", 신규제조의뢰 "03". */
 	@SuppressWarnings("unchecked")
 	public String selectJeonpyoNo(String workplace, String slipType, String ilja) throws Exception {
