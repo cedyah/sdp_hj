@@ -133,7 +133,15 @@ mvn package    # target/sdp-1.0.1.war 생성
 DB 가 필요한 화면 동작은 테스트로 덮지 못한다. 컨트롤러를 고칠 때는 프로시저 이름과
 파라미터(키·값)를 원본과 대조하는 방식으로 확인했다(9·10절).
 
-> 테스트 실행 시 로그 설정의 Windows 경로 때문에 작업 폴더에 `C:\logs\error\error.log` 파일이 생길 수 있다. 커밋하지 말고 지운다.
+### 로그 설정
+
+`src/main/resources/log4j.xml` 하나만 쓴다(`bak1_log4j.xml`, `bak2_log4j2.xml` 은 참조하는 곳이 없어 삭제했다).
+
+- 로그 파일: `${catalina.base}/logs/sdp-error.log`. 예전에는 Windows 절대경로(`C:\logs\error\error.log`)여서
+  다른 OS 에서는 작업 폴더에 그 이름의 파일이 생겼다. **운영 서버의 로그 위치가 Tomcat 의 logs 폴더로 바뀐다.**
+- 콘솔 패턴의 `%t%gt;` 는 `%g` 가 없는 변환문자여서 기동할 때마다 `log4j:ERROR` 가 뜨고
+  스레드 이름이 빠졌다. `%t&gt;`(= `%t>`)로 고쳤다.
+- root 로거가 `warn` 이므로 컨트롤러의 `logger.debug` 는 남지 않는다. `logger.error` 는 콘솔과 파일에 모두 남는다.
 
 ### 로컬에서 띄워 보기
 
@@ -215,8 +223,6 @@ BeanInitializationException: Could not load properties;
 - 중복 JSP: `sdph005001u.jsp`(838줄)와 `sdph005201u.jsp`(811줄)는 약 820줄 중 79줄만 다르다.
 - `common_include.jsp` 가 `jquery.toast.js` 와 `jquery.toast.min.js` 를 둘 다 불러온다(같은 라이브러리 2번).
 - 나머지 컨트롤러에 남아 있는 `System.out.println` (약 42줄).
-- `log4j.xml` 의 콘솔 패턴 오류(`%t%gt;` 의 `%g`)로 기동할 때마다 `log4j:ERROR` 가 뜨고 스레드 이름이 찍히지 않는다.
-- `log4j.xml` 의 파일 경로가 Windows 절대경로(`C:\logs\error\error.log`)여서 다른 OS 에서는 엉뚱한 파일이 생긴다.
 - 라이브러리가 모두 지원 종료 버전이다(Spring 3.1.1, iBatis 2, log4j 1.x, commons-dbcp 1.x, ojdbc14).
 
 ## 9. 죽은 JavaScript 삭제

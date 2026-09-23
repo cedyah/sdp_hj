@@ -6,12 +6,14 @@
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%t%gt; [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n"/>
+			<param name="ConversionPattern" value="%t&gt; [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n"/>
 		</layout>
 	</appender>
 	
 	<appender name="rollingFile" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="C:\\logs\\error\\error.log" />
+		<!-- Tomcat 의 로그 폴더에 남긴다. catalina.base 는 Tomcat 이 설정하는 시스템 프로퍼티다.
+		     (예전 값은 Windows 절대경로 C:\logs\error\error.log 였다) -->
+		<param name="File" value="${catalina.base}/logs/sdp-error.log" />
 		<param name="Append" value="true" />
 		<param name="MaxFileSize" value="100MB" />
 		<param name="MaxBackupIndex" value="2" />
