@@ -12,6 +12,7 @@
 | [제조의뢰 서비스 분리](#11-제조의뢰-화면-서비스-분리-sdpa0040) | 컨트롤러 644줄 → 336줄 + 서비스 300줄 |
 | [접속 정보 분리](#7-접속-정보-분리) | DB·메일 비밀번호를 `sdp.properties`(커밋 제외)로 이동 |
 | [주문서 서비스 분리](#12-주문서-화면-서비스-분리-sdpa0020) | 컨트롤러 476줄 → 266줄 + 서비스 250줄 |
+| [시험성적서·MSDS 서비스 분리](#13-시험성적서msds-화면-서비스-분리-sdpe0010sdpe0020) | 컨트롤러 891줄 → 501줄 + 서비스 316줄 |
 
 **아직 Tomcat 에서 실제로 띄워 확인하지 않았다.** [배포 전 수동 확인 항목](#배포-전-수동-확인-항목) 참고.
 
@@ -228,7 +229,6 @@ BeanInitializationException: Could not load properties;
 
 ## 8. 남은 정리 거리
 
-- 긴 컨트롤러: `Sdpe0010`·`Sdpe0020`(각 446줄). `Sdpa0040`·`Sdpa0020` 과 같은 방식으로 분리할 수 있다.
 - `common.js`(857줄), `common_ui.js`(620줄) 기능별 분리.
 - 중복 JSP: `sdph005001u.jsp`(838줄)와 `sdph005201u.jsp`(811줄)는 약 820줄 중 79줄만 다르다.
 - `common_include.jsp` 가 `jquery.toast.js` 와 `jquery.toast.min.js` 를 둘 다 불러온다(같은 라이브러리 2번).
@@ -302,3 +302,29 @@ BeanInitializationException: Could not load properties;
 
 또한 직전 커밋(`58928ef`)에서 흐름 추적용 출력 하나를 `logger.error` 로 잘못 바꿔,
 수정이 정상일 때도 오류 로그가 찍히던 것을 함께 고쳤다.
+
+## 13. 시험성적서·MSDS 화면 서비스 분리 (Sdpe0010/Sdpe0020)
+
+| 파일 | 이전 | 이후 |
+|---|---|---|
+| `Sdpe0010Controller`(시험성적서) | 446줄 | 244줄 |
+| [`TestReportService`](../src/main/java/com/jebi/sdp/service/TestReportService.java) | – | 165줄 |
+| `Sdpe0020Controller`(MSDS) | 445줄 | 257줄 |
+| [`MsdsService`](../src/main/java/com/jebi/sdp/service/MsdsService.java) | – | 151줄 |
+
+두 화면 모두 작성과 수정이 거의 같은 코드였다(각 130줄). 공통 흐름을 한 메서드로 모았다.
+
+- 서브 품목 저장 → 품목별 담당자 메일 수집 → 일괄 발송 → 커밋: `saveSubItemsAndSendMail`
+- 메일 본문 생성(30줄)이 작성·수정에 그대로 중복되어 있었다: `requestMail`
+- 헤더 저장은 작성·수정(MSDS 는 삭제까지) 파라미터가 같아 `saveHeader(vo, flag)` 하나로 합쳤다.
+
+> **달라지는 동작**
+>
+> - 담당자 목록 조회 결과가 `null` 일 때: 기존 조건문이 `if(li != null || li.size() > 0)` 이라
+>   `null` 이면 `li.size()` 에서 NPE 가 났다. `if(li != null)` 로 바꿔 메일만 건너뛴다.
+>   목록이 비어 있을 때(빈 목록)의 동작은 기존과 같다(수신자 없는 메일을 만든다).
+> - `OUT_PARAM` 초기값이 호출마다 `""` 와 `null` 로 섞여 있던 것을 `""` 로 맞췄다.
+>   프로시저가 값을 채우지 않는 경우에만 차이가 나고, 그때 기존 동작은 NPE 였다.
+
+`Sdpe0020`(MSDS)은 **수정할 때도 요청일을 오늘 날짜로 다시 채운다.** 기존 동작이라 그대로 두었지만,
+수정하면 원래 요청일이 바뀌므로 의도한 것인지 확인이 필요하다.
