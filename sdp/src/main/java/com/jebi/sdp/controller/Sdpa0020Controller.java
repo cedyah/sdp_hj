@@ -55,10 +55,6 @@ public class Sdpa0020Controller {
 	public String detailCo(@ModelAttribute("coVO")CoVO coVO,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 
-		    System.out.println(">>> [coVO] received: " + coVO);
-		    System.out.println(">>> [cust_num]: " + coVO.getCust_num());
-		    System.out.println(">>> [ord_dt]: " + coVO.getIlja());
-		    System.out.println(">>> [ord_no]: " + coVO.getJeonpyo_no());
 		//header 정보
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ARG_CUST_CD",     coVO.getCust_num());
@@ -236,11 +232,10 @@ public class Sdpa0020Controller {
 			
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
+				logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 			}
-			System.out.println(">>> jsonList.length = " + jsonList.length());
 			//sub 입력
 			if(jsonList.length() > 0) {
 				JSONObject obj = new JSONObject();
@@ -248,7 +243,6 @@ public class Sdpa0020Controller {
 				for(int i=0; i < jsonList.length(); i++) {
 					obj = (JSONObject) jsonList.get(i);
 
-					System.out.println(">>> item JSON[" + i + "] = " + obj.toString());
 					map = new HashMap<String, Object>();
 					map.put("ARG_FLAG", "insert");
 					map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
@@ -270,18 +264,17 @@ public class Sdpa0020Controller {
 					
 					map.put("OUT_PARAM", "");
 					
-   				     System.out.println(">>> calling procedure_insertOrderSub");
 					try{
 						
 					dao.select("sdpa0020.procedure_insertOrderSub", map);
 					}
 					catch(Exception e){
-						System.out.println(">>> ERROR calling procedure_insertOrderSub: " + e.getMessage());
+						logger.error("procedure_insertOrderSub 호출 실패", e);
 					}
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println((String) map.get("OUT_PARAM"));
+						logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 						dao.endTransaction();
 						return "templates/error";
 					}
@@ -358,7 +351,7 @@ public class Sdpa0020Controller {
 			
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
+				logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 			}
@@ -366,7 +359,6 @@ public class Sdpa0020Controller {
 			//sub 입력
 			if(jsonList.length() > 0) {
 				//기존 주문서의 품목 전체 삭제
-				System.out.println("before delete");
 				map = new HashMap<String, Object>();
 				map.put("ARG_FLAG", "delete");
 				map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
@@ -376,26 +368,23 @@ public class Sdpa0020Controller {
 				map.put("ARG_CUST_CD", coVO.getCust_num());
 				dao.select("sdpa0020.procedure_insertOrderSub", map);
 				
-				System.out.println(map.get("OUT_PARAM"));
+				logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 				if(!map.get("OUT_PARAM").equals("OK")) {
 					//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-					System.out.println((String) map.get("OUT_PARAM"));
+					logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 					dao.endTransaction();
 					return "templates/error";
 				}
 
-				System.out.println("after delete");
 
 				//수정페이지에서 넘어온 품목들 다시 insert
 				JSONObject obj = new JSONObject();
 				
-				System.out.println("before insert1");
 
 				
 				for(int i=0; i < jsonList.length(); i++) {
 					obj = (JSONObject) jsonList.get(i);
 
-					System.out.println("before insert2");
 				
 					map = new HashMap<String, Object>();
 					map.put("ARG_FLAG", "insert");
@@ -403,35 +392,27 @@ public class Sdpa0020Controller {
 					map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
 					map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
 					map.put("ARG_SEQ", Integer.toString(i + 1));
-					System.out.println("insert1");
 					map.put("ARG_CUST_CD", coVO.getCust_num());
 					map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
 					map.put("ARG_ITEM_CD", obj.getString("item"));
 					map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));
 					map.put("ARG_SALE_UNIT_B", obj.getString("u_m"));
-					System.out.println("insert2");
-					System.out.println(obj.toString());
 					map.put("ARG_QTY", obj.getString("qty_input1"));
 					map.put("ARG_RMK", obj.getString("bigo"));
 					//map.put("ARG_GUBUN", obj.getString("gubun"));
 					map.put("ARG_NABPUM", "1");
 					//map.put("ARG_SAMSUNG_YN", obj.getString("samsung_yn"));
-					System.out.println("insert3");
 					map.put("OUT_PARAM", "");
-					System.out.println("after insert1");
 					
 					dao.select("sdpa0020.procedure_insertOrderSub", map);
 
-					System.out.println("after insert2");
 
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println("after insert3");
-						System.out.println((String) map.get("OUT_PARAM"));
+						logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 						dao.endTransaction();
 						return "templates/error";
 					}
-					System.out.println("after insert4");
 
 				}
 			}
@@ -484,7 +465,7 @@ public class Sdpa0020Controller {
 		
 		if(!map.get("OUT_PARAM").equals("OK")) {
 			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-			System.out.println((String) map.get("OUT_PARAM"));
+			logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 			dao.endTransaction();
 			return "templates/error";
 		}

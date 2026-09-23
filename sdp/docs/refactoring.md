@@ -133,6 +133,15 @@ mvn package    # target/sdp-1.0.1.war 생성
 DB 가 필요한 화면 동작은 테스트로 덮지 못한다. 컨트롤러를 고칠 때는 프로시저 이름과
 파라미터(키·값)를 원본과 대조하는 방식으로 확인했다(9·10절).
 
+### 로그 남기기 규칙
+
+`System.out.println` 은 더 이상 쓰지 않는다(2026-09-23 기준 `src/main/java` 에 남아 있지 않다).
+
+- 저장 프로시저가 `"OK"` 가 아닌 값을 돌려줄 때: `logger.error("프로시저 오류: {}", map.get("OUT_PARAM"))`
+- 예외를 잡았을 때: `logger.error("무엇을 하다 실패했는지", e)` — 예외 객체를 함께 넘겨 스택을 남긴다.
+- 값 확인용 임시 출력은 남기지 않는다. 필요하면 `logger.debug` 를 쓰되, root 로거가 `warn` 이라
+  기본 설정에서는 보이지 않는다.
+
 ### 로그 설정
 
 `src/main/resources/log4j.xml` 하나만 쓴다(`bak1_log4j.xml`, `bak2_log4j2.xml` 은 참조하는 곳이 없어 삭제했다).
@@ -222,7 +231,6 @@ BeanInitializationException: Could not load properties;
 - `common.js`(857줄), `common_ui.js`(620줄) 기능별 분리.
 - 중복 JSP: `sdph005001u.jsp`(838줄)와 `sdph005201u.jsp`(811줄)는 약 820줄 중 79줄만 다르다.
 - `common_include.jsp` 가 `jquery.toast.js` 와 `jquery.toast.min.js` 를 둘 다 불러온다(같은 라이브러리 2번).
-- 나머지 컨트롤러에 남아 있는 `System.out.println` (약 42줄).
 - 라이브러리가 모두 지원 종료 버전이다(Spring 3.1.1, iBatis 2, log4j 1.x, commons-dbcp 1.x, ojdbc14).
 
 ## 9. 죽은 JavaScript 삭제

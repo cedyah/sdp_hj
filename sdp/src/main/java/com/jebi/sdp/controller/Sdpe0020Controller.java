@@ -161,7 +161,7 @@ public class Sdpe0020Controller {
 			
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
+				logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 			}
@@ -187,7 +187,7 @@ public class Sdpe0020Controller {
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println((String) map.get("OUT_PARAM"));
+						logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 						dao.endTransaction();
 						return "templates/error";
 					}
@@ -298,7 +298,7 @@ public class Sdpe0020Controller {
 			
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
+				logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 			}
@@ -311,7 +311,7 @@ public class Sdpe0020Controller {
 			
 			if(!map.get("OUT_PARAM").equals("OK")) {
 				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
+				logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 				dao.endTransaction();
 				return "templates/error";
 			}
@@ -337,7 +337,7 @@ public class Sdpe0020Controller {
 					
 					if(!map.get("OUT_PARAM").equals("OK")) {
 						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println((String) map.get("OUT_PARAM"));
+						logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 						dao.endTransaction();
 						return "templates/error";
 					}
@@ -433,7 +433,7 @@ public class Sdpe0020Controller {
 		
 		if(!map.get("OUT_PARAM").equals("OK")) {
 			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-			System.out.println((String) map.get("OUT_PARAM"));
+			logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 			dao.endTransaction();
 			return "templates/error";
 		}
