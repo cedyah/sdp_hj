@@ -7,9 +7,10 @@
 |---|---|
 | [공통 유틸 분리](#1-공통-유틸-comjebisdpcommon) | `CommonUtil` 1,668줄 삭제, 실제 쓰는 메서드 7개만 유지 |
 | [빌드 수정](#6-빌드와-테스트) | `mvn test` / `mvn package` 가 처음으로 통과 |
-| [죽은 JavaScript 삭제](#8-죽은-javascript-삭제) | 1,987줄 삭제 |
-| [샘플의뢰 중복 제거](#9-샘플의뢰-화면-중복-제거-sdph0050sdph0052) | 두 컨트롤러 1,239줄 → 989줄 |
-| [제조의뢰 서비스 분리](#10-제조의뢰-화면-서비스-분리-sdpa0040) | 컨트롤러 644줄 → 336줄 + 서비스 300줄 |
+| [죽은 JavaScript 삭제](#9-죽은-javascript-삭제) | 1,987줄 삭제 |
+| [샘플의뢰 중복 제거](#10-샘플의뢰-화면-중복-제거-sdph0050sdph0052) | 두 컨트롤러 1,239줄 → 989줄 |
+| [제조의뢰 서비스 분리](#11-제조의뢰-화면-서비스-분리-sdpa0040) | 컨트롤러 644줄 → 336줄 + 서비스 300줄 |
+| [접속 정보 분리](#7-접속-정보-분리) | DB·메일 비밀번호를 `sdp.properties`(커밋 제외)로 이동 |
 
 **아직 Tomcat 에서 실제로 띄워 확인하지 않았다.** [배포 전 수동 확인 항목](#배포-전-수동-확인-항목) 참고.
 
@@ -181,15 +182,44 @@ DB(`192.168.14.50`)가 사내망에 있어 외부에서는 접속되지 않는�
 - [ ] 제조의뢰(sdpa004001l, sdpa004101d/u) 목록·상세·작성·수정·삭제
 - [ ] 신규제조의뢰(sdpa004001d/u) 상세·작성·수정·삭제
 
-## 7. 남은 정리 거리
+## 7. 접속 정보 분리
+
+커밋 참고: DB·메일 계정 정보를 XML 에서 빼고 `classpath:config/sdp.properties` 에서 읽는다.
+
+| 파일 | 커밋 여부 | 내용 |
+|---|---|---|
+| `sdp/src/main/resources/config/sdp.properties.sample` | 커밋함 | 키 목록과 설명. 값은 자리표시자 |
+| `sdp/src/main/resources/config/sdp.properties` | **커밋 안 함**(`.gitignore`) | 실제 접속 정보 |
+
+새 환경에서 빌드할 때는 먼저 복사해서 값을 채운다.
+
+```bash
+cp sdp/src/main/resources/config/sdp.properties.sample sdp/src/main/resources/config/sdp.properties
+```
+
+이 파일이 없으면 Spring 컨텍스트가 뜨지 않고 아래 오류가 난다(잘못된 값으로 조용히 기동되지 않는다).
+
+```
+BeanInitializationException: Could not load properties;
+  class path resource [config/sdp.properties] cannot be opened because it does not exist
+```
+
+> **아직 남은 문제:** 기존 비밀번호는 git 이력(`788bee4` 이전 커밋들)과 GitHub 원격에 그대로 남아 있다.
+> 파일에서 뺀 것만으로는 사라지지 않으므로, DB(`hjbizpower`)와 메일(`injumaster@kangnam.co.kr`)
+> 계정의 비밀번호를 교체해야 실제로 안전해진다.
+
+## 8. 남은 정리 거리
 
 - 긴 컨트롤러: `Sdpa0020`(495줄), `Sdpe0010`·`Sdpe0020`(각 446줄). `Sdpa0040` 과 같은 방식으로 분리할 수 있다.
 - `common.js`(857줄), `common_ui.js`(620줄) 기능별 분리.
 - 중복 JSP: `sdph005001u.jsp`(838줄)와 `sdph005201u.jsp`(811줄)는 약 820줄 중 79줄만 다르다.
 - `common_include.jsp` 가 `jquery.toast.js` 와 `jquery.toast.min.js` 를 둘 다 불러온다(같은 라이브러리 2번).
-- 나머지 컨트롤러에 남아 있는 `System.out.println` (약 60줄).
+- 나머지 컨트롤러에 남아 있는 `System.out.println` (약 42줄).
+- `log4j.xml` 의 콘솔 패턴 오류(`%t%gt;` 의 `%g`)로 기동할 때마다 `log4j:ERROR` 가 뜨고 스레드 이름이 찍히지 않는다.
+- `log4j.xml` 의 파일 경로가 Windows 절대경로(`C:\logs\error\error.log`)여서 다른 OS 에서는 엉뚱한 파일이 생긴다.
+- 라이브러리가 모두 지원 종료 버전이다(Spring 3.1.1, iBatis 2, log4j 1.x, commons-dbcp 1.x, ojdbc14).
 
-## 8. 죽은 JavaScript 삭제
+## 9. 죽은 JavaScript 삭제
 
 커밋 `4f69f62`. 어디서도 부르지 않는 파일 6개(1,987줄)를 지웠다.
 
@@ -203,7 +233,7 @@ DB(`192.168.14.50`)가 사내망에 있어 외부에서는 접속되지 않는�
 
 `common_include.jsp` 에서 `src` 가 아니라 `href` 로 되어 있어 아무것도 불러오지 않던 jQuery CDN `<script>` 태그도 함께 지웠다. 실제로 쓰는 `common.js`, `common_ui.js` 는 그대로다.
 
-## 9. 샘플의뢰 화면 중복 제거 (Sdph0050/Sdph0052)
+## 10. 샘플의뢰 화면 중복 제거 (Sdph0050/Sdph0052)
 
 커밋 `aabfcc9`. 두 컨트롤러는 화면 번호만 바꿔서 비교하면 625줄 중 145줄만 달랐다.
 
@@ -219,7 +249,7 @@ DB(`192.168.14.50`)가 사내망에 있어 외부에서는 접속되지 않는�
 > 수정(update)은 화면 입력값(`2025-01-02`)을 그대로 넘긴다. 같은 프로시저를 호출하는데도 다르다.
 > 의도된 것인지 알 수 없어 동작은 그대로 두고 테스트로 고정만 했다. 저장 프로시저가 두 형식을 모두 받는지 확인할 것.
 
-## 10. 제조의뢰 화면 서비스 분리 (Sdpa0040)
+## 11. 제조의뢰 화면 서비스 분리 (Sdpa0040)
 
 커밋 `4afe2e8`. 컨트롤러 644줄 → 336줄, [`ProdReqService`](../src/main/java/com/jebi/sdp/service/ProdReqService.java) 300줄.
 

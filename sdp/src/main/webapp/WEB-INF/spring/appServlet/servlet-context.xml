@@ -37,10 +37,10 @@
 	
 	<!-- SET default mail properties -->
     <beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <beans:property name="host" value="sp.jebi.co.kr"/>
-        <beans:property name="port" value="25"/>
-        <beans:property name="username" value="injumaster@kangnam.co.kr"/>
-        <beans:property name="password" value="inju2017"/>
+        <beans:property name="host" value="${mail.host}"/>
+        <beans:property name="port" value="${mail.port}"/>
+        <beans:property name="username" value="${mail.username}"/>
+        <beans:property name="password" value="${mail.password}"/>
         <beans:property name="javaMailProperties">
             <beans:props>
                 <beans:prop key="mail.transport.protocol">smtp</beans:prop>
