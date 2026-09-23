@@ -19,7 +19,7 @@ public class OracleUsTypeHandler implements TypeHandlerCallback {
 
 		} catch (UnsupportedEncodingException e) {
 
-			System.out.println("UnsupportedEncodingException : " + e.getMessage());
+			logger.warn("문자셋 변환 실패. 원본 값을 사용한다.", e);
 			str = getter.getString();
 
 		} catch (Exception localException) {
@@ -36,7 +36,7 @@ public class OracleUsTypeHandler implements TypeHandlerCallback {
 			str = new String(((String) parameter).getBytes("UTF-8"), "UTF-8");
 
 		} catch (UnsupportedEncodingException e) {
-			System.out.println("UnsupportedEncodingException : " + e.getMessage());
+			logger.warn("문자셋 변환 실패. 원본 값을 사용한다.", e);
 			str = (String) parameter;
 
 		} catch (Exception localException) {

@@ -1,0 +1,20 @@
+# 환경별 접속 정보. 이 파일을 sdp.properties 로 복사해서 값을 채운다.
+#   cp src/main/resources/config/sdp.properties.sample src/main/resources/config/sdp.properties
+#
+# sdp.properties 는 비밀번호를 담고 있어 저장소에 커밋하지 않는다(.gitignore).
+# 이 파일이 없으면 앱이 기동되지 않는다.
+
+# ---- DB ----
+db.driverClassName=net.sf.log4jdbc.DriverSpy
+db.url=jdbc:log4jdbc:oracle:thin:@DB주소:1521:orcl
+db.username=계정
+db.password=비밀번호
+db.maxActive=30
+db.maxIdle=3
+db.maxWait=-1
+
+# ---- 메일 발송 ----
+mail.host=메일서버
+mail.port=25
+mail.username=계정
+mail.password=비밀번호

@@ -20,8 +20,6 @@ public class SampleRequestItemStatVO extends CustomerVO{
 
 		//setSearchDate_from(smt.format(cal.getTime()));
 		//setSearchDate_to(smt.format(cal.getTime()));
-		System.out.println("searchDate_from = " + getSearchDate_from());
-		System.out.println("searchDate_to = " + getSearchDate_to());
 	}
 	//BSET091_WEB
 	String saeobjang          ;

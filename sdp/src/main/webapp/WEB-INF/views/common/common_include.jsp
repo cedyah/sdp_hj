@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <!-- Script -->
-<script type="text/javascript" href="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script type="text/javascript" src="js/jquery-1.11.2.js" ></script>
 <script type="text/javascript" src="js/jquery.placeholder.min.js" ></script>
 <script type="text/javascript" src="js/jquery-ui.js" ></script>
@@ -24,7 +23,6 @@
 <script type="text/javascript" src="js/jquery.toast.js" ></script>
 <script type="text/javascript" src="js/jquery.toast.min.js" ></script>
 
-<!-- <script type="text/javascript" src="js/validation.js" ></script> -->
 <script type="text/javascript" src="js/validator.js" ></script>
 <script type="text/javascript" src="js/common.js" ></script>
 <script type="text/javascript" src="js/common_ui.js" ></script>

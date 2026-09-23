@@ -1,5 +1,7 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.FormatUtil.getExpDateString;
+
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,16 +44,14 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.client.SqlMapSession;
 import com.ibatis.sqlmap.client.event.RowHandler;
 import com.ibatis.sqlmap.engine.execution.BatchException;
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.daoImpl.CmmnDaoImpl;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 import com.jebi.sdp.serviceImpl.CmmnServiceImpl;
-import com.sun.javafx.collections.SetAdapterChange;
 
 @Controller
-public class ReportController extends CommonUtil {
+public class ReportController {
 	@Autowired
 	private CmmnDao dao;
 	//private String url = "http://biz.jevisco.com";		//오즈서버 호출 URL

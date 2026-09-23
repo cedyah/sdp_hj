@@ -1,5 +1,7 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.FormatUtil.getExpDateString;
+
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpd0030Controller extends CommonUtil {
+public class Sdpd0030Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpd0030Controller.class);
 
 	@Autowired

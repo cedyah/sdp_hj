@@ -1,5 +1,8 @@
 package com.jebi.sdp.controller;
 
+import static com.jebi.sdp.common.FormatUtil.getExpDateString;
+import static com.jebi.sdp.common.FormatUtil.getExpNumString;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -18,13 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpf0030Controller extends CommonUtil {
+public class Sdpf0030Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpf0030Controller.class);
 
 	@Autowired
@@ -206,7 +208,7 @@ public class Sdpf0030Controller extends CommonUtil {
 		
 		if(!map.get("OUT_PARAM").equals("OK")) {
 			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-			System.out.println((String) map.get("OUT_PARAM"));
+			logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 			dao.endTransaction();
 			return "templates/error";
 		}
@@ -232,7 +234,7 @@ public class Sdpf0030Controller extends CommonUtil {
 		
 		if(!map.get("OUT_PARAM").equals("OK")) {
 			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-			System.out.println((String) map.get("OUT_PARAM"));
+			logger.error("프로시저 오류: {}", map.get("OUT_PARAM"));
 			dao.endTransaction();
 			return "templates/error";
 		}

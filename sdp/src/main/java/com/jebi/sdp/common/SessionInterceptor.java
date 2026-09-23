@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -12,7 +13,7 @@ import com.jebi.sdp.model.*;
 
 @Service
 public class SessionInterceptor extends HandlerInterceptorAdapter{
-//	private static final Logger logger = Logger.getLogger(SessionInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)throws Exception{
@@ -37,6 +38,12 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 						response.sendRedirect(rootPath);
 						return false;
 					}
+
+					//관리자 전용 기능은 서버에서도 권한 확인
+					if(isAdminOnlyURL(request) && !"M".equals(((CustomerVO)session.getAttribute("user")).getAuth())){
+						response.sendError(HttpServletResponse.SC_FORBIDDEN);
+						return false;
+					}
 				} else {
 					response.sendRedirect("sdpz000901u.do");
 					return false;
@@ -45,12 +52,18 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 			result = true;
 			
 		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+			logger.error("세션 검사 중 오류", e);
 			return false;
 		}
 		
 		return result;
+	}
+	
+	// 관리자(auth=M) 전용 페이지 확인 — 공지사항 작성/수정/삭제
+	private boolean isAdminOnlyURL(HttpServletRequest request){
+		String path = request.getRequestURI().substring(request.getContextPath().length());
+		return path.startsWith("/sdpy001001u")
+				|| path.equals("/sdpy001001d_delete.do");
 	}
 	
 	// 제외할 페이지 확인.

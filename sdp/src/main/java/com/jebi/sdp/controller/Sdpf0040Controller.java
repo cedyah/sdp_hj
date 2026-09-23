@@ -20,13 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpf0040Controller extends CommonUtil {
+public class Sdpf0040Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpf0040Controller.class);
 
 	@Autowired
@@ -100,7 +99,9 @@ public class Sdpf0040Controller extends CommonUtil {
 		ModelAndView mv = new ModelAndView();
 		MappingJacksonJsonView jsonView = new MappingJacksonJsonView();
 		
-		CustomerVO cvo = (CustomerVO) dao.select("sdpf0040.select_user", customerVO);
+		//현재 비밀번호가 비어 있으면 select_user 의 비밀번호 조건이 빠지므로 반드시 검사
+		boolean inputValid = !"".equals(customerVO.getPassword()) && newPassword != null && !"".equals(newPassword.trim());
+		CustomerVO cvo = inputValid ? (CustomerVO) dao.select("sdpf0040.select_user", customerVO) : null;
 		
 		if(cvo != null) {
 			customerVO.setPassword(newPassword);

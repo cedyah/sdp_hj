@@ -37,10 +37,10 @@
 	
 	<!-- SET default mail properties -->
     <beans:bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <beans:property name="host" value="sp.jebi.co.kr"/>
-        <beans:property name="port" value="25"/>
-        <beans:property name="username" value="injumaster@kangnam.co.kr"/>
-        <beans:property name="password" value="inju2017"/>
+        <beans:property name="host" value="${mail.host}"/>
+        <beans:property name="port" value="${mail.port}"/>
+        <beans:property name="username" value="${mail.username}"/>
+        <beans:property name="password" value="${mail.password}"/>
         <beans:property name="javaMailProperties">
             <beans:props>
                 <beans:prop key="mail.transport.protocol">smtp</beans:prop>
@@ -51,12 +51,6 @@
         </beans:property>
     </beans:bean>
         
-	<beans:bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
-        <beans:property name="to" value="hjg2223@naver.com"></beans:property>
-        <beans:property name="from" value="hjg2223@naver.com"></beans:property>
-        <beans:property name="subject" value="FATAL - Application crash. Save your job !!"/>
-    </beans:bean>
-	
 	<context:component-scan base-package="com.jebi.sdp" />
 
 	<!-- MultipartResolver 설정 -->

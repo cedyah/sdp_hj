@@ -22,13 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class CommonController extends CommonUtil {
+public class CommonController {
 	private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
 
 	@Autowired
@@ -43,6 +42,10 @@ public class CommonController extends CommonUtil {
 		FileVO fileVO = new FileVO();
 		fileVO.setFile_nm(file_nm);
 		fileVO = (FileVO) dao.select("common.select_file", fileVO);
+		if(fileVO == null || !new File(fileVO.getFile_path() + fileVO.getFile_nm()).isFile()) {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
 	    
 		byte fileByte[] = FileUtils.readFileToByteArray(new File(fileVO.getFile_path() + fileVO.getFile_nm()));
 		response.setContentType("application/octet-stream");
@@ -50,7 +53,8 @@ public class CommonController extends CommonUtil {
 	    String download_nm = fileVO.getOriginal_nm();
 	    
 	    //파이어폭스 일경우 한글이 깨져서 다운로드 되기에 처리한 if문
-	    if(request.getHeader("User-Agent").contains("Firefox")) {
+	    String userAgent = request.getHeader("User-Agent");
+	    if(userAgent != null && userAgent.contains("Firefox")) {
 	    	download_nm = new String(download_nm.getBytes("UTF-8"), "ISO-8859-1");
 	    } else {
 	    	download_nm = URLEncoder.encode(download_nm,"UTF-8");

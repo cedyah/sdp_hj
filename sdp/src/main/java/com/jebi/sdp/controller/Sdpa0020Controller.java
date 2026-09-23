@@ -1,96 +1,78 @@
 package com.jebi.sdp.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.codehaus.jettison.json.*;
+import org.codehaus.jettison.json.JSONArray;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.JsonArray;
-import com.jebi.sdp.common.*;
-import com.jebi.sdp.dao.*;
+import com.jebi.sdp.model.CoItemVO;
+import com.jebi.sdp.model.CoVO;
+import com.jebi.sdp.model.ItemVO;
+import com.jebi.sdp.service.CodeService;
+import com.jebi.sdp.service.OrderService;
 
-import com.jebi.sdp.model.*;
-import com.sun.mail.imap.protocol.Item;
-
-import com.jebi.sdp.service.*;
-
-
-
+/**
+ * 주문서(sdpa0020) 화면.
+ * 저장 프로시저 호출은 OrderService 가 담당한다.
+ */
 @Controller
-public class Sdpa0020Controller extends CommonUtil {
+public class Sdpa0020Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpa0020Controller.class);
 
+	/** 프로시저가 정상 처리되었을 때 OUT_PARAM 값 */
+	private static final String OK = "OK";
+
+	/** 오류 발생 시 이동할 화면 */
+	private static final String ERROR_VIEW = "templates/error";
+
 	@Autowired
-	private CmmnDao dao;
+	private OrderService orderService;
+
+	@Autowired
+	private CodeService codeService;
 
 	@RequestMapping(value = "sdpa002001l.do")		//주문서 목록 조회
 	public String selectCo(@ModelAttribute("coVO")CoVO coVO,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ARG_CUST_CD", 		coVO.getCust_num());
-		map.put("ARG_FRDT", 		getExpDateString(coVO.getSearchDate_from()));
-		map.put("ARG_TODT", 		getExpDateString(coVO.getSearchDate_to()));
-		map.put("ARG_INCLUDE_YN", 	coVO.getSearchCheckBox_01().equals("on") ? "Y" : "N");	// 출하완료 포함이면 Y, 미포함 N
-		map.put("OUT_PARAM", 		null);
-		dao.update("sdpa0020.procedure_selectOrder", map);
-		
-		model.addAttribute("coList", map.get("OUT_PARAM"));
-		
+		model.addAttribute("coList", orderService.selectOrderList(coVO));
+
 		return "sdpa0020/sdpa002001l";
 	}
-	
+
 	@RequestMapping(value = "sdpa002001d.do")		//주문서 상세 조회
 	public String detailCo(@ModelAttribute("coVO")CoVO coVO,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
-
-		    System.out.println(">>> [coVO] received: " + coVO);
-		    System.out.println(">>> [cust_num]: " + coVO.getCust_num());
-		    System.out.println(">>> [ord_dt]: " + coVO.getIlja());
-		    System.out.println(">>> [ord_no]: " + coVO.getJeonpyo_no());
 		//header 정보
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("ARG_CUST_CD",     coVO.getCust_num());
-		map.put("ARG_ORD_DT",      getExpDateString(coVO.getIlja()));
-		map.put("ARG_ORD_NO",      coVO.getJeonpyo_no());
-		map.put("ARG_GUBUN",       "인터넷");
-		map.put("OUT_PARAM",       null);
+		List<CoVO> coList = orderService.selectOrderHeader(coVO);
 
-		dao.update("sdpa0020.procedure_selectOrderHeader", map);
-
-		// OUT_PARAM 꺼내기
-		List<CoVO> outList = (List<CoVO>) map.get("OUT_PARAM");
-
-		if (outList != null && !outList.isEmpty()) {
-		    CoVO co = outList.get(0);
-		    model.addAttribute("co", co);
-		} else {
-		    model.addAttribute("message", "해당 정보가 없습니다.");
-		    return "templates/errorPage";
+		if (coList == null || coList.isEmpty()) {
+			model.addAttribute("message", "해당 정보가 없습니다.");
+			return "templates/errorPage";
 		}
-		
+		model.addAttribute("co", coList.get(0));
+
 		//sub 정보
-		map = new HashMap<String, Object>();
-		map.put("ARG_CUST_CD", 		coVO.getCust_num());
-		map.put("ARG_ORD_DT", 		getExpDateString(coVO.getIlja()));
-		map.put("ARG_ORD_NO", 		coVO.getJeonpyo_no());
-		map.put("OUT_PARAM", 		null);
-		dao.update("sdpa0020.procedure_selectOrderSub", map);
-		List<CoItemVO> coItemList = (List<CoItemVO>)map.get("OUT_PARAM");
-		model.addAttribute("coItemList", map.get("OUT_PARAM"));
-		
+		model.addAttribute("coItemList", orderService.selectOrderSubList(coVO));
+
 		return "sdpa0020/sdpa002001d";
 	}
-	
+
 	@RequestMapping(value = "sdpa002001u.{flag}.do")		//주문서 작성화면으로
 	public String insertForm(@ModelAttribute("coVO")CoVO coVO,
 			@PathVariable(value="flag")String flag,
@@ -99,395 +81,186 @@ public class Sdpa0020Controller extends CommonUtil {
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
 		//화면으로 flag값을 바로 넘김
 		model.addAttribute("flag", flag);
-		HashMap<String, Object> map;
-		
-		
-		
-		
+
 		//종합 포인트 정보
-		CustomerVO customerVO = new CustomerVO();
-		customerVO = (CustomerVO) dao.select("sdpf0030.select_pointInfo", coVO);
-		model.addAttribute("customerVO", customerVO);
-		
+		model.addAttribute("customerVO", orderService.selectPointInfo(coVO));
+
 		//장바구니에서 넘어 왔는지 여부를 다음화면으로 넘김
 		model.addAttribute("pageCheck", pageCheck);
-		
-		//배달구분 코드목록
-		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "4020");
-		dao.update("common.procedure_selectCode", map);
-		model.addAttribute("code10", map.get("OUT_PARAM"));
 
-		//판매구분 코드목록
-		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "4069");
-		dao.update("common.procedure_selectCode", map);
-		model.addAttribute("code11", map.get("OUT_PARAM"));
+		model.addAttribute("code10", codeService.selectCodeList("4020"));		//배달구분
+		model.addAttribute("code11", codeService.selectCodeList("4069"));		//판매구분
+		model.addAttribute("code4900", codeService.selectCodeList("4900"));		//화폐코드
 
-		//화폐코드 코드목록
-		map = new HashMap<String, Object>();
-		map.put("ARG_MAJOR_CD", "4900");
-		dao.update("common.procedure_selectCode", map);
-		model.addAttribute("code4900", map.get("OUT_PARAM"));
-
-		
 		if("insert".equals(flag)) {
-			//화면에서 넘겨준 아이템들이 있을경우 JSONarray를 ArryaList로 변환하여 전달
+			//화면에서 넘겨준 아이템들이 있을경우 JSONarray를 ArrayList로 변환하여 전달
 			if(jsonList != null && jsonList.length() > 0) {
-				List<ItemVO> coItemList = new ArrayList<ItemVO>();
-				JSONObject obj = new JSONObject();
-				CoItemVO item;
-				for(int i=0; i < jsonList.length(); i++) {
-					obj = (JSONObject) jsonList.get(i);
-					item = new CoItemVO();
-					item.setJepum_code(obj.getString("item"));
-					item.setPummyeong(obj.getString("description"));
-					item.setPanmae_danwi_a(obj.getString("qty_allocjob"));
-					item.setPanmae_danwi_b(obj.getString("u_m"));
-					item.setPanmae_sulyang(obj.getString("qty_on_hand01"));
-					item.setBo_sulyang("0");
-					coItemList.add(item);
-				}
-				
-				model.addAttribute("coItemList", coItemList);
+				model.addAttribute("coItemList", toItemList(jsonList));
 			}
-			
+
 		} else if("update".equals(flag)) {
 			//header 정보
-			map = new HashMap<String, Object>();
-			map.put("ARG_CUST_CD", 		coVO.getCust_num());
-			map.put("ARG_ORD_DT", 		getExpDateString(coVO.getIlja()));
-			map.put("ARG_ORD_NO", 		coVO.getJeonpyo_no());
-			map.put("ARG_GUBUN", 		"인터넷");
-			map.put("OUT_PARAM", 		null);
-			dao.update("sdpa0020.procedure_selectOrderHeader", map);
-			
-			CoVO co = ((List<CoVO>) map.get("OUT_PARAM")).get(0);
-			model.addAttribute("co", co);
-			
+			model.addAttribute("co", orderService.selectOrderHeader(coVO).get(0));
+
 			//sub 정보
-			map = new HashMap<String, Object>();
-			map.put("ARG_CUST_CD", 		coVO.getCust_num());
-			map.put("ARG_ORD_DT", 		getExpDateString(coVO.getIlja()));
-			map.put("ARG_ORD_NO", 		coVO.getJeonpyo_no());
-			map.put("OUT_PARAM", 		null);
-			dao.update("sdpa0020.procedure_selectOrderSub", map);
-			
-			List<CoItemVO> coItemList = (List<CoItemVO>)map.get("OUT_PARAM");
-			model.addAttribute("coItemList", map.get("OUT_PARAM"));
+			model.addAttribute("coItemList", orderService.selectOrderSubList(coVO));
 		}
-		
+
 		return "sdpa0020/sdpa002001u";
 	}
-	
+
+	/** 장바구니 등에서 넘어온 품목 JSON 을 화면에 뿌릴 목록으로 바꾼다. */
+	private static List<ItemVO> toItemList(JSONArray jsonList) throws Exception {
+		List<ItemVO> coItemList = new ArrayList<ItemVO>();
+
+		for(int i=0; i < jsonList.length(); i++) {
+			JSONObject obj = (JSONObject) jsonList.get(i);
+
+			CoItemVO item = new CoItemVO();
+			item.setJepum_code(obj.getString("item"));
+			item.setPummyeong(obj.getString("description"));
+			item.setPanmae_danwi_a(obj.getString("qty_allocjob"));
+			item.setPanmae_danwi_b(obj.getString("u_m"));
+			item.setPanmae_sulyang(obj.getString("qty_on_hand01"));
+			item.setBo_sulyang("0");
+			coItemList.add(item);
+		}
+
+		return coItemList;
+	}
+
 	@RequestMapping(value = "sdpa002001u_insert.do")		//주문서 등록 (db insert)
 	public String sdpa002001u_insert(@ModelAttribute("coVO")CoVO coVO, RedirectAttributes redirectAttr,
 			@RequestParam(value="pageCheck", required=false) String pageCheck,
 			@RequestParam(value="jsonList", required=false) JSONArray jsonList,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
-		HashMap<String, Object> map;
 		List<String> li_delBasket = new ArrayList<String>();		//장바구니 삭제용 array
-		
+
 		//작성일 현재일자 셋팅
-		Date dt = new Date();
-		SimpleDateFormat smt = new SimpleDateFormat("yyyy.MM.dd");
-		coVO.setIlja(smt.format(dt));
-		
+		coVO.setIlja(today());
+
 		try {
 			//transaction 시작
-			dao.startTransaction();
-			
+			orderService.startTransaction();
+
 			//전표번호 가져오기
-			map = new HashMap<String, Object>();
-			map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-			map.put("ARG_SLIP_TYPE", "W1");		//주문서 전표 번호는 01
-			map.put("ARG_DT", getExpDateString(coVO.getIlja()));
-			map.put("OUT_PARAM", null);
-			
-			dao.select("sdpa0020.procedure_selectJeonpyoNo", map);
-			List<CoVO> list = (List<CoVO>)map.get("OUT_PARAM");
-			coVO.setJeonpyo_no(((CoVO) list.get(0)).getJeonpyo_no());
-			
+			coVO.setJeonpyo_no(orderService.selectJeonpyoNo(coVO.getWorkplace(), coVO.getIlja()));
+
 			//header 입력
-			map = new HashMap<String, Object>();
-			map.put("ARG_FLAG", "insert");
-			map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-			map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
-			map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
-			map.put("ARG_CUST_CD", coVO.getCust_num());
-			
-			map.put("ARG_PANMAE_GUBUN", coVO.getPanmae_gubun());
-			map.put("ARG_HWAPYE_CODE", coVO.getHwapye_code());
-			map.put("ARG_CODE_1","");
-			map.put("ARG_CODE_2","");
-			map.put("ARG_DELY_DT", getExpDateString(coVO.getYocheongil()));
-
-			//map.put("ARG_DELY_PLACE", coVO.getBaedal_jangso());
-			map.put("ARG_DELY_PLACE", coVO.getAddr1() + ' ' + coVO.getAddr2());
-			map.put("ARG_RECVER", coVO.getInsuja());
-			map.put("ARG_TEL_NO", coVO.getTel_no());
-			
-			map.put("ARG_RMK", coVO.getBigo());
-			map.put("OUT_PARAM", "");
-			
-			dao.select("sdpa0020.procedure_insertOrderHeader", map);
-			
-			if(!map.get("OUT_PARAM").equals("OK")) {
-				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
-				dao.endTransaction();
-				return "templates/error";
+			String result = orderService.insertOrderHeader(coVO);
+			if(!OK.equals(result)) {
+				return rollbackToError(result);
 			}
-			System.out.println(">>> jsonList.length = " + jsonList.length());
-			//sub 입력
-			if(jsonList.length() > 0) {
-				JSONObject obj = new JSONObject();
-				
-				for(int i=0; i < jsonList.length(); i++) {
-					obj = (JSONObject) jsonList.get(i);
 
-					System.out.println(">>> item JSON[" + i + "] = " + obj.toString());
-					map = new HashMap<String, Object>();
-					map.put("ARG_FLAG", "insert");
-					map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-					map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
-					map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
-					map.put("ARG_SEQ", Integer.toString(i + 1));
-					
-					map.put("ARG_CUST_CD", coVO.getCust_num());
-					map.put("ARG_PANMAE_GUBUN", coVO.getPanmae_gubun());
-					map.put("ARG_ITEM_CD", obj.getString("item"));
-					map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));
-					map.put("ARG_SALE_UNIT_B", obj.getString("u_m"));
-					
-					map.put("ARG_QTY", obj.getString("qty_input1"));
-					map.put("ARG_RMK", obj.getString("bigo"));
-					map.put("ARG_GUBUN", "N");
-					map.put("ARG_NABPUM", "1");
-					map.put("ARG_SAMSUNG_YN", "N");
-					
-					map.put("OUT_PARAM", "");
-					
-   				     System.out.println(">>> calling procedure_insertOrderSub");
-					try{
-						
-					dao.select("sdpa0020.procedure_insertOrderSub", map);
-					}
-					catch(Exception e){
-						System.out.println(">>> ERROR calling procedure_insertOrderSub: " + e.getMessage());
-					}
-					
-					if(!map.get("OUT_PARAM").equals("OK")) {
-						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println((String) map.get("OUT_PARAM"));
-						dao.endTransaction();
-						return "templates/error";
-					}
-					
-					//장바구니에서 주문서작성의 경우 array에 추가해서 마지막에 한번에 장바구니 품목들을 삭제
-					if(pageCheck != null && pageCheck.equals("Y")) {
-						li_delBasket.add(obj.getString("item") + obj.getString("qty_allocjob") + obj.getString("u_m"));
-					}
+			//sub 입력
+			for(int i=0; i < jsonList.length(); i++) {
+				JSONObject obj = (JSONObject) jsonList.get(i);
+
+				result = orderService.insertOrderSub(coVO, i + 1, obj);
+				if(!OK.equals(result)) {
+					return rollbackToError(result);
+				}
+
+				//장바구니에서 주문서작성의 경우 array에 추가해서 마지막에 한번에 장바구니 품목들을 삭제
+				if(pageCheck != null && pageCheck.equals("Y")) {
+					li_delBasket.add(obj.getString("item") + obj.getString("qty_allocjob") + obj.getString("u_m"));
 				}
 			}
-			
+
 			//장바구니에서 주문작성으로 넘어온 경우 장바구니에서 저장된 제품 삭제
 			if(pageCheck != null && pageCheck.equals("Y")) {
-				BasketItemVO basketVO = new BasketItemVO();
-				basketVO.setParamList(li_delBasket);
-				dao.delete("sdpf0020.delete_delBasket", basketVO);				
+				orderService.deleteBasketItems(li_delBasket);
 			}
-			
-			dao.commit();
-			dao.endTransaction();
-			
+
+			orderService.commit();
+			orderService.endTransaction();
+
 			redirectAttr.addFlashAttribute("coVO", coVO);
-			
+
 			return "redirect:/sdpa002001d.do";
 
 		} catch(Exception e) {
-			return "templates/error";
-			
+			logger.error("주문서 작성 중 오류", e);
+			return ERROR_VIEW;
+
 		} finally {
-			dao.endTransaction();
+			orderService.endTransaction();
 		}
-		
 	}
-	
+
 	@RequestMapping(value = "sdpa002001u_update.do")		//주문서 수정 (db update)
 	public String sdpa002001u_update(@ModelAttribute("coVO")CoVO coVO, RedirectAttributes redirectAttr,
 			@RequestParam(value="pageCheck", required=false) String pageCheck,
 			@RequestParam(value="jsonList", required=false) JSONArray jsonList,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
-		
+
 		try {
-			HashMap<String, Object> map;
-			
 			//transaction 시작
-			dao.startTransaction();
-			dao.startBatch();
-			
+			orderService.startTransaction();
+			orderService.startBatch();
+
 			//header 입력
-			map = new HashMap<String, Object>();
-			map.put("ARG_FLAG", "update");
-			map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-			map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
-			map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
-			map.put("ARG_CUST_CD", coVO.getCust_num());
-			
-			map.put("ARG_PANMAE_GUBUN", coVO.getPanmae_gubun());
-			map.put("ARG_HWAPYE_CODE", coVO.getHwapye_code());
-            map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
-			map.put("ARG_DELY_DT", getExpDateString(coVO.getYocheongil()));
-			map.put("ARG_DELY_PLACE", "(" + coVO.getZip() + ")"+ coVO.getAddr1() + " " + coVO.getAddr2());
-			
-			map.put("ARG_RECVER", coVO.getInsuja());
-			map.put("ARG_TEL_NO", coVO.getTel_no());
-			map.put("ARG_RMK", coVO.getBigo());
-			map.put("ARG_TAKSONG_POINT_YN", coVO.getTaksong_point_yn());
-			map.put("ARG_ZIP", coVO.getZip());
-			map.put("ARG_ADDR1", coVO.getAddr1());
-			
-			map.put("ARG_ADDR2", coVO.getAddr2());
-			
-			map.put("OUT_PARAM", "");
-			
-			dao.select("sdpa0020.procedure_insertOrderHeader", map);
-			
-			if(!map.get("OUT_PARAM").equals("OK")) {
-				//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-				System.out.println((String) map.get("OUT_PARAM"));
-				dao.endTransaction();
-				return "templates/error";
+			String result = orderService.updateOrderHeader(coVO);
+			if(!OK.equals(result)) {
+				return rollbackToError(result);
 			}
-			
+
 			//sub 입력
 			if(jsonList.length() > 0) {
 				//기존 주문서의 품목 전체 삭제
-				System.out.println("before delete");
-				map = new HashMap<String, Object>();
-				map.put("ARG_FLAG", "delete");
-				map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-				map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
-				map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
-				map.put("ARG_SEQ", "0");
-				map.put("ARG_CUST_CD", coVO.getCust_num());
-				dao.select("sdpa0020.procedure_insertOrderSub", map);
-				
-				System.out.println(map.get("OUT_PARAM"));
-				if(!map.get("OUT_PARAM").equals("OK")) {
-					//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-					System.out.println((String) map.get("OUT_PARAM"));
-					dao.endTransaction();
-					return "templates/error";
+				result = orderService.deleteOrderSubAll(coVO);
+				if(!OK.equals(result)) {
+					return rollbackToError(result);
 				}
-
-				System.out.println("after delete");
 
 				//수정페이지에서 넘어온 품목들 다시 insert
-				JSONObject obj = new JSONObject();
-				
-				System.out.println("before insert1");
-
-				
 				for(int i=0; i < jsonList.length(); i++) {
-					obj = (JSONObject) jsonList.get(i);
+					JSONObject obj = (JSONObject) jsonList.get(i);
 
-					System.out.println("before insert2");
-				
-					map = new HashMap<String, Object>();
-					map.put("ARG_FLAG", "insert");
-					map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-					map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
-					map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
-					map.put("ARG_SEQ", Integer.toString(i + 1));
-					System.out.println("insert1");
-					map.put("ARG_CUST_CD", coVO.getCust_num());
-					map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
-					map.put("ARG_ITEM_CD", obj.getString("item"));
-					map.put("ARG_SALE_UNIT_A", obj.getString("qty_allocjob"));
-					map.put("ARG_SALE_UNIT_B", obj.getString("u_m"));
-					System.out.println("insert2");
-					System.out.println(obj.toString());
-					map.put("ARG_QTY", obj.getString("qty_input1"));
-					map.put("ARG_RMK", obj.getString("bigo"));
-					//map.put("ARG_GUBUN", obj.getString("gubun"));
-					map.put("ARG_NABPUM", "1");
-					//map.put("ARG_SAMSUNG_YN", obj.getString("samsung_yn"));
-					System.out.println("insert3");
-					map.put("OUT_PARAM", "");
-					System.out.println("after insert1");
-					
-					dao.select("sdpa0020.procedure_insertOrderSub", map);
-
-					System.out.println("after insert2");
-
-					if(!map.get("OUT_PARAM").equals("OK")) {
-						//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-						System.out.println("after insert3");
-						System.out.println((String) map.get("OUT_PARAM"));
-						dao.endTransaction();
-						return "templates/error";
+					result = orderService.insertOrderSubOnUpdate(coVO, i + 1, obj);
+					if(!OK.equals(result)) {
+						return rollbackToError(result);
 					}
-					System.out.println("after insert4");
-
 				}
 			}
-			
-			dao.executeBatch();
-			dao.commit();
-			dao.endTransaction();
-			
+
+			orderService.executeBatch();
+			orderService.commit();
+			orderService.endTransaction();
+
 			redirectAttr.addFlashAttribute("coVO", coVO);
-			
+
 			return "redirect:/sdpa002001d.do";
+
 		} catch(Exception e) {
-			return "templates/error";
-			
+			logger.error("주문서 수정 중 오류", e);
+			return ERROR_VIEW;
+
 		} finally {
-			dao.endTransaction();
+			orderService.endTransaction();
 		}
 	}
-	
+
 	@RequestMapping(value = "sdpa002001d_delete.do")		//주문서 삭제
 	public String cancelCo(@ModelAttribute("coVO")CoVO coVO,
 			HttpServletRequest request, ModelMap model, Locale locale) throws Exception {
-		HashMap<String, Object> map;
-		
-		//header 입력
-		map = new HashMap<String, Object>();
-		map.put("ARG_FLAG", "delete");
-		map.put("ARG_BIZ_AREA_CD", coVO.getWorkplace());
-		map.put("ARG_ORD_DT", getExpDateString(coVO.getIlja()));
-		map.put("ARG_ORD_NO", coVO.getJeonpyo_no());
-		map.put("ARG_CUST_CD", coVO.getCust_num());
-		
-		map.put("ARG_PANMAE_GUBUN", coVO.getPanmae_gubun());
-		map.put("ARG_HWAPYE_CODE", coVO.getHwapye_code());
-		map.put("ARG_DELY_TYPE", coVO.getBaedal_gubun());
-		map.put("ARG_DELY_DT", getExpDateString(coVO.getYocheongil()));
-		map.put("ARG_DELY_PLACE", coVO.getBaedal_jangso());
-
-		map.put("ARG_RECVER", coVO.getInsuja());
-		map.put("ARG_TEL_NO", coVO.getTel_no());
-		map.put("ARG_RMK", coVO.getBigo());
-		map.put("ARG_TAKSONG_POINT_YN", coVO.getTaksong_point_yn());
-		map.put("ARG_ZIP", coVO.getZip());
-		
-		map.put("ARG_ADDR1", coVO.getAddr1());
-		map.put("ARG_ADDR2", coVO.getAddr2());
-		map.put("OUT_PARAM", "");
-		
-		dao.select("sdpa0020.procedure_insertOrderHeader", map);
-		
-		if(!map.get("OUT_PARAM").equals("OK")) {
-			//결과가 에러 발생하면 트랜잭션을 닫고 에러페이지로 이동
-			System.out.println((String) map.get("OUT_PARAM"));
-			dao.endTransaction();
-			return "templates/error";
+		String result = orderService.deleteOrderHeader(coVO);
+		if(!OK.equals(result)) {
+			return rollbackToError(result);
 		}
-		
+
 		return "redirect:/sdpa002001l.do";
 	}
-}
 
+	/** 프로시저가 오류를 돌려주면 트랜잭션을 닫고 오류 화면으로 보낸다. */
+	private String rollbackToError(String outParam) throws Exception {
+		logger.error("주문서 프로시저 오류: {}", outParam);
+		orderService.endTransaction();
+		return ERROR_VIEW;
+	}
+
+	/** 작성일에 넣는 현재 일자 (yyyy.MM.dd) */
+	private static String today() {
+		return new SimpleDateFormat("yyyy.MM.dd").format(new Date());
+	}
+}

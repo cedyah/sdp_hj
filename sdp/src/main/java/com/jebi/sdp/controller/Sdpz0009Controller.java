@@ -22,13 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJacksonJsonView;
 
 import com.ibatis.sqlmap.client.SqlMapClient;
-import com.jebi.sdp.common.CommonUtil;
 import com.jebi.sdp.dao.CmmnDao;
 import com.jebi.sdp.model.*;
 import com.jebi.sdp.service.*;
 
 @Controller
-public class Sdpz0009Controller extends CommonUtil {
+public class Sdpz0009Controller {
 	private static final Logger logger = LoggerFactory.getLogger(Sdpz0009Controller.class);
 
 	@Autowired
@@ -65,6 +64,7 @@ public class Sdpz0009Controller extends CommonUtil {
 		}
 		
 		if(resultVO != null) {
+			resultVO.setPassword(null);		//세션에 비밀번호를 보관하지 않음
 			HttpSession session = request.getSession();
 			session.setAttribute("user" , resultVO);
 			
@@ -234,43 +234,9 @@ public class Sdpz0009Controller extends CommonUtil {
 		CustomerVO resultVO = (CustomerVO) dao.select("sdpz0009.select_userInfo", customerVO);
 
 		//입력된 아이디, 전화번호와 DB에서 읽어온 아이디, 전화번호가 일치하면 새로운 비밀번호를 생성하여 발송
-		if(resultVO != null && resultVO.getHp_no().equals(customerVO.getHp_no())) {
-			String password = "";
-			int tempNum = 0;
-			String addText = "";
-			for(int i=0; i < 8; i++) {
-				tempNum = (new Random()).nextInt(35);
-				switch(tempNum) {
-					case 10 : addText = "a"; break;
-					case 11 : addText = "b"; break;
-					case 12 : addText = "c"; break;
-					case 13 : addText = "d"; break;
-					case 14 : addText = "e"; break;
-					case 15 : addText = "f"; break;
-					case 16 : addText = "g"; break;
-					case 17 : addText = "h"; break;
-					case 18 : addText = "i"; break;
-					case 19 : addText = "j"; break;
-					case 20 : addText = "k"; break;
-					case 21 : addText = "l"; break;
-					case 22 : addText = "m"; break;
-					case 23 : addText = "n"; break;
-					case 24 : addText = "o"; break;
-					case 25 : addText = "p"; break;
-					case 26 : addText = "q"; break;
-					case 27 : addText = "r"; break;
-					case 28 : addText = "s"; break;
-					case 29 : addText = "t"; break;
-					case 30 : addText = "u"; break;
-					case 31 : addText = "v"; break;
-					case 32 : addText = "w"; break;
-					case 33 : addText = "x"; break;
-					case 34 : addText = "y"; break;
-					case 35 : addText = "z"; break;
-					default : addText = Integer.toString(tempNum); break;
-				}
-				password += addText;
-			}
+		boolean inputValid = !"".equals(customerVO.getCust_num().trim()) && !"".equals(customerVO.getHp_no().trim());
+		if(inputValid && resultVO != null && !"".equals(resultVO.getHp_no()) && resultVO.getHp_no().equals(customerVO.getHp_no())) {
+			String password = generateTempPassword(8);
 			customerVO.setPassword(password);
 			//생성된 비밀번호로 변경
 			dao.update("sdpf0040.update_password", customerVO);
@@ -294,5 +260,17 @@ public class Sdpz0009Controller extends CommonUtil {
 		}
   		mv.setView(jsonView);
 		return mv;
+	}
+
+	private static final String TEMP_PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
+	private static final java.security.SecureRandom RANDOM = new java.security.SecureRandom();
+
+	/** 임시 비밀번호 생성 (영소문자+숫자) */
+	private static String generateTempPassword(int length) {
+		StringBuilder sb = new StringBuilder(length);
+		for(int i = 0; i < length; i++) {
+			sb.append(TEMP_PASSWORD_CHARS.charAt(RANDOM.nextInt(TEMP_PASSWORD_CHARS.length())));
+		}
+		return sb.toString();
 	}
 }
